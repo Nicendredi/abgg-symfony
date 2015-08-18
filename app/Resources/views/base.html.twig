@@ -4,10 +4,16 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Bordeaux Geek Festival Leagues Tournament{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
+        <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" media="screen">
+        {% include 'BraincraftedBootstrapBundle::ie8-support.html.twig' %}
+{#         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" /> #}    </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+        <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+        <script src="{{ asset('js/jquery.js') }}"></script>
+        <!-- Include all JavaScripts, compiled by Assetic -->
+        <script src="{{ asset('js/bootstrap.js') }}"></script>
+        {% endblock %}
     </body>
 </html>

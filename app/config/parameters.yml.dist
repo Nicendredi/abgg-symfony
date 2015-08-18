@@ -17,3 +17,5 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+    node_install_path: "C:\Program Files\node"
+    node_modules_paths: "%AppData%\npm\node_modules"
