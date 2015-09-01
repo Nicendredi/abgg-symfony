@@ -35,6 +35,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form:
+        resources: ['bootstrap_3_layout.html.twig']
 
 # Assetic Configuration
 assetic:
@@ -45,7 +47,7 @@ assetic:
     filters:
         less:
             node: "node"
-            node_paths: 
+            node_paths:
                 - "%node_install_path%"
                 - "%node_modules_paths%"
             apply_to: "\.less$"

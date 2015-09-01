@@ -1,73 +1,52 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <header>
-        <h1>Bordeaux Geek Festival League Tournament</h1>
-        <aside id="user"></aside>
-        <nav></nav>
-    </header>
-    <section id="news">
-        <h1>Actualités</h1>
-        <article>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
-            </p>
-        </article>
-        <article>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
-            </p>
-        </article>
-        <article>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
-            </p>
-        </article>
-    </section>
-    <section id="tournament">
-        <section id="stream">
-            <video id="player"><iframe type="text/html" width="700" height="500"
-  src="http://www.twitch.tv/lord_mehyo/embed"
-  frameborder="0"></iframe></video>
-            <aside id="chat"><iframe frameborder="0" scrolling="no" id="chat_embed" src="http://www.twitch.tv/lord_mehyo/chat" height="500" width="350"></iframe></aside>
-        </section>
-        <section class="tree"></section>
-        <section class="informations">
-            <h1>Informations du tournoi</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
-            </p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
-            </p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
-            </p>
-        </section>
-    </section>
-    <footer>
-    </footer>
-{% endblock %}
-
-{% block stylesheets %}
-<style>
-    body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
-    h1, h2 { line-height: 1.2; margin: 0 0 .5em; }
-    h1 { font-size: 36px; }
-    h2 { font-size: 21px; margin-bottom: 1em; }
-    p { margin: 0 0 1em 0; }
-    a { color: #0000F0; }
-    a:hover { text-decoration: none; }
-    code { background: #F5F5F5; max-width: 100px; padding: 2px 6px; word-wrap: break-word; }
-    #wrapper { background: #FFF; margin: 1em auto; max-width: 800px; width: 95%; }
-    #container { padding: 2em; }
-    #welcome, #status { margin-bottom: 2em; }
-    #welcome h1 span { display: block; font-size: 75%; }
-    #icon-status, #icon-book { float: left; height: 64px; margin-right: 1em; margin-top: -4px; width: 64px; }
-    #icon-book { display: none; }
-
-    @media (min-width: 768px) {
-        #wrapper { width: 80%; margin: 2em auto; }
-        #icon-book { display: inline-block; }
-        #status a, #next a { display: block; }
-
-        @-webkit-keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
-        @keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
-        .sf-toolbar { opacity: 0; -webkit-animation: fade-in 1s .2s forwards; animation: fade-in 1s .2s forwards;}
-    }
-</style>
+<div class="" id="news" style="font-size:0.75em">
+  <div class="">
+    <h2>Actualités</h2>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <h4>Titre de l'actualité</h4>
+      <blockquote>
+        <p style="font-size:0.90em">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus...
+        </p>
+      </blockquote>
+    </div>
+    <div class="col-sm-4">
+      <h4>Titre de l'actualité</h4>
+      <blockquote>
+        <p style="font-size:0.90em">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus...
+        </p>
+      </blockquote>
+    </div>
+    <div class="col-sm-4">
+      <h4>Titre de l'actualité</h4>
+      <blockquote>
+        <p style="font-size:0.90em">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus...
+        </p>
+      </blockquote>
+    </div>
+  </div>
+</div>
+<div class="" id="tournament">
+  <div class="" id="stream">
+    <iframe class="col-md-9" height="500px" type="text/html"
+    src="http://www.twitch.tv/lord_mehyo/embed"
+    frameborder="0"></iframe>
+    <aside class="col-md-3" id="chat"><iframe height="500px" frameborder="0" scrolling="no" id="chat_embed" src="http://www.twitch.tv/lord_mehyo/chat"></iframe></aside>
+  </div>
+  <div class=""></div>
+  <div class="">
+    <h1>Informations du tournoi</h1>
+    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
+    </p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
+    </p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
+    </p>
+  </div>
+</div>
+<div>
+</div>
 {% endblock %}
