@@ -40,7 +40,7 @@ class UserController extends Controller
      *
      * @Route("/search/{needs_posts}", name="search_user")
      * @Method("GET")
-     * @Template(":default:search.html.twig")
+     * @Template()
      */
     public function searchAction($needs_posts)
     {

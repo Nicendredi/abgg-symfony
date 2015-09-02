@@ -115,6 +115,11 @@ class User extends BaseUser
         return $this->telephone;
     }
 
+    public function getName()
+    {
+      return $this->firstName . $this->lastName;
+    }
+
     public function __toString()
     {
       return " " . $this->id;

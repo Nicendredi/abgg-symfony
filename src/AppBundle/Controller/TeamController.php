@@ -40,7 +40,7 @@ class TeamController extends Controller
   *
   * @Route("/search/{needs_posts}", name="search_team")
   * @Method("GET")
-  * @Template(":default:search.html.twig")
+  * @Template()
   */
   public function searchAction($needs_posts)
   {
