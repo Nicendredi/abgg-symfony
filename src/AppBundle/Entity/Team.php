@@ -80,7 +80,7 @@ class Team
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -103,7 +103,7 @@ class Team
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -126,7 +126,7 @@ class Team
     /**
      * Get captain
      *
-     * @return User 
+     * @return User
      */
     public function getCaptain()
     {
@@ -149,7 +149,7 @@ class Team
     /**
      * Get members
      *
-     * @return array 
+     * @return array
      */
     public function getMembers()
     {
@@ -204,7 +204,7 @@ class Team
     /**
      * Get post1
      *
-     * @return \AppBundle\Entity\User 
+     * @return \AppBundle\Entity\User
      */
     public function getPost1()
     {
@@ -227,7 +227,7 @@ class Team
     /**
      * Get post2
      *
-     * @return \AppBundle\Entity\User 
+     * @return \AppBundle\Entity\User
      */
     public function getPost2()
     {
@@ -250,7 +250,7 @@ class Team
     /**
      * Get post3
      *
-     * @return \AppBundle\Entity\User 
+     * @return \AppBundle\Entity\User
      */
     public function getPost3()
     {
@@ -273,7 +273,7 @@ class Team
     /**
      * Get post4
      *
-     * @return \AppBundle\Entity\User 
+     * @return \AppBundle\Entity\User
      */
     public function getPost4()
     {
@@ -296,7 +296,7 @@ class Team
     /**
      * Get post5
      *
-     * @return \AppBundle\Entity\User 
+     * @return \AppBundle\Entity\User
      */
     public function getPost5()
     {
@@ -319,12 +319,57 @@ class Team
     /**
      * Get tournament
      *
-     * @return \AppBundle\Entity\Tournament 
+     * @return \AppBundle\Entity\Tournament
      */
     public function getTournament()
     {
         return $this->tournament;
     }
 
-    
+    public function getNb()
+    {
+      $compt = 0;
+      if ($this->post1 != null) {
+        $compt++;
+      }
+      if ($this->post2 != null) {
+        $compt++;
+      }
+      if ($this->post3 != null) {
+        $compt++;
+      }
+      if ($this->post4 != null) {
+        $compt++;
+      }
+      if ($this->post5 != null) {
+        $compt++;
+      }
+      return $compt;
+    }
+
+    public function getPosts()
+    {
+      $posts[] = null;
+      if ($this->post1 == null) {
+        $posts[] = "top";
+      }
+      if ($this->post2 == null) {
+        $posts[] = "mid";
+      }
+      if ($this->post3 == null) {
+        $posts[] = "bot";
+      }
+      if ($this->post4 == null) {
+        $posts[] = "support";
+      }
+      if ($this->post5 == null) {
+        $posts[] = "jungler";
+      }
+      return $posts;
+    }
+
+    public function __toString()
+    {
+      return $this->name;
+    }
 }

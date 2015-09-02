@@ -27,6 +27,7 @@ class LoadUserData implements FixtureInterface
         $userNendredi->setPlainPassword('toto');
         $userNendredi->setEmail('nicolas.endredi@gmail.com');
         $userNendredi->setEnabled(true);
+        $userNendredi->setRoles(array('ROLE_USER'));
 
 
 

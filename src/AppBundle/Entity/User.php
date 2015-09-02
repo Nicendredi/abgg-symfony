@@ -17,7 +17,7 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @var string
      *
@@ -62,7 +62,7 @@ class User extends BaseUser
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -85,7 +85,7 @@ class User extends BaseUser
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -108,10 +108,15 @@ class User extends BaseUser
     /**
      * Get telephone
      *
-     * @return string 
+     * @return string
      */
     public function getTelephone()
     {
         return $this->telephone;
+    }
+
+    public function __toString()
+    {
+      return " " . $this->id;
     }
 }

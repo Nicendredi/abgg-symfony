@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="row">
+  <div class="col-md-3 col-md-offset-1">
+    <ul class=" nav nav-pills nav-stacked">
+      <li><a href="{% block search_user %}{{ path('search_user', { 'needs_posts': "false" }) }}{% endblock %}">Rechercher un joueur</a></li>
+      <li><a href="{% block search_team %}{{ path('search_team', { 'needs_posts': "false" }) }}{% endblock %}">Rechercher une équipe</a></li>
+      <li><a href="#">Pré-inscription au tournoi</a></li>
+    </ul>
+  </div>
+  <img class="col-md-6" height="400px" src="https://farm1.staticflickr.com/166/427180354_73a329f13f_o_d.png" alt="" />
+</div>
+<div class="row">
+  <h1>Informations du tournoi</h1>
+  <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
+  </p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
+  </p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
+  </p>
+</div>
+{% endblock %}
