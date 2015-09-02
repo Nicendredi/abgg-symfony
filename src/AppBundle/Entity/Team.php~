@@ -302,29 +302,4 @@ class Team
     {
         return $this->post5;
     }
-
-    /**
-     * Set tournament
-     *
-     * @param \AppBundle\Entity\Tournament $tournament
-     * @return Team
-     */
-    public function setTournament(\AppBundle\Entity\Tournament $tournament = null)
-    {
-        $this->tournament = $tournament;
-
-        return $this;
-    }
-
-    /**
-     * Get tournament
-     *
-     * @return \AppBundle\Entity\Tournament 
-     */
-    public function getTournament()
-    {
-        return $this->tournament;
-    }
-
-    
 }

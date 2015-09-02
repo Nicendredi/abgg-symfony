@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class TeamType extends AbstractType
+class UserType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,14 +15,9 @@ class TeamType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('captain')
-            ->add('post1')
-            ->add('post2')
-            ->add('post3')
-            ->add('post4')
-            ->add('post5')
-            ->add('tournament')
+            ->add('firstName')
+            ->add('lastName')
+            ->add('telephone')
         ;
     }
     
@@ -32,7 +27,7 @@ class TeamType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Team'
+            'data_class' => 'AppBundle\Entity\User'
         ));
     }
 
@@ -41,6 +36,6 @@ class TeamType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_team';
+        return 'appbundle_user';
     }
 }
