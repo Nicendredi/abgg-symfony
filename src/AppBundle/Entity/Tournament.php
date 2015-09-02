@@ -32,7 +32,7 @@ class Tournament
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -55,10 +55,15 @@ class Tournament
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    public function __toString()
+    {
+      return $this->name;
     }
 }

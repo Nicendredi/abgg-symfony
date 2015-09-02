@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+<h1>Team list</h1>
+
+<table class="records_list">
+  <thead>
+    <tr>
+      <th>Nom de l'équipe</th>
+      <th>Nombre de membres</th>
+      {% if needs_posts %}
+      <th>Postes libres</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for entity in entities %}
+    <tr>
+      <td>{{ entity.name }}</td>
+      <td>{{ entity.nb }}</td>
+      {% if needs_posts %}
+      <td>
+        <ul>
+          {% for post in entity.posts %}
+          {% if post != null %}
+          <li>{{ post }}</li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

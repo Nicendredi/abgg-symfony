@@ -36,6 +36,24 @@ class UserController extends Controller
         );
     }
     /**
+     * Lists all User entities but only the information avaible to everyone.
+     *
+     * @Route("/search/{needs_posts}", name="search_user")
+     * @Method("GET")
+     * @Template()
+     */
+    public function searchAction($needs_posts)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('AppBundle:User')->findAll();
+
+        return array(
+            'entities' => $entities,
+            'needs_posts' => $needs_posts,
+        );
+    }
+    /**
      * Creates a new User entity.
      *
      * @Route("/", name="user_create")

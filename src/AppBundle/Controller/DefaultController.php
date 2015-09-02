@@ -19,4 +19,24 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
         ));
     }
+
+    /**
+     * @Route("/lol", name="lol")
+     */
+    public function lolAction(Request $request)
+    {
+      return $this->render('default/lol.html.twig', array(
+          'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
+      ));
+    }
+
+    /**
+     * @Route("/csgo", name="csgo")
+     */
+    public function csgoAction(Request $request)
+    {
+      return $this->render('default/csgo.html.twig', array(
+          'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
+      ));
+    }
 }
