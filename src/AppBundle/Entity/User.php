@@ -39,6 +39,27 @@ class User extends BaseUser
      */
     private $telephone;
 
+    /**
+    * @var team
+    * 
+    * @ORM\Column(name="team", type="string", length=255)
+    */
+    private $team;
+
+    /**
+    * @var captain
+    * 
+    * @ORM\Column(name="captain", type="boolean")
+    */
+    private $captain;
+
+    /**
+    * @var pseudo
+    * 
+    * @ORM\Column(name="pseudo", type="string", length=255)
+    */
+    private $pseudo;
+
 
     public function __construct()
     {
@@ -123,5 +144,74 @@ class User extends BaseUser
     public function __toString()
     {
       return " " . $this->id;
+    }
+
+    /**
+     * Set captain
+     *
+     * @param boolean $captain
+     * @return User
+     */
+    public function setCaptain($captain)
+    {
+        $this->captain = $captain;
+
+        return $this;
+    }
+
+    /**
+     * Get captain
+     *
+     * @return boolean 
+     */
+    public function getCaptain()
+    {
+        return $this->captain;
+    }
+
+    /**
+     * Set team
+     *
+     * @param string $team
+     * @return User
+     */
+    public function setTeam($team)
+    {
+        $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * Get team
+     *
+     * @return string 
+     */
+    public function getTeam()
+    {
+        return $this->team;
+    }
+
+    /**
+     * Set pseudo
+     *
+     * @param string $pseudo
+     * @return User
+     */
+    public function setPseudo($pseudo)
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * Get pseudo
+     *
+     * @return string 
+     */
+    public function getPseudo()
+    {
+        return $this->pseudo;
     }
 }

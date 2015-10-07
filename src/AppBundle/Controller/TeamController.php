@@ -23,7 +23,7 @@ class TeamController extends Controller
   *
   * @Route("/", name="team")
   * @Method("GET")
-  * @Template()
+  * @Template("AppBundle:Team:index.html.twig")
   */
   public function indexAction()
   {
@@ -67,8 +67,17 @@ class TeamController extends Controller
     $form->handleRequest($request);
 
     if ($form->isValid()) {
+      $usr = $this->get('security.token_storage')->getToken()->getUser();
+      $usr->setCaptain(true);
+      $usr->setTeam($entity->getName());
+
+      $entity->setCaptain($usr);
+
       $em = $this->getDoctrine()->getManager();
       $em->persist($entity);
+      $em->flush();
+
+      $em->persist($usr);
       $em->flush();
 
       return $this->redirect($this->generateUrl('team_show', array('id' => $entity->getId())));
@@ -239,11 +248,33 @@ class TeamController extends Controller
         throw $this->createNotFoundException('Unable to find Team entity.');
       }
 
+      $listPlayer = $this->findPlayer($entity);
+      for ($i=0; $i <sizeof($listPlayer) ; $i++) { 
+        $usr = $listPlayer[$i];
+        if ($usr->getCaptain())
+          $usr->setCaptain(false);
+        $usr->setTeam(null);
+        $em->persist($usr);
+        $em->flush();
+      }
+
       $em->remove($entity);
       $em->flush();
     }
 
     return $this->redirect($this->generateUrl('team'));
+  }
+
+  /**
+  * Find all player of one team
+  *
+  * @param a team
+  *
+  * @return array of users
+  */
+  private function findPlayer(Team $team)
+  {
+    return array($team->getPost1(), $team->getPost2(), $team->getPost3(), $team->getPost4(), $team->getPost5());
   }
 
   /**

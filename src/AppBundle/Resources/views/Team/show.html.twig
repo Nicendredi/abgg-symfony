@@ -3,30 +3,74 @@
 {% block body -%}
     <h1>Team</h1>
 
+    <a href='mailto:{{ entity.captain.email }}'>Contacter le Capitaine</a>
+
     <table class="record_properties">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
+                <th>Nom</th>
+                <td> {{ entity.name }}</td>
             </tr>
             <tr>
-                <th>Name</th>
-                <td>{{ entity.name }}</td>
+                <th>Capitaine</th>
+                <td> {{ entity.captain }} </td>
             </tr>
-        </tbody>
+            <tr>
+                <th>Joueur 1</th>
+            {% if entity.post1 == null %}
+                <td>A pourvoir</td>
+                {% else %}
+                <td> {{ entity.post1 }} </td>
+            {% endif %}
+            </tr>
+            <tr>
+                <th>Joueur 2</th>
+            {% if entity.post2 == null %}
+                <td>A pourvoir</td>
+                {% else %}
+                <td> {{ entity.post2 }} </td>
+            {% endif %}
+            </tr>
+            <tr>
+                <th>Joueur 3</th>
+            {% if entity.post3 == null %}
+                <td>A pourvoir</td>
+                {% else %}
+                <td> {{ entity.post3 }} </td>
+            {% endif %}
+            </tr>
+            <tr>
+                <th>Joueur 4</th>
+            {% if entity.post4 == null %}
+                <td>A pourvoir</td>
+                {% else %}
+                <td> {{ entity.post4 }} </td>
+            {% endif %}
+            </tr>
+            <tr>
+                <th>Joueur 5</th>
+            {% if entity.post5 == null %}
+                <td>A pourvoir</td>
+                {% else %}
+                <td> {{ entity.post5 }} </td>
+            {% endif %}
+            </tr>
+            </tbody>
     </table>
 
         <ul class="record_actions">
-    <li>
-        <a href="{{ path('team') }}">
-            Back to the list
-        </a>
-    </li>
+    {% if app.user.captain == true and app.user.team == entity.name %}
     <li>
         <a href="{{ path('team_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>
     <li>{{ form(delete_form) }}</li>
+    {% endif %}
+    <li>
+        <a href="{{ path('team') }}">
+            Back to the list
+        </a>
+    </li>
 </ul>
 {% endblock %}

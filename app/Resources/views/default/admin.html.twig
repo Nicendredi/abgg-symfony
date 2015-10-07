@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{# {% embed "AppBundle:Blog:showArticle.html.twig" %} #}
+
+{% block body %}
+<div class="row">
+  <div class="col-sm-2">
+    <ul class=" nav nav-pills nav-stacked">
+      <li><a href="{% block search_user %}{{ path('search_user', { 'needs_posts': "false" }) }}{% endblock %}">Gestion des joueurs</a></li>
+      <li><a href="{% block search_team %}{{ path('search_team', { 'needs_posts': "false" }) }}{% endblock %}">Gestion des équipes</a></li>
+      <li><a href="{{ path('post_new') }}">Ecrire une actualité</a></li>
+      <li><a href="#">Gestion des tournois</a></li>
+      <li><a href="#">Que sais je</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

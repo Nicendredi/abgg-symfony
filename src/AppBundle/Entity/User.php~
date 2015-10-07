@@ -17,7 +17,7 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @var string
      *
@@ -38,6 +38,27 @@ class User extends BaseUser
      * @ORM\Column(name="telephone", type="string", length=255)
      */
     private $telephone;
+
+    /**
+    * @var team
+    * 
+    * @ORM\Column(name="team", type="string", length=255)
+    */
+    private $team;
+
+    /**
+    * @var captain
+    * 
+    * @ORM\Column(name="captain", type="boolean")
+    */
+    private $captain;
+
+    /**
+    * @var pseudo
+    * 
+    * @ORM\Column(name="pseudo", type="string", length=255)
+    */
+    private $pseudo;
 
 
     public function __construct()
@@ -62,7 +83,7 @@ class User extends BaseUser
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -85,7 +106,7 @@ class User extends BaseUser
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -108,10 +129,66 @@ class User extends BaseUser
     /**
      * Get telephone
      *
-     * @return string 
+     * @return string
      */
     public function getTelephone()
     {
         return $this->telephone;
+    }
+
+    public function getName()
+    {
+      return $this->firstName . $this->lastName;
+    }
+
+    public function __toString()
+    {
+      return " " . $this->id;
+    }
+
+    /**
+     * Set captain
+     *
+     * @param boolean $captain
+     * @return User
+     */
+    public function setCaptain($captain)
+    {
+        $this->captain = $captain;
+
+        return $this;
+    }
+
+    /**
+     * Get captain
+     *
+     * @return boolean 
+     */
+    public function getCaptain()
+    {
+        return $this->captain;
+    }
+
+    /**
+     * Set team
+     *
+     * @param string $team
+     * @return User
+     */
+    public function setTeam($team)
+    {
+        $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * Get team
+     *
+     * @return string 
+     */
+    public function getTeam()
+    {
+        return $this->team;
     }
 }

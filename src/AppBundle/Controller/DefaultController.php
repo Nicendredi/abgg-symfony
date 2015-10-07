@@ -16,7 +16,6 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
       $response = $this->forward('AppBundle:Blog:recentArticles');
         return $response;
     }
@@ -46,8 +45,18 @@ class DefaultController extends Controller
     */
     public function blogAction(Request $request)
     {
-      $twig->addExtension(new Twig_Extensions_Extension_Text());
+      //$twig->addExtension(new Twig_Extensions_Extension_Text());
       return $this->redirect($this->generateUrl('post_new'));
+    }
+
+    /**
+    * @Route("/admin", name="admin")
+    */
+    public function adminAction(Request $request)
+    {
+      return $this->render('default/admin.html.twig', array(
+          'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
+      ));
     }
 
 }

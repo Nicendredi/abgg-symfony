@@ -6,24 +6,30 @@
     <table class="records_list">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
+                <th>Nombre de membre</th>
+                <th>Place disponible</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('team_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.name }}</td>
+                <td><a href="{{ path('team_show', { 'id': entity.id }) }}">{{ entity.name }}</a>
+                </td>
+                <td></td>
+                <td></td>
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('team_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('team_show', { 'id': entity.id }) }}">Montrer l'équipe</a>
                     </li>
                     <li>
-                        <a href="{{ path('team_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('team_show', { 'id': entity.id }) }}">Postuler</a>
                     </li>
+                    {# <li>
+                        <a href="{{ path('team_edit', { 'id': entity.id }) }}">edit</a>
+                    </li> #}
                 </ul>
                 </td>
             </tr>
@@ -31,11 +37,13 @@
         </tbody>
     </table>
 
-        <ul>
+    {% if app.user.captain != true %}
+    <ul>
         <li>
             <a href="{{ path('team_new') }}">
-                Create a new entry
+                Inscrire une nouvelle équipe
             </a>
         </li>
     </ul>
+    {% endif %}
     {% endblock %}

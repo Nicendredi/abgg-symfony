@@ -1,18 +1,30 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-<h1>Team list</h1>
+<h1>Liste des joueurs</h1>
 
 <table class="records_list">
   <thead>
     <tr>
-      <th>Nom du joueur</th>
+      <th>Pseudo</th>
+    {% if is_granted("ROLE_ADMIN") %}
+      <th>Nom</th>
+      <th>Prénom</th>
+    {% endif %}
+      <th>Equipe</th>
+      <th>Contacter</th>
     </tr>
   </thead>
   <tbody>
     {% for entity in entities %}
     <tr>
-      <td>{{ entity.name }}</td>
+      <td>{{ entity.username }}</td>
+    {% if is_granted("ROLE_ADMIN") %}
+      <td>{{ entity.lastName }}</td>
+      <td>{{ entity.firstName }}</td>
+    {% endif %}
+      <td>{{ entity.team }}</td>
+      <td><a href='mailto:{{ entity.email }}'>E-Mail</a></td>
     </tr>
     {% endfor %}
   </tbody>

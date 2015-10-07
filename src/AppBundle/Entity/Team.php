@@ -134,52 +134,6 @@ class Team
     }
 
     /**
-     * Set members
-     *
-     * @param array $members
-     * @return Team
-     */
-    public function setMembers($members)
-    {
-        $this->members = $members;
-
-        return $this;
-    }
-
-    /**
-     * Get members
-     *
-     * @return array
-     */
-    public function getMembers()
-    {
-        return $this->members;
-    }
-
-    /**
-     * Add a member to the team
-     *
-     * @param User $member
-     * @return Team
-     */
-    public function addMember($member)
-    {
-        $this->members->add($member);
-        return $this;
-    }
-
-    /**
-     * Remove a member to the team
-     *
-     * @param User $member
-     * @return Team
-     */
-    public function removeMember($member)
-    {
-        $this->members->remove($member);
-        return $this;
-    }
-    /**
      * Constructor
      */
     public function __construct()
