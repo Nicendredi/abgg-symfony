@@ -40,26 +40,18 @@ class User extends BaseUser
     private $telephone;
 
     /**
-    * @var team
-    * 
-    * @ORM\Column(name="team", type="string", length=255)
-    */
-    private $team;
+     * @var tournament
+     *
+     * @ORM\ManyToOne(targetEntity="Game")
+     */
+    private $tournament;
 
     /**
-    * @var captain
-    * 
-    * @ORM\Column(name="captain", type="boolean")
-    */
-    private $captain;
-
-    /**
-    * @var pseudo
-    * 
-    * @ORM\Column(name="pseudo", type="string", length=255)
-    */
-    private $pseudo;
-
+     * @var experience
+     *
+     * @ORM\OneToOne(targetEntity="Experience")
+     */
+    private $experience;
 
     public function __construct()
     {
@@ -83,7 +75,7 @@ class User extends BaseUser
     /**
      * Get firstName
      *
-     * @return string
+     * @return string 
      */
     public function getFirstName()
     {
@@ -106,7 +98,7 @@ class User extends BaseUser
     /**
      * Get lastName
      *
-     * @return string
+     * @return string 
      */
     public function getLastName()
     {
@@ -129,89 +121,56 @@ class User extends BaseUser
     /**
      * Get telephone
      *
-     * @return string
+     * @return string 
      */
     public function getTelephone()
     {
         return $this->telephone;
     }
 
-    public function getName()
-    {
-      return $this->firstName . $this->lastName;
-    }
-
-    public function __toString()
-    {
-      return " " . $this->id;
-    }
-
     /**
-     * Set captain
+     * Set experience
      *
-     * @param boolean $captain
+     * @param \AppBundle\Entity\Experience $experience
      * @return User
      */
-    public function setCaptain($captain)
+    public function setExperience(\AppBundle\Entity\Experience $experience = null)
     {
-        $this->captain = $captain;
+        $this->experience = $experience;
 
         return $this;
     }
 
     /**
-     * Get captain
+     * Get experience
      *
-     * @return boolean 
+     * @return \AppBundle\Entity\Experience 
      */
-    public function getCaptain()
+    public function getExperience()
     {
-        return $this->captain;
+        return $this->experience;
     }
 
     /**
-     * Set team
+     * Set tournament
      *
-     * @param string $team
+     * @param \AppBundle\Entity\Game $tournament
      * @return User
      */
-    public function setTeam($team)
+    public function setTournament(\AppBundle\Entity\Game $tournament = null)
     {
-        $this->team = $team;
+        $this->tournament = $tournament;
 
         return $this;
     }
 
     /**
-     * Get team
+     * Get tournament
      *
-     * @return string 
+     * @return \AppBundle\Entity\Game 
      */
-    public function getTeam()
+    public function getTournament()
     {
-        return $this->team;
-    }
-
-    /**
-     * Set pseudo
-     *
-     * @param string $pseudo
-     * @return User
-     */
-    public function setPseudo($pseudo)
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
-    }
-
-    /**
-     * Get pseudo
-     *
-     * @return string 
-     */
-    public function getPseudo()
-    {
-        return $this->pseudo;
+        return $this->tournament;
     }
 }

@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class TournamentType extends AbstractType
+class ExperienceType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,7 +15,10 @@ class TournamentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('lookingForTeam')
+            ->add('rankActual')
+            ->add('username')
+            ->add('positionsSortedByFavorites')
         ;
     }
     
@@ -25,7 +28,7 @@ class TournamentType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Tournament'
+            'data_class' => 'AppBundle\Entity\Experience'
         ));
     }
 
@@ -34,6 +37,6 @@ class TournamentType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_tournament';
+        return 'appbundle_experience';
     }
 }
