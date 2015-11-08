@@ -35,15 +35,19 @@ class TeamController extends Controller
       'entities' => $entities,
     );
   }
+
   /**
   * Lists all Team entities but only the information avaible to everyone.
   *
-  * @Route("/search/{needs_posts}", name="search_team")
+  * @Route("/{needs_posts}/search", name="search_team")
   * @Method("GET")
   * @Template()
   */
   public function searchAction($needs_posts)
   {
+    if($needs_posts == "lol")
+      $needs_posts = 1;
+
     $em = $this->getDoctrine()->getManager();
 
     $entities = $em->getRepository('AppBundle:Team')->findAll();
@@ -127,11 +131,11 @@ class TeamController extends Controller
   }
 
   /**
-  * Finds and displays a Team entity.
+  * Display information on a team
   *
   * @Route("/{id}", name="team_show")
   * @Method("GET")
-  * @Template()
+  * @Template("AppBundle:Team:apply.html.twig")
   */
   public function showAction($id)
   {
@@ -145,9 +149,12 @@ class TeamController extends Controller
 
     $deleteForm = $this->createDeleteForm($id);
 
+    $applicant = $this->showApplyAction($id);
+
     return array(
       'entity'      => $entity,
       'delete_form' => $deleteForm->createView(),
+      'applicant'   => $applicant,
     );
   }
 
@@ -229,6 +236,7 @@ class TeamController extends Controller
       'delete_form' => $deleteForm->createView(),
     );
   }
+
   /**
   * Deletes a Team entity.
   *
@@ -249,13 +257,13 @@ class TeamController extends Controller
       }
 
       $listPlayer = $this->findPlayer($entity);
-      for ($i=0; $i <sizeof($listPlayer) ; $i++) { 
+      $size = sizeof($listPlayer);
+      for ($i=0; $i <$size ; $i++) { 
         $usr = $listPlayer[$i];
         if ($usr->getCaptain())
           $usr->setCaptain(false);
         $usr->setTeam(null);
         $em->persist($usr);
-        $em->flush();
       }
 
       $em->remove($entity);
@@ -292,5 +300,61 @@ class TeamController extends Controller
     ->add('submit', 'submit', array('label' => 'Delete'))
     ->getForm()
     ;
+  }
+
+    /**
+  * Add a applicant
+  *
+  * @Route("/{id}", name="team_apply")
+  * @Method("PUT")
+  * @Template()
+  */
+  public function applyAction(Request $request, $id)
+  {
+
+    $em = $this->getDoctrine()->getManager();
+    
+    $usr = $this->get('security.token_storage')->getToken()->getUser();
+    $entity->addApplicant($usr);
+
+    $em->persist($entity);
+    $em->flush();
+
+    return $this->redirect($this->generateUrl('team'));
+  }
+
+  /**
+  * Show all the applicant of a team
+  *
+  */
+  public function showApplyAction($id)
+  {
+    $listApplicant = $this->getApplication($id);
+    return $listApplicant;
+  }
+
+  public function acceptApplyAction($id)
+  {
+    //
+  }
+
+  private function getApplication($id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $entity = $em->getRepository('AppBundle:Team')->find($id);
+
+    if (!$entity) {
+      throw $this->createNotFoundException('Unable to find Team entity.');
+    }
+
+    $applicant = $entity->getApplicant();
+    $listUser = array();
+    $listSize = sizeof($applicant);
+    for ($i=0; $i < $listSize; $i++) { 
+      $listUser[i] = $applicant[i]->getName();
+    }
+
+    return $listUser;
+    
   }
 }
