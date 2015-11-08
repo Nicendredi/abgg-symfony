@@ -19,7 +19,7 @@ class UserType extends AbstractType
             ->add('lastName', array('label' => 'Nom de famille'))
             ->add('telephone')
             ->add('tournament')
-            ->add('curriculum')
+            ->add('experience')
         ;
     }
     

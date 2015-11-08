@@ -47,11 +47,11 @@ class User extends BaseUser
     private $tournament;
 
     /**
-     * @var curriculum
+     * @var experience
      *
-     * @ORM\OneToOne(targetEntity="Curriculum")
+     * @ORM\OneToOne(targetEntity="Experience")
      */
-    private $curriculum;
+    private $experience;
 
     public function __construct()
     {
@@ -129,26 +129,26 @@ class User extends BaseUser
     }
 
     /**
-     * Set curriculum
+     * Set experience
      *
-     * @param \AppBundle\Entity\Curriculum $curriculum
+     * @param \AppBundle\Entity\Experience $experience
      * @return User
      */
-    public function setCurriculum(\AppBundle\Entity\Curriculum $curriculum = null)
+    public function setExperience(\AppBundle\Entity\Experience $experience = null)
     {
-        $this->curriculum = $curriculum;
+        $this->experience = $experience;
 
         return $this;
     }
 
     /**
-     * Get curriculum
+     * Get experience
      *
-     * @return \AppBundle\Entity\Curriculum 
+     * @return \AppBundle\Entity\Experience 
      */
-    public function getCurriculum()
+    public function getExperience()
     {
-        return $this->curriculum;
+        return $this->experience;
     }
 
     /**
