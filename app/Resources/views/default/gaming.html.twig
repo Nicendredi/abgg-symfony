@@ -4,9 +4,12 @@
 <div class="row">
   <div class="col-md-3 col-md-offset-1">
     <ul class=" nav nav-pills nav-stacked">
-      <li><a href="{% block search_user %}{{ path('search_user', { 'needs_posts': "false" }) }}{% endblock %}">Rechercher un joueur</a></li>
+      <li><a href="{% block search_player %}{{ path('search_player', { 'needs_posts': "false" }) }}{% endblock %}">Rechercher un joueur</a></li>
       <li><a href="{% block search_team %}{{ path('search_team', { 'needs_posts': "false" }) }}{% endblock %}">Rechercher une équipe</a></li>
-      <li><a href="#">Pré-inscription au tournoi (En construction)</a></li>
+      <li><a href="#">S'inscrire au tournoi</a></li>
+      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.captain != true) %}
+        <li><a href="{{ path('team_create' )}}">Inscrire une équipe</a></li>
+      {% endif %}
     </ul>
   </div>
   <img class="col-md-6" height="400px" src="https://farm1.staticflickr.com/166/427180354_73a329f13f_o_d.png" alt="" />

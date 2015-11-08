@@ -1,0 +1,14 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: mysql55-9.pro
+    database_port: null
+    database_name: assobgcomudb
+    database_user: assobgcomudb
+    database_password: EpicMurl0k
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: LordPignoufDePetitchat
+    node_install_path: "C:\Program Files\node"
+    node_modules_paths: "C:\\Users\\Mehyo\\AppData\\Roaming\npm\node_modules"

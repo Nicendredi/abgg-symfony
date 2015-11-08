@@ -6,27 +6,33 @@
     <h2>Actualités</h2>
   </div>
   <div class="row">
+    <a href="{{ path('post_show',{ 'id': ids[0] }) }}" style="color:black" >
     <div class="col-sm-4">
-      <h4>Titre de l'actualité</h4>
+      <h4>{{ articles[0].title }}</h4>
       <blockquote>
-        <p style="font-size:0.90em">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus...
+        <p style="font-size:0.90em">{{ articles[0].content | truncate (190) }}
         </p>
       </blockquote>
     </div>
+  </a>
+    <a href="{{ path('post_show',{ 'id': ids[1] }) }}" style="color:black" >
     <div class="col-sm-4">
-      <h4>Titre de l'actualité</h4>
+      <h4>{{ articles[1].title }}</h4>
       <blockquote>
-        <p style="font-size:0.90em">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus...
+        <p style="font-size:0.90em">{{ articles[1].content | truncate (190) }}
         </p>
       </blockquote>
     </div>
+  </a>
+    <a href="{{ path('post_show',{ 'id': ids[2] }) }}" style="color:black" >
     <div class="col-sm-4">
-      <h4>Titre de l'actualité</h4>
+      <h4>{{ articles[2].title }}</h4>
       <blockquote>
-        <p style="font-size:0.90em">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus...
+        <p style="font-size:0.90em">{{ articles[2].content | truncate (190) }}
         </p>
       </blockquote>
     </div>
+  </a>
   </div>
 </div>
 <div class="" id="tournament">
