@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Curriculum
+ * Experience
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Entity\CurriculumRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\ExperienceRepository")
  */
-class Curriculum
+class Experience
 {
     /**
      * @var integer
@@ -64,7 +64,7 @@ class Curriculum
      * Set lookingForTeam
      *
      * @param boolean $lookingForTeam
-     * @return Curriculum
+     * @return Experience
      */
     public function setLookingForTeam($lookingForTeam)
     {
@@ -87,7 +87,7 @@ class Curriculum
      * Set rankActual
      *
      * @param string $rankActual
-     * @return Curriculum
+     * @return Experience
      */
     public function setRankActual($rankActual)
     {
@@ -110,7 +110,7 @@ class Curriculum
      * Set username
      *
      * @param string $username
-     * @return Curriculum
+     * @return Experience
      */
     public function setUsername($username)
     {
@@ -133,7 +133,7 @@ class Curriculum
      * Set positionsSortedByFavorites
      *
      * @param array $positionsSortedByFavorites
-     * @return Curriculum
+     * @return Experience
      */
     public function setPositionsSortedByFavorites($positionsSortedByFavorites)
     {
