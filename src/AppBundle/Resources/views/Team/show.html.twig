@@ -1,9 +1,7 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Team</h1>
-
-    <a href='mailto:{{ entity.captain.email }}'>Contacter le Capitaine</a>
+{% block body %}
+    <h1>Equipe {{ entity.name }}</h1>
 
     <table class="record_properties">
         <tbody>
@@ -16,61 +14,67 @@
                 <td> {{ entity.captain }} </td>
             </tr>
             <tr>
-                <th>Joueur 1</th>
-            {% if entity.post1 == null %}
-                <td>A pourvoir</td>
-                {% else %}
-                <td> {{ entity.post1 }} </td>
-            {% endif %}
+                <th>{% if entity.tournament == "0" %}Top{% else %}Joueur 1{% endif %}</th>
+                {% if entity.post1 == null %}
+                    <td>A pourvoir</td>
+                    {% else %}
+                    <td> {{ entity.post1 }} </td>
+                {% endif %}
             </tr>
             <tr>
-                <th>Joueur 2</th>
-            {% if entity.post2 == null %}
-                <td>A pourvoir</td>
-                {% else %}
-                <td> {{ entity.post2 }} </td>
-            {% endif %}
+                <th>{% if entity.tournament == "0" %}Mid{% else %}Joueur 2{% endif %}</th>
+                {% if entity.post2 == null %}
+                    <td>A pourvoir</td>
+                    {% else %}
+                    <td> {{ entity.post2 }} </td>
+                {% endif %}
             </tr>
             <tr>
-                <th>Joueur 3</th>
-            {% if entity.post3 == null %}
-                <td>A pourvoir</td>
-                {% else %}
-                <td> {{ entity.post3 }} </td>
-            {% endif %}
+                <th>{% if entity.tournament == "0" %}Bot{% else %}Joueur 3{% endif %}</th>
+                {% if entity.post3 == null %}
+                    <td>A pourvoir</td>
+                    {% else %}
+                    <td> {{ entity.post3 }} </td>
+                {% endif %}
             </tr>
             <tr>
-                <th>Joueur 4</th>
-            {% if entity.post4 == null %}
-                <td>A pourvoir</td>
-                {% else %}
-                <td> {{ entity.post4 }} </td>
-            {% endif %}
+                <th>{% if entity.tournament == "0" %}Support{% else %}Joueur 4{% endif %}</th>
+                {% if entity.post4 == null %}
+                    <td>A pourvoir</td>
+                    {% else %}
+                    <td> {{ entity.post4 }} </td>
+                {% endif %}
             </tr>
             <tr>
-                <th>Joueur 5</th>
-            {% if entity.post5 == null %}
-                <td>A pourvoir</td>
-                {% else %}
-                <td> {{ entity.post5 }} </td>
-            {% endif %}
+                <th>{% if entity.tournament == "0" %}Jungler{% else %}Joueur 5{% endif %}</th>
+                {% if entity.post5 == null %}
+                    <td>A pourvoir</td>
+                    {% else %}
+                    <td> {{ entity.post5 }} </td>
+                {% endif %}
             </tr>
-            </tbody>
+        </tbody>
     </table>
 
-        <ul class="record_actions">
     {% if app.user.captain == true and app.user.team == entity.name %}
-    <li>
-        <a href="{{ path('team_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
+
+        <ul class="record_actions">
+            <li>
+                <a href="{{ path('team_edit', { 'id': entity.id }) }}">
+                    Edit
+                </a>
+            </li>
+            <li>{{ form(delete_form) }}</li>
+        </ul>
+        {% block applicant %}{% endblock %}
+
     {% endif %}
-    <li>
-        <a href="{{ path('team') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <ul class="record_actions">
+
+        <li>
+            <a href="{{ path('team') }}">
+                Back to the list
+            </a>
+        </li>
+    </ul>
 {% endblock %}

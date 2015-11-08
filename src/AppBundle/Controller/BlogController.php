@@ -57,23 +57,6 @@ class BlogController extends Controller
         }
 
     /**
-    * Creates a form to create a Blog entity.
-    *
-    * @param Blog $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createCreateForm(Blog $entity)
-    {
-        $form = $this->createForm(new BlogType(), $entity, array(
-          'action' => $this->generateUrl('post_create'),
-          'method' => 'POST',
-          ));
-
-        return $form;
-    }
-
-    /**
      * Finds and displays a Blog article.
      *
      * @Route("/article/{id}", name="post_show")
