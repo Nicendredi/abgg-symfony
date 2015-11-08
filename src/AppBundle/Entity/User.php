@@ -134,7 +134,7 @@ class User extends BaseUser
      * @param \AppBundle\Entity\Experience $experience
      * @return User
      */
-    public function setExperience(\AppBundle\Entity\Experience $experience = null)
+    public function setExperience(Experience $experience)
     {
         $this->experience = $experience;
 

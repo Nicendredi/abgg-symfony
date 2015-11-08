@@ -1,58 +1,58 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="" id="news" style="font-size:0.75em">
-  <div class="">
-    <h2>Actualités</h2>
-  </div>
-  <div class="row">
-    <a href="{{ path('post_show',{ 'id': ids[0] }) }}" style="color:black" >
-    <div class="col-sm-4">
-      <h4>{{ articles[0].title }}</h4>
-      <blockquote>
-        <p style="font-size:0.90em">{{ articles[0].content | truncate (190) }}
-        </p>
-      </blockquote>
+  {# <div class="" id="news" style="font-size:0.75em">
+    <div class="">
+      <h2>Actualités</h2>
     </div>
-  </a>
-    <a href="{{ path('post_show',{ 'id': ids[1] }) }}" style="color:black" >
-    <div class="col-sm-4">
-      <h4>{{ articles[1].title }}</h4>
-      <blockquote>
-        <p style="font-size:0.90em">{{ articles[1].content | truncate (190) }}
-        </p>
-      </blockquote>
+    <div class="row">
+      <a href="{{ path('post_show',{ 'id': ids[0] }) }}" style="color:black" >
+        <div class="col-sm-4">
+          <h4>{{ articles[0].title }}</h4>
+          <blockquote>
+            <p style="font-size:0.90em">{{ articles[0].content | truncate (190) }}
+            </p>
+          </blockquote>
+        </div>
+      </a>
+      <a href="{{ path('post_show',{ 'id': ids[1] }) }}" style="color:black" >
+        <div class="col-sm-4">
+          <h4>{{ articles[1].title }}</h4>
+          <blockquote>
+            <p style="font-size:0.90em">{{ articles[1].content | truncate (190) }}
+            </p>
+          </blockquote>
+        </div>
+      </a>
+      <a href="{{ path('post_show',{ 'id': ids[2] }) }}" style="color:black" >
+        <div class="col-sm-4">
+          <h4>{{ articles[2].title }}</h4>
+          <blockquote>
+            <p style="font-size:0.90em">{{ articles[2].content | truncate (190) }}
+            </p>
+          </blockquote>
+        </div>
+      </a>
     </div>
-  </a>
-    <a href="{{ path('post_show',{ 'id': ids[2] }) }}" style="color:black" >
-    <div class="col-sm-4">
-      <h4>{{ articles[2].title }}</h4>
-      <blockquote>
-        <p style="font-size:0.90em">{{ articles[2].content | truncate (190) }}
-        </p>
-      </blockquote>
+  </div> #}
+  <div class="" id="tournament">
+    <div class="" id="stream">
+      <iframe class="col-md-9" height="500px" type="text/html"
+      src="http://www.twitch.tv/lord_mehyo/embed"
+      frameborder="0"></iframe>
+      <aside class="col-md-3" id="chat"><iframe height="500px" frameborder="0" scrolling="no" id="chat_embed" src="http://www.twitch.tv/lord_mehyo/chat"></iframe></aside>
     </div>
-  </a>
+    <div class=""></div>
+    <div class="">
+      <h1>Informations du tournoi</h1>
+      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
+      </p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
+      </p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
+      </p>
+    </div>
   </div>
-</div>
-<div class="" id="tournament">
-  <div class="" id="stream">
-    <iframe class="col-md-9" height="500px" type="text/html"
-    src="http://www.twitch.tv/lord_mehyo/embed"
-    frameborder="0"></iframe>
-    <aside class="col-md-3" id="chat"><iframe height="500px" frameborder="0" scrolling="no" id="chat_embed" src="http://www.twitch.tv/lord_mehyo/chat"></iframe></aside>
+  <div>
   </div>
-  <div class=""></div>
-  <div class="">
-    <h1>Informations du tournoi</h1>
-    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
-    </p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
-    </p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper ipsum sapien, quis tincidunt orci sagittis ut. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum aliquam volutpat nunc, vel aliquam velit porttitor a. Maecenas tristique magna odio, sit amet feugiat nibh aliquet ut. Duis molestie elit eu erat iaculis sodales. Nulla ac dolor vitae leo faucibus vulputate eu a nunc. Aliquam facilisis egestas est, nec pharetra tortor sagittis a. Nunc eu nisl nec nibh tristique pulvinar sit amet a mi.
-    </p>
-  </div>
-</div>
-<div>
-</div>
 {% endblock %}
