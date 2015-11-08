@@ -16,14 +16,14 @@ class LoadGameData implements FixtureInterface
         $lol = new Game();
         $lol->setName('lol');
         $lol->setNbPlayers(5);
-        $lol->setGameRoles(array('top' => 1, 'mid' => 2, 'carry' => 3, 'jungler' => 4,  'support' => 5);)
+        $lol->setGameRoles(array('top' => 1, 'mid' => 2, 'carry' => 3, 'jungler' => 4,  'support' => 5));
 
         $manager->persist($lol);
 
         $csgo = new Game();
         $csgo->setName('csgo');
         $csgo->setNbPlayers(5);
-        $csgo->setGameRoles(array('none' => 1);)
+        $csgo->setGameRoles(array('none' => 1));
 
         $manager->persist($csgo);
 
