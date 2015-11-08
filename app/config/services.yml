@@ -16,3 +16,8 @@ services:
         class: Twig_Extensions_Extension_Text
         tags: 
             - { name: twig.extension }
+    app.registration_complet:
+        class: AppBundle\Utils\RegistrationConfirmListener
+        arguments: [@router]
+        tags:
+            - { name: kernel.event_subscriber }
