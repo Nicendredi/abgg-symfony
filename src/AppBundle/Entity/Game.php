@@ -36,13 +36,6 @@ class Game
     private $nbPlayers;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="nb_reserve", type="integer")
-     */
-    private $nbReserve;
-
-    /**
      * @var array
      *
      * @ORM\Column(name="game_roles", type="array")
@@ -103,29 +96,6 @@ class Game
     public function getNbPlayers()
     {
         return $this->nbPlayers;
-    }
-
-    /**
-     * Set nbReserve
-     *
-     * @param integer $nbReserve
-     * @return Game
-     */
-    public function setNbReserve($nbReserve)
-    {
-        $this->nbReserve = $nbReserve;
-
-        return $this;
-    }
-
-    /**
-     * Get nbReserve
-     *
-     * @return integer 
-     */
-    public function getNbReserve()
-    {
-        return $this->nbReserve;
     }
 
     /**
