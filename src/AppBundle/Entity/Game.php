@@ -49,7 +49,6 @@ class Game
      */
     private $gameRoles;
 
-
     /**
      * Get id
      *
