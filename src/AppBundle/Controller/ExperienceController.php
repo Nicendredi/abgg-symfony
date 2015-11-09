@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Experience;
 use AppBundle\Form\ExperienceType;
+use FOS\UserBundle\Doctrine\UserManager;
 
 /**
  * Experience controller.
@@ -49,11 +50,17 @@ class ExperienceController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            //$userManager = $container->get('fos_user.user_manager');
+            //$user = $userManager->findUserByUsername($this->getUser()->getUsername());
+            $user = $this->getUser();
+            $user->setExperience($entity);
+            $this->get('fos_user.user_manager')->updateUser($user, false);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('experience_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('homepage'));
         }
 
         return array(
