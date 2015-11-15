@@ -13,7 +13,7 @@ use AppBundle\Form\UserType;
 /**
  * User controller.
  *
- * @Route("/user")
+ * @Route("/player")
  */
 class UserController extends Controller
 {
@@ -21,7 +21,7 @@ class UserController extends Controller
     /**
      * Lists all User entities.
      *
-     * @Route("/", name="user")
+     * @Route("/", name="player")
      * @Method("GET")
      * @Template()
      */
@@ -38,7 +38,7 @@ class UserController extends Controller
     /**
      * Lists all User entities but only the information avaible to everyone.
      *
-     * @Route("/search/{needs_posts}", name="search_user")
+     * @Route("/search/{needs_posts}", name="search_player")
      * @Method("GET")
      * @Template()
      */
@@ -56,7 +56,7 @@ class UserController extends Controller
     /**
      * Creates a new User entity.
      *
-     * @Route("/", name="user_create")
+     * @Route("/", name="player_create")
      * @Method("POST")
      * @Template("AppBundle:User:new.html.twig")
      */
@@ -71,7 +71,7 @@ class UserController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('player_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -90,7 +90,7 @@ class UserController extends Controller
     private function createCreateForm(User $entity)
     {
         $form = $this->createForm(new UserType(), $entity, array(
-            'action' => $this->generateUrl('user_create'),
+            'action' => $this->generateUrl('player_create'),
             'method' => 'POST',
         ));
 
@@ -102,7 +102,7 @@ class UserController extends Controller
     /**
      * Displays a form to create a new User entity.
      *
-     * @Route("/new", name="user_new")
+     * @Route("/new", name="player_new")
      * @Method("GET")
      * @Template()
      */
@@ -120,7 +120,7 @@ class UserController extends Controller
     /**
      * Finds and displays a User entity.
      *
-     * @Route("/{id}", name="user_show")
+     * @Route("/{id}", name="player_show")
      * @Method("GET")
      * @Template()
      */
@@ -145,7 +145,7 @@ class UserController extends Controller
     /**
      * Displays a form to edit an existing User entity.
      *
-     * @Route("/{id}/edit", name="user_edit")
+     * @Route("/{id}/edit", name="player_edit")
      * @Method("GET")
      * @Template()
      */
@@ -179,7 +179,7 @@ class UserController extends Controller
     private function createEditForm(User $entity)
     {
         $form = $this->createForm(new UserType(), $entity, array(
-            'action' => $this->generateUrl('user_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl('player_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -190,7 +190,7 @@ class UserController extends Controller
     /**
      * Edits an existing User entity.
      *
-     * @Route("/{id}", name="user_update")
+     * @Route("/{id}", name="player_update")
      * @Method("PUT")
      * @Template("AppBundle:User:edit.html.twig")
      */
@@ -211,7 +211,7 @@ class UserController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('player_edit', array('id' => $id)));
         }
 
         return array(
@@ -223,7 +223,7 @@ class UserController extends Controller
     /**
      * Deletes a User entity.
      *
-     * @Route("/{id}", name="user_delete")
+     * @Route("/{id}", name="player_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -243,7 +243,7 @@ class UserController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('user'));
+        return $this->redirect($this->generateUrl('player'));
     }
 
     /**
@@ -256,7 +256,7 @@ class UserController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('user_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('player_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

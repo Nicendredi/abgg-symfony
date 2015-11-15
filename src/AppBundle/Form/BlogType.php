@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UserType extends AbstractType
+class BlogType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,21 +15,20 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName', array('label' => 'Prénom'))
-            ->add('lastName', array('label' => 'Nom de famille'))
-            ->add('telephone')
-            ->add('tournament')
-            ->add('experience')
+        	->add('title')
+            ->add('author')
+            ->add('content')
+            ->add('Submit', 'submit')
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+            'data_class' => 'AppBundle\Entity\Blog'
         ));
     }
 
@@ -38,6 +37,8 @@ class UserType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_user';
+        return 'blog';
     }
+
 }
+

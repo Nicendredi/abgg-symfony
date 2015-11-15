@@ -1,0 +1,14 @@
+{% extends "::default/blog.html.twig" %}
+
+{% block article %}
+
+	<div class="col-md-10 col-md-offset-1">
+		<h3>{{ article.title }}</h3>
+		<div class="row">
+			<h4>{{ article.author }} - {{ article.date }}</h4>
+		</div>
+		<p style="font-size:0.90em">{{article.content}}</p>
+	</div>
+</div>
+
+{% endblock %}

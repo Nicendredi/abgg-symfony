@@ -7,21 +7,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AppBundle\Entity\Tournament;
-use AppBundle\Form\TournamentType;
+use AppBundle\Entity\Experience;
+use AppBundle\Form\ExperienceType;
+use FOS\UserBundle\Doctrine\UserManager;
 
 /**
- * Tournament controller.
+ * Experience controller.
  *
- * @Route("/tournament")
+ * @Route("/experience")
  */
-class TournamentController extends Controller
+class ExperienceController extends Controller
 {
 
     /**
-     * Lists all Tournament entities.
+     * Lists all Experience entities.
      *
-     * @Route("/", name="tournament")
+     * @Route("/", name="experience")
      * @Method("GET")
      * @Template()
      */
@@ -29,31 +30,37 @@ class TournamentController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:Tournament')->findAll();
+        $entities = $em->getRepository('AppBundle:Experience')->findAll();
 
         return array(
             'entities' => $entities,
         );
     }
     /**
-     * Creates a new Tournament entity.
+     * Creates a new Experience entity.
      *
-     * @Route("/", name="tournament_create")
+     * @Route("/", name="experience_create")
      * @Method("POST")
-     * @Template("AppBundle:Tournament:new.html.twig")
+     * @Template("AppBundle:Experience:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Tournament();
+        $entity = new Experience();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            //$userManager = $container->get('fos_user.user_manager');
+            //$user = $userManager->findUserByUsername($this->getUser()->getUsername());
+            $user = $this->getUser();
+            $user->setExperience($entity);
+            $this->get('fos_user.user_manager')->updateUser($user, false);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tournament_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('homepage'));
         }
 
         return array(
@@ -63,16 +70,16 @@ class TournamentController extends Controller
     }
 
     /**
-     * Creates a form to create a Tournament entity.
+     * Creates a form to create a Experience entity.
      *
-     * @param Tournament $entity The entity
+     * @param Experience $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Tournament $entity)
+    private function createCreateForm(Experience $entity)
     {
-        $form = $this->createForm(new TournamentType(), $entity, array(
-            'action' => $this->generateUrl('tournament_create'),
+        $form = $this->createForm(new ExperienceType(), $entity, array(
+            'action' => $this->generateUrl('experience_create'),
             'method' => 'POST',
         ));
 
@@ -82,15 +89,15 @@ class TournamentController extends Controller
     }
 
     /**
-     * Displays a form to create a new Tournament entity.
+     * Displays a form to create a new Experience entity.
      *
-     * @Route("/new", name="tournament_new")
+     * @Route("/new", name="experience_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Tournament();
+        $entity = new Experience();
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -100,9 +107,9 @@ class TournamentController extends Controller
     }
 
     /**
-     * Finds and displays a Tournament entity.
+     * Finds and displays a Experience entity.
      *
-     * @Route("/{id}", name="tournament_show")
+     * @Route("/{id}", name="experience_show")
      * @Method("GET")
      * @Template()
      */
@@ -110,10 +117,10 @@ class TournamentController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Tournament')->find($id);
+        $entity = $em->getRepository('AppBundle:Experience')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tournament entity.');
+            throw $this->createNotFoundException('Unable to find Experience entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -125,9 +132,9 @@ class TournamentController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Tournament entity.
+     * Displays a form to edit an existing Experience entity.
      *
-     * @Route("/{id}/edit", name="tournament_edit")
+     * @Route("/{id}/edit", name="experience_edit")
      * @Method("GET")
      * @Template()
      */
@@ -135,10 +142,10 @@ class TournamentController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Tournament')->find($id);
+        $entity = $em->getRepository('AppBundle:Experience')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tournament entity.');
+            throw $this->createNotFoundException('Unable to find Experience entity.');
         }
 
         $editForm = $this->createEditForm($entity);
@@ -152,16 +159,16 @@ class TournamentController extends Controller
     }
 
     /**
-    * Creates a form to edit a Tournament entity.
+    * Creates a form to edit a Experience entity.
     *
-    * @param Tournament $entity The entity
+    * @param Experience $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Tournament $entity)
+    private function createEditForm(Experience $entity)
     {
-        $form = $this->createForm(new TournamentType(), $entity, array(
-            'action' => $this->generateUrl('tournament_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new ExperienceType(), $entity, array(
+            'action' => $this->generateUrl('experience_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -170,20 +177,20 @@ class TournamentController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Tournament entity.
+     * Edits an existing Experience entity.
      *
-     * @Route("/{id}", name="tournament_update")
+     * @Route("/{id}", name="experience_update")
      * @Method("PUT")
-     * @Template("AppBundle:Tournament:edit.html.twig")
+     * @Template("AppBundle:Experience:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Tournament')->find($id);
+        $entity = $em->getRepository('AppBundle:Experience')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tournament entity.');
+            throw $this->createNotFoundException('Unable to find Experience entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -193,7 +200,7 @@ class TournamentController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tournament_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('experience_edit', array('id' => $id)));
         }
 
         return array(
@@ -203,9 +210,9 @@ class TournamentController extends Controller
         );
     }
     /**
-     * Deletes a Tournament entity.
+     * Deletes a Experience entity.
      *
-     * @Route("/{id}", name="tournament_delete")
+     * @Route("/{id}", name="experience_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -215,21 +222,21 @@ class TournamentController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AppBundle:Tournament')->find($id);
+            $entity = $em->getRepository('AppBundle:Experience')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Tournament entity.');
+                throw $this->createNotFoundException('Unable to find Experience entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('tournament'));
+        return $this->redirect($this->generateUrl('experience'));
     }
 
     /**
-     * Creates a form to delete a Tournament entity by id.
+     * Creates a form to delete a Experience entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -238,7 +245,7 @@ class TournamentController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tournament_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('experience_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

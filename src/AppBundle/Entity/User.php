@@ -39,6 +39,19 @@ class User extends BaseUser
      */
     private $telephone;
 
+    /**
+     * @var tournament
+     *
+     * @ORM\ManyToOne(targetEntity="Game")
+     */
+    private $tournament;
+
+    /**
+     * @var experience
+     *
+     * @ORM\OneToOne(targetEntity="Experience")
+     */
+    private $experience;
 
     public function __construct()
     {
@@ -62,7 +75,7 @@ class User extends BaseUser
     /**
      * Get firstName
      *
-     * @return string
+     * @return string 
      */
     public function getFirstName()
     {
@@ -85,7 +98,7 @@ class User extends BaseUser
     /**
      * Get lastName
      *
-     * @return string
+     * @return string 
      */
     public function getLastName()
     {
@@ -108,20 +121,56 @@ class User extends BaseUser
     /**
      * Get telephone
      *
-     * @return string
+     * @return string 
      */
     public function getTelephone()
     {
         return $this->telephone;
     }
 
-    public function getName()
+    /**
+     * Set experience
+     *
+     * @param \AppBundle\Entity\Experience $experience
+     * @return User
+     */
+    public function setExperience(Experience $experience)
     {
-      return $this->firstName . $this->lastName;
+        $this->experience = $experience;
+
+        return $this;
     }
 
-    public function __toString()
+    /**
+     * Get experience
+     *
+     * @return \AppBundle\Entity\Experience 
+     */
+    public function getExperience()
     {
-      return " " . $this->id;
+        return $this->experience;
+    }
+
+    /**
+     * Set tournament
+     *
+     * @param \AppBundle\Entity\Game $tournament
+     * @return User
+     */
+    public function setTournament(\AppBundle\Entity\Game $tournament = null)
+    {
+        $this->tournament = $tournament;
+
+        return $this;
+    }
+
+    /**
+     * Get tournament
+     *
+     * @return \AppBundle\Entity\Game 
+     */
+    public function getTournament()
+    {
+        return $this->tournament;
     }
 }

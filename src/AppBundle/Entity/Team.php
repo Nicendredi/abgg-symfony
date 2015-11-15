@@ -73,9 +73,18 @@ class Team
     /**
     * @var Tournament
     *
-    * @ORM\ManytoOne(targetEntity="Tournament")
+    * @ORM\Column(name="tournament", type="string", length=255)
     **/
     private $tournament;
+
+    /**
+    * @var applicant
+    *
+    * @ORM\ManyToMany(targetEntity="User")
+    * @ORM\JoinTable(name="applicant", joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+    *      inverseJoinColumns={@ORM\JoinColumn(name="team_id", referencedColumnName="id", unique=true)})
+    **/
+    private $applicant;
 
     /**
      * Get id
@@ -133,52 +142,6 @@ class Team
         return $this->captain;
     }
 
-    /**
-     * Set members
-     *
-     * @param array $members
-     * @return Team
-     */
-    public function setMembers($members)
-    {
-        $this->members = $members;
-
-        return $this;
-    }
-
-    /**
-     * Get members
-     *
-     * @return array
-     */
-    public function getMembers()
-    {
-        return $this->members;
-    }
-
-    /**
-     * Add a member to the team
-     *
-     * @param User $member
-     * @return Team
-     */
-    public function addMember($member)
-    {
-        $this->members->add($member);
-        return $this;
-    }
-
-    /**
-     * Remove a member to the team
-     *
-     * @param User $member
-     * @return Team
-     */
-    public function removeMember($member)
-    {
-        $this->members->remove($member);
-        return $this;
-    }
     /**
      * Constructor
      */
@@ -329,19 +292,19 @@ class Team
     public function getNb()
     {
       $compt = 0;
-      if ($this->post1 != null) {
+      if ($this->post1 !== null) {
         $compt++;
       }
-      if ($this->post2 != null) {
+      if ($this->post2 !== null) {
         $compt++;
       }
-      if ($this->post3 != null) {
+      if ($this->post3 !== null) {
         $compt++;
       }
-      if ($this->post4 != null) {
+      if ($this->post4 !== null) {
         $compt++;
       }
-      if ($this->post5 != null) {
+      if ($this->post5 !== null) {
         $compt++;
       }
       return $compt;
@@ -371,5 +334,38 @@ class Team
     public function __toString()
     {
       return $this->name;
+    }
+
+    /**
+     * Add applicant
+     *
+     * @param \AppBundle\Entity\User $applicant
+     * @return Team
+     */
+    public function addApplicant(\AppBundle\Entity\User $applicant)
+    {
+        $this->applicant[] = $applicant;
+
+        return $this;
+    }
+
+    /**
+     * Remove applicant
+     *
+     * @param \AppBundle\Entity\User $applicant
+     */
+    public function removeApplicant(\AppBundle\Entity\User $applicant)
+    {
+        $this->applicant->removeElement($applicant);
+    }
+
+    /**
+     * Get applicant
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getApplicant()
+    {
+        return $this->applicant;
     }
 }
