@@ -9,7 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Experience;
 use AppBundle\Form\ExperienceType;
-use FOS\UserBundle\Doctrine\UserManager;
 
 /**
  * Experience controller.
@@ -50,17 +49,11 @@ class ExperienceController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            //$userManager = $container->get('fos_user.user_manager');
-            //$user = $userManager->findUserByUsername($this->getUser()->getUsername());
-            $user = $this->getUser();
-            $user->setExperience($entity);
-            $this->get('fos_user.user_manager')->updateUser($user, false);
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('homepage'));
+            return $this->redirect($this->generateUrl('experience_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -99,6 +92,74 @@ class ExperienceController extends Controller
     {
         $entity = new Experience();
         $form   = $this->createCreateForm($entity);
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+    /**
+     * Creates a new Experience entity.
+     *
+     * @Route("/user", name="experience_create_user")
+     * @Method("POST")
+     * @Template("AppBundle:Experience:newUser.html.twig")
+     */
+    public function createUserAction(Request $request)
+    {
+        $entity = new Experience();
+        $form = $this->createCreateFormUser($entity);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $user = $this->getUser();
+            $user->setExperience($entity);
+            $this->get('fos_user.user_manager')->updateUser($user, false);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('fos_user_profile_show'));
+        }
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
+    /**
+     * Creates a form to create a Experience entity.
+     *
+     * @param Experience $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateFormUser(Experience $entity)
+    {
+        $form = $this->createForm(new ExperienceType(), $entity, array(
+            'action' => $this->generateUrl('experience_create_user'),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Create'));
+
+        return $form;
+    }
+
+    /**
+     * Displays a form to create a new Experience entity and sets it to the
+     * current User.
+     *
+     * @Route("/new/user", name="experience_new_user")
+     * @Method("GET")
+     * @Template()
+     */
+    public function newUserAction()
+    {
+        $entity = new Experience();
+        $form   = $this->createCreateFormUser($entity);
 
         return array(
             'entity' => $entity,

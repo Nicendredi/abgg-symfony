@@ -75,7 +75,7 @@ class User extends BaseUser
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -98,7 +98,7 @@ class User extends BaseUser
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -121,7 +121,7 @@ class User extends BaseUser
     /**
      * Get telephone
      *
-     * @return string 
+     * @return string
      */
     public function getTelephone()
     {
@@ -144,7 +144,7 @@ class User extends BaseUser
     /**
      * Get experience
      *
-     * @return \AppBundle\Entity\Experience 
+     * @return \AppBundle\Entity\Experience
      */
     public function getExperience()
     {
@@ -157,7 +157,7 @@ class User extends BaseUser
      * @param \AppBundle\Entity\Game $tournament
      * @return User
      */
-    public function setTournament(\AppBundle\Entity\Game $tournament = null)
+    public function setTournament($tournament = null)
     {
         $this->tournament = $tournament;
 
@@ -167,7 +167,7 @@ class User extends BaseUser
     /**
      * Get tournament
      *
-     * @return \AppBundle\Entity\Game 
+     * @return \AppBundle\Entity\Game
      */
     public function getTournament()
     {

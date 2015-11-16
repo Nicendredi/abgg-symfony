@@ -71,22 +71,6 @@ class Team
     private $post5;
 
     /**
-    * @var Tournament
-    *
-    * @ORM\Column(name="tournament", type="string", length=255)
-    **/
-    private $tournament;
-
-    /**
-    * @var applicant
-    *
-    * @ORM\ManyToMany(targetEntity="User")
-    * @ORM\JoinTable(name="applicant", joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-    *      inverseJoinColumns={@ORM\JoinColumn(name="team_id", referencedColumnName="id", unique=true)})
-    **/
-    private $applicant;
-
-    /**
      * Get id
      *
      * @return integer
@@ -334,38 +318,5 @@ class Team
     public function __toString()
     {
       return $this->name;
-    }
-
-    /**
-     * Add applicant
-     *
-     * @param \AppBundle\Entity\User $applicant
-     * @return Team
-     */
-    public function addApplicant(\AppBundle\Entity\User $applicant)
-    {
-        $this->applicant[] = $applicant;
-
-        return $this;
-    }
-
-    /**
-     * Remove applicant
-     *
-     * @param \AppBundle\Entity\User $applicant
-     */
-    public function removeApplicant(\AppBundle\Entity\User $applicant)
-    {
-        $this->applicant->removeElement($applicant);
-    }
-
-    /**
-     * Get applicant
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getApplicant()
-    {
-        return $this->applicant;
     }
 }
