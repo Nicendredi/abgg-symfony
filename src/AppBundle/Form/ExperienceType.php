@@ -18,7 +18,11 @@ class ExperienceType extends AbstractType
             ->add('lookingForTeam')
             ->add('rankActual')
             ->add('username')
-            ->add('positionsSortedByFavorites')
+            ->add('role_1')
+            ->add('role_2')
+            ->add('role_3')
+            ->add('role_4')
+            ->add('role_5')
         ;
     }
     
