@@ -21,7 +21,6 @@ class LoadRoleData  extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->persist($role1);
 
-
         $role1 = new Role();
         $role1->setName('Middle Lane');
         $role1->setSystName('mid');
@@ -30,8 +29,22 @@ class LoadRoleData  extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($role1);
 
         $role1 = new Role();
-        $role1->setName('Bottom Lane');
+        $role1->setName('Bottom Carry');
         $role1->setSystName('bot');
+        $role1->setGame($this->getReference('lol-game'));
+
+        $manager->persist($role1);
+
+        $role1 = new Role();
+        $role1->setName('Support');
+        $role1->setSystName('sup');
+        $role1->setGame($this->getReference('lol-game'));
+
+        $manager->persist($role1);
+
+        $role1 = new Role();
+        $role1->setName('Jungle');
+        $role1->setSystName('jun');
         $role1->setGame($this->getReference('lol-game'));
 
         $manager->persist($role1);
