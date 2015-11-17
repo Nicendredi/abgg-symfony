@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Validator\Constraints as AppAssert;
 
 /**
  * @ORM\Entity
@@ -36,6 +38,8 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="telephone", type="string", length=255)
+     * @Assert\NotBlank
+     * @AppAssert\IsFrenchPhoneNumber
      */
     private $telephone;
 

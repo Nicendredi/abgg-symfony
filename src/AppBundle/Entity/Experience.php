@@ -3,12 +3,15 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Validator\Constraints as AppAssert;
 
 /**
  * Experience
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\ExperienceRepository")
+ * @AppAssert\HasDifferentRoles
  */
 class Experience
 {
@@ -196,7 +199,7 @@ class Experience
     /**
      * Get role_1
      *
-     * @return \AppBundle\Entity\Role 
+     * @return \AppBundle\Entity\Role
      */
     public function getRole1()
     {
@@ -219,7 +222,7 @@ class Experience
     /**
      * Get role_2
      *
-     * @return \AppBundle\Entity\Role 
+     * @return \AppBundle\Entity\Role
      */
     public function getRole2()
     {
@@ -242,7 +245,7 @@ class Experience
     /**
      * Get role_3
      *
-     * @return \AppBundle\Entity\Role 
+     * @return \AppBundle\Entity\Role
      */
     public function getRole3()
     {
@@ -265,7 +268,7 @@ class Experience
     /**
      * Get role_4
      *
-     * @return \AppBundle\Entity\Role 
+     * @return \AppBundle\Entity\Role
      */
     public function getRole4()
     {
@@ -288,7 +291,7 @@ class Experience
     /**
      * Get role_5
      *
-     * @return \AppBundle\Entity\Role 
+     * @return \AppBundle\Entity\Role
      */
     public function getRole5()
     {
