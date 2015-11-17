@@ -7,12 +7,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Validator\Constraints as AppAssert;
 
 /**
- * Game
+ * Role
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Entity\GameRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\RoleRepository")
  */
-class Game
+class Role
 {
     /**
      * @var integer
@@ -40,12 +40,14 @@ class Game
     private $systName;
 
     /**
-     * @var integer
+     * @var game
      *
-     * @ORM\Column(name="nb_players", type="integer")
+     * @ORM\ManyToOne(targetEntity="Game")
+     * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
      */
-    private $nbPlayers;
+     private $game;
+
 
     /**
      * Get id
@@ -61,7 +63,7 @@ class Game
      * Set name
      *
      * @param string $name
-     * @return Game
+     * @return Role
      */
     public function setName($name)
     {
@@ -81,33 +83,10 @@ class Game
     }
 
     /**
-     * Set nbPlayers
-     *
-     * @param integer $nbPlayers
-     * @return Game
-     */
-    public function setNbPlayers($nbPlayers)
-    {
-        $this->nbPlayers = $nbPlayers;
-
-        return $this;
-    }
-
-    /**
-     * Get nbPlayers
-     *
-     * @return integer
-     */
-    public function getNbPlayers()
-    {
-        return $this->nbPlayers;
-    }
-
-    /**
      * Set systName
      *
      * @param string $systName
-     * @return Game
+     * @return Role
      */
     public function setSystName($systName)
     {
@@ -124,5 +103,33 @@ class Game
     public function getSystName()
     {
         return $this->systName;
+    }
+
+    /**
+     * Set game
+     *
+     * @param \AppBundle\Entity\Game $game
+     * @return Role
+     */
+    public function setGame(\AppBundle\Entity\Game $game)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \AppBundle\Entity\Game
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    public function __toString()
+    {
+      return $this->name;
     }
 }

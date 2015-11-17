@@ -4,10 +4,14 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Validator\Constraints as AppAssert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
+ * @UniqueEntity("experience")
  */
 class User extends BaseUser
 {
@@ -22,6 +26,7 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="firstName", type="string", length=255)
+     * @Assert\NotBlank
      */
     private $firstName;
 
@@ -29,6 +34,7 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="lastName", type="string", length=255)
+     * @Assert\NotBlank
      */
     private $lastName;
 
@@ -36,6 +42,8 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="telephone", type="string", length=255)
+     * @Assert\NotBlank
+     * @AppAssert\IsFrenchPhoneNumber
      */
     private $telephone;
 
@@ -75,7 +83,7 @@ class User extends BaseUser
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -98,7 +106,7 @@ class User extends BaseUser
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -121,7 +129,7 @@ class User extends BaseUser
     /**
      * Get telephone
      *
-     * @return string 
+     * @return string
      */
     public function getTelephone()
     {
@@ -144,7 +152,7 @@ class User extends BaseUser
     /**
      * Get experience
      *
-     * @return \AppBundle\Entity\Experience 
+     * @return \AppBundle\Entity\Experience
      */
     public function getExperience()
     {
@@ -157,7 +165,7 @@ class User extends BaseUser
      * @param \AppBundle\Entity\Game $tournament
      * @return User
      */
-    public function setTournament(\AppBundle\Entity\Game $tournament = null)
+    public function setTournament($tournament = null)
     {
         $this->tournament = $tournament;
 
@@ -167,7 +175,7 @@ class User extends BaseUser
     /**
      * Get tournament
      *
-     * @return \AppBundle\Entity\Game 
+     * @return \AppBundle\Entity\Game
      */
     public function getTournament()
     {

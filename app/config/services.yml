@@ -14,10 +14,18 @@ services:
             - { name: form.type, alias: appbundle_registration }
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
-        tags: 
+        tags:
             - { name: twig.extension }
     app.registration_complet:
         class: AppBundle\Utils\RegistrationConfirmListener
         arguments: [@router]
         tags:
             - { name: kernel.event_subscriber }
+    has_different_roles_validator:
+        class: AppBundle\Validator\Constraints\HasDifferentRolesValidator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            -
+                name: validator.constraint_validator
+                alias: has_different_roles

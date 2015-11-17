@@ -28,7 +28,7 @@ class RegistrationConfirmListener implements EventSubscriberInterface
 
     public function onRegistrationSuccess(FormEvent $event)
     {
-        $url = $this->router->generate('experience_new');
+        $url = $this->router->generate('game_choose');
 
         $event->setResponse(new RedirectResponse($url));
     }

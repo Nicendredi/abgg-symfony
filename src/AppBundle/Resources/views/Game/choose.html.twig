@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+{% block header %}{% endblock %}
+{% block body -%}
+<h1>Choisissez votre tournoi</h1>
+
+<table class="records_list">
+  <tbody>
+    {% for entity in entities %}
+    <tr>
+      <a href="{{ path('game_selected', { 'id': entity.id }) }}">S'inscrire à {{ entity.name }}</a>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
