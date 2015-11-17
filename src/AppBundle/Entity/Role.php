@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Validator\Constraints as AppAssert;
 
 /**
  * Role
@@ -25,13 +27,15 @@ class Role
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="syst_name", type="string", length=30)
+     * @ORM\Column(name="syst_name", type="string", length=30, unique=true)
+     * @Assert\NotBlank
      */
     private $systName;
 
@@ -40,6 +44,7 @@ class Role
      *
      * @ORM\ManyToOne(targetEntity="Game")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
      private $game;
 

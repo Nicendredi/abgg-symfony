@@ -35,6 +35,9 @@ class Experience
      * @var string
      *
      * @ORM\Column(name="rank_actual", type="string", length=255, nullable=true)
+     * @Assert\NotBlank
+     * @Assert\Choice(callback = "getLolRanks")
+
      */
     private $rankActual;
 
@@ -42,6 +45,7 @@ class Experience
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255, nullable=true)
+     * @Assert\NotBlank
      */
     private $username;
 
@@ -49,6 +53,7 @@ class Experience
      * @var Role
      *
      * @ORM\ManyToOne(targetEntity="Role")
+     * @Assert\NotBlank
      */
     private $role_1;
 
@@ -56,6 +61,7 @@ class Experience
      * @var Role
      *
      * @ORM\ManyToOne(targetEntity="Role")
+     * @Assert\NotBlank
      */
     private $role_2;
 
@@ -63,6 +69,7 @@ class Experience
      * @var Role
      *
      * @ORM\ManyToOne(targetEntity="Role")
+     * @Assert\NotBlank
      */
     private $role_3;
 
@@ -70,6 +77,7 @@ class Experience
      * @var Role
      *
      * @ORM\ManyToOne(targetEntity="Role")
+     * @Assert\NotBlank
      */
     private $role_4;
 
@@ -77,6 +85,7 @@ class Experience
      * @var Role
      *
      * @ORM\ManyToOne(targetEntity="Role")
+     * @Assert\NotBlank
      */
     private $role_5;
 
@@ -273,5 +282,15 @@ class Experience
     public function getRole5()
     {
         return $this->role_5;
+    }
+
+    public static function getLolRanks()
+    {
+      return array('Bronze I', 'Bronze II', 'Bronze III', 'Bronze IV', 'Bronze V', );
+    }
+
+    public function __toString()
+    {
+      return $this->username;
     }
 }

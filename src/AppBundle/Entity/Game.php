@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Validator\Constraints as AppAssert;
 
 /**
  * Game
@@ -25,13 +27,23 @@ class Game
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="syst_name", type="string", length=30, unique=true)
+     * @Assert\NotBlank
+     */
+    private $systName;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="nb_players", type="integer")
+     * @Assert\NotBlank
      */
     private $nbPlayers;
 
@@ -89,5 +101,28 @@ class Game
     public function getNbPlayers()
     {
         return $this->nbPlayers;
+    }
+
+    /**
+     * Set systName
+     *
+     * @param string $systName
+     * @return Game
+     */
+    public function setSystName($systName)
+    {
+        $this->systName = $systName;
+
+        return $this;
+    }
+
+    /**
+     * Get systName
+     *
+     * @return string
+     */
+    public function getSystName()
+    {
+        return $this->systName;
     }
 }
