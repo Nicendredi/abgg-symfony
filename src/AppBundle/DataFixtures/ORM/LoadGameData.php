@@ -15,13 +15,15 @@ class LoadGameData  extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $lol = new Game();
-        $lol->setName('lol');
+        $lol->setName('League of Legends');
+        $lol->setSystName('lol');
         $lol->setNbPlayers(5);
 
         $manager->persist($lol);
 
         $csgo = new Game();
-        $csgo->setName('csgo');
+        $csgo->setName('Counter Strike : Global Offensive');
+        $csgo->setSystName('csgo');
         $csgo->setNbPlayers(5);
 
         $manager->persist($csgo);
