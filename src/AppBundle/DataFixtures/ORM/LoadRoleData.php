@@ -21,77 +21,90 @@ class LoadRoleData  extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->persist($role);
 
-        $role = new Role();
-        $role->setName('Middle Lane');
-        $role->setSystName('lol_mid');
-        $role->setGame($this->getReference('lol-game'));
+        $role1 = new Role();
+        $role1->setName('Middle Lane');
+        $role1->setSystName('lol_mid');
+        $role1->setGame($this->getReference('lol-game'));
 
-        $manager->persist($role);
+        $manager->persist($role1);
 
-        $role = new Role();
-        $role->setName('Bottom Carry');
-        $role->setSystName('lol_bot');
-        $role->setGame($this->getReference('lol-game'));
+        $role2 = new Role();
+        $role2->setName('Bottom Carry');
+        $role2->setSystName('lol_bot');
+        $role2->setGame($this->getReference('lol-game'));
 
-        $manager->persist($role);
+        $manager->persist($role2);
 
-        $role = new Role();
-        $role->setName('Support');
-        $role->setSystName('lol_sup');
-        $role->setGame($this->getReference('lol-game'));
+        $role3 = new Role();
+        $role3->setName('Support');
+        $role3->setSystName('lol_sup');
+        $role3->setGame($this->getReference('lol-game'));
 
-        $manager->persist($role);
+        $manager->persist($role3);
 
-        $role = new Role();
-        $role->setName('Jungle');
-        $role->setSystName('lol_jun');
-        $role->setGame($this->getReference('lol-game'));
+        $role4 = new Role();
+        $role4->setName('Jungle');
+        $role4->setSystName('lol_jun');
+        $role4->setGame($this->getReference('lol-game'));
 
-        $manager->persist($role);
+        $manager->persist($role4);
 
-        $role = new Role();
-        $role->setName('Entry Fragger');
-        $role->setSystName('csg_ent');
-        $role->setGame($this->getReference('csgo-game'));
+        $role5 = new Role();
+        $role5->setName('Entry Fragger');
+        $role5->setSystName('csg_ent');
+        $role5->setGame($this->getReference('csgo-game'));
 
-        $manager->persist($role);
+        $manager->persist($role5);
 
-        $role = new Role();
-        $role->setName('Playmaker');
-        $role->setSystName('csg_pla');
-        $role->setGame($this->getReference('csgo-game'));
+        $role6 = new Role();
+        $role6->setName('Playmaker');
+        $role6->setSystName('csg_pla');
+        $role6->setGame($this->getReference('csgo-game'));
 
-        $manager->persist($role);
+        $manager->persist($role6);
 
-        $role = new Role();
-        $role->setName('Strat Caller');
-        $role->setSystName('csg_str');
-        $role->setGame($this->getReference('csgo-game'));
+        $role7 = new Role();
+        $role7->setName('Strat Caller');
+        $role7->setSystName('csg_str');
+        $role7->setGame($this->getReference('csgo-game'));
 
-        $manager->persist($role);
+        $manager->persist($role7);
 
-        $role = new Role();
-        $role->setName('Support');
-        $role->setSystName('csg_sup');
-        $role->setGame($this->getReference('csgo-game'));
+        $role8 = new Role();
+        $role8->setName('Support');
+        $role8->setSystName('csg_sup');
+        $role8->setGame($this->getReference('csgo-game'));
 
-        $manager->persist($role);
+        $manager->persist($role8);
 
-        $role = new Role();
-        $role->setName('Awper');
-        $role->setSystName('csg_awp');
-        $role->setGame($this->getReference('csgo-game'));
+        $role10 = new Role();
+        $role10->setName('Awper');
+        $role10->setSystName('csg_awp');
+        $role10->setGame($this->getReference('csgo-game'));
 
-        $manager->persist($role);
+        $manager->persist($role10);
 
-        $role = new Role();
-        $role->setName('Lurker');
-        $role->setSystName('csg_lur');
-        $role->setGame($this->getReference('csgo-game'));
+        $role11 = new Role();
+        $role11->setName('Lurker');
+        $role11->setSystName('csg_lur');
+        $role11->setGame($this->getReference('csgo-game'));
 
-        $manager->persist($role);
+        $manager->persist($role11);
 
         $manager->flush();
+
+        $this->addReference('role', $role);
+        $this->addReference('role1', $role1);
+        $this->addReference('role2', $role2);
+        $this->addReference('role3', $role3);
+        $this->addReference('role4', $role4);
+        $this->addReference('role5', $role5);
+        $this->addReference('role6', $role6);
+        $this->addReference('role7', $role7);
+        $this->addReference('role8', $role8);
+        $this->addReference('role10', $role10);
+        $this->addReference('role11', $role11);
+
     }
 
     public function getOrder()

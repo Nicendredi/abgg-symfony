@@ -161,29 +161,6 @@ class Experience
     }
 
     /**
-     * Set positionsSortedByFavorites
-     *
-     * @param array $positionsSortedByFavorites
-     * @return Experience
-     */
-    public function setPositionsSortedByFavorites($positionsSortedByFavorites)
-    {
-        $this->positionsSortedByFavorites = $positionsSortedByFavorites;
-
-        return $this;
-    }
-
-    /**
-     * Get positionsSortedByFavorites
-     *
-     * @return array
-     */
-    public function getPositionsSortedByFavorites()
-    {
-        return $this->positionsSortedByFavorites;
-    }
-
-    /**
      * Set role_1
      *
      * @param \AppBundle\Entity\Role $role1
