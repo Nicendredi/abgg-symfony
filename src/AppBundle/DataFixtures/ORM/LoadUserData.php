@@ -35,10 +35,24 @@ class LoadUserData  extends AbstractFixture implements OrderedFixtureInterface
         $userNendredi->setFirstName('Nicolas');
         $userNendredi->setLastName('Endredi');
         $userNendredi->setTelephone('0000000000');
-
-
+        $userNendredi->setTournament($this->getReference('lol-game'));
+        $userNendredi->setExperience($this->getReference('kira'));
 
         $manager->persist($userNendredi);
+
+        $userJK = new User();
+        $userJK->setUsername('XxXXKillerXXxX');
+        $userJK->setPlainPassword('toto');
+        $userJK->setEmail('jean-kevin.dupont@yopmail.com');
+        $userJK->setEnabled(true);
+        $userJK->setRoles(array('ROLE_USER'));
+        $userJK->setFirstName('Jean-Kévin');
+        $userJK->setLastName('Dupont');
+        $userJK->setTelephone('0000000000');
+        $userJK->setTournament($this->getReference('csgo-game'));
+        $userJK->setExperience($this->getReference('killer'));
+
+        $manager->persist($userJK);
 
         $manager->flush();
 

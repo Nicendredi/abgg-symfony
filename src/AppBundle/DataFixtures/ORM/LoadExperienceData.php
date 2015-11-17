@@ -39,6 +39,9 @@ class LoadExperienceData  extends AbstractFixture implements OrderedFixtureInter
         $manager->persist($exp1);
 
         $manager->flush();
+
+        $this->addReference('kira', $exp);
+        $this->addReference('killer', $exp1);
     }
 
     public function getOrder()
