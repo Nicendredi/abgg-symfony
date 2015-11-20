@@ -108,4 +108,18 @@ class DefaultController extends Controller
 	    return $response;
     }
 
+    /**
+     * @Route("/equipe", name="equipe")
+     */
+    public function equipeAction(Request $request)
+    {
+    	$user=$this->getUser();
+	    $response = $this->forward('AppBundle:Team:show', array(
+	        'user'  => $user
+	        
+	    ));
+	
+	    return $response;
+    }
+
 }

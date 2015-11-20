@@ -30,23 +30,7 @@ class UnderRanking
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-  
- 	/**
-	 * @var \Doctrine\Common\Collections\Collection|Ranking[]
-	 * 
-     * @ORM\ManyToMany(targetEntity="Ranking", inversedBy="ranking", cascade={"persist", "merge"})
-     * @ORM\JoinTable(name="total_ranking",
-     *      joinColumns={@ORM\JoinColumn(name="underRanking_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="ranking_id", referencedColumnName="id")}
-     *      )
-     */
-    private $ranking;
 
-    public function __construct() {
-        $this->ranking = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-	
-	
     /**
      * Get id
      *
@@ -80,23 +64,4 @@ class UnderRanking
         return $this->name;
     }
 	
-    public function addRanking(\AppBundle\Entity\Ranking $ranking)
-    {
-        $this->ranking[] = $ranking;
-
-        return $this;
-    }
-    public function removeRanking(\AppBundle\Entity\Ranking $ranking)
-    {
-        $this->ranking->removeElement($ranking);
-    }
-    /**
-     * Get underRanking
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRanking()
-    {
-        return $this->ranking;
-    }
 }

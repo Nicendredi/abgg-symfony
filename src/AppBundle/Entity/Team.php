@@ -52,11 +52,11 @@ class Team
     private $tournament;
 	
     /**
-     * @var boolean
+     * @var validation
      *
-     * @ORM\Column(name="valid", type="boolean", nullable=true)
+     * @ORM\Column(name="validation", type="datetime")
      */
-    private $valid;
+    private $validation;
 
     /**
      * Get id
@@ -149,28 +149,28 @@ class Team
     {
       return $this->name;
     }
-
+	
     /**
-     * Set valid
+     * Set validation
      *
-     * @param boolean $valid
+     * @param datetime $validation
      * @return Team
      */
-    public function setValid($valid)
+    public function setValidation($validation)
     {
-        $this->valid = $valid;
+        $this->validation = $validation;
 
         return $this;
     }
 
     /**
-     * Get valid
+     * Get validation
      *
-     * @return boolean
+     * @return string
      */
-    public function getValid()
+    public function getValidation()
     {
-        return $this->valid;
+        return $this->validation;
     }
 	
     public function addUser(\AppBundle\Entity\User $user)

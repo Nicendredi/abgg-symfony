@@ -17,78 +17,17 @@ class LoadUnderRankingData  extends AbstractFixture implements OrderedFixtureInt
 	public function load(ObjectManager $manager)
 	{		
 		static $list=array(
-			'I' => array(
-				'Bronze', 
-				'Argent', 
-				'Or',
-				'Platine',
-				'Diamant',
-				'Silver',
-				'Gold Nova',
-				'Master Guardian'
-			),
-			'II' => array(
-				'Bronze', 
-				'Argent', 
-				'Or',
-				'Platine',
-				'Diamant',
-				'Silver',
-				'Gold Nova',
-				'Master Guardian'
-			),
-			'III' => array(
-				'Bronze', 
-				'Argent',
-				'Or',
-				'Platine',
-				'Diamant',
-				 'Silver',
-				 'Gold Nova'
-			),
-			'IV' => array(
-				'Bronze', 
-				'Argent', 
-				'Or',
-				'Platine',
-				'Diamant',
-				'Silver'
-			),
-			'V' => array(
-				'Bronze', 
-				'Argent', 
-				'Or',
-				'Platine',
-				'Diamant',
-				
-			),
-			'Elite' => array(
-				'Silver',
-				'Master Guardian',
-				'The Global'
-			),
-			'Elite Master' => array(
-				'Silver'
-			),
-			'Master' => array(
-				'Gold Nova',
-				'Legendary Eagle',
-				'Supreme First Class'
-			),
-			'Distinguished' => array(
-				'Master Guardian'
-			)
+			'I' ,
+			'II' ,
+			'III' ,
+			'IV',
+			'V'
 		);
 		
 		foreach($list as $data=>$ranking)
 		{
 	        $underRanking = new UnderRanking();
 	        $underRanking->setName($data);
-			foreach($ranking as $reference)
-			{
-	        	$underRanking->addRanking($this->getReference($reference));
-	        	$manager->persist($underRanking);
-			}
 	        $manager->flush();
 			$this->addReference($data,$underRanking);
 		}

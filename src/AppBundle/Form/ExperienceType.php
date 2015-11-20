@@ -13,10 +13,12 @@ use Symfony\Component\Form\FormEvents;
 class ExperienceType extends AbstractType
 {
 	protected $gameId;
+	protected $game;
 
-	public function __construct ($gameId)
+	public function __construct ($gameId, $game)
 	{
 	    $this->gameId = $gameId;
+	    $this->game = $game;
 	}
     /**
      * @param FormBuilderInterface $builder
@@ -25,6 +27,7 @@ class ExperienceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 		$gameId=$this->gameId;
+		$game=$this->game;
 		
         $builder
             ->add('lookingForTeam')
@@ -76,17 +79,21 @@ class ExperienceType extends AbstractType
 			    {
 			        return $er->getGameId($gameId);
 			    },
-			    'choice_label' => 'name',
-			    'expanded' =>true
-			))
-            ->add('underRanking','entity', array(
-			    'class' => 'AppBundle:UnderRanking',
-			    //'query_builder' => function (UnderRankingRepository $er) use ($gameId,$this)
-			    //{
-			    //    return $er->getGameId($gameId,$this);
-			    //},
-			   'choice_label' => 'name',
+			    'choice_label' => 'name'
 			));
+			
+		if ($game == 'League of Legends')
+		{
+			$builder
+	            ->add('underRanking','entity', array(
+				    'class' => 'AppBundle:UnderRanking',
+				   'choice_label' => 'name',
+				));
+		}
+		else {
+			$builder
+				-> add('steam');
+		}
     }
 	
     /**

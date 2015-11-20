@@ -40,18 +40,6 @@ class Ranking
      */
      private $game;
 
- 	/**
-	 * @var \Doctrine\Common\Collections\Collection|UnderRanking[]
-	 *
-     * @ORM\ManyToMany(targetEntity="UnderRanking", mappedBy="ranking")
-     */
-    private $underRanking;
-
-    public function __construct() 
-    {
-        $this->underRanking = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
 
     /**
      * Get id
@@ -107,26 +95,5 @@ class Ranking
     public function getGame()
     {
         return $this->game;
-    }
-	
-    public function addUnderRanking(\AppBundle\Entity\UnderRanking $underRanking)
-    {
-        $underRanking->setRanking($this);
-        $this->underRanking[] = $underRanking;
-
-        return $this;
-    }
-    public function removeUnderRanking(\AppBundle\Entity\UnderRanking $underRanking)
-    {
-        $this->underRanking->removeElement($underRanking);
-    }
-    /**
-     * Get underRanking
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getUnderRanking()
-    {
-        return $this->underRanking;
     }
 }

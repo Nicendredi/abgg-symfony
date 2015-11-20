@@ -21,12 +21,22 @@ class LoadRankingData  extends AbstractFixture implements OrderedFixtureInterfac
 			'Or'=> 'lol-game',
 			'Platine'=> 'lol-game',
 			'Diamant'=> 'lol-game',
-			'Silver'=> 'csgo-game',
-			'Gold Nova' => 'csgo-game',
-			'Master Guardian' => 'csgo-game',
-			'Legendary Eagle' => 'csgo-game',
-			'Supreme First Class' => 'csgo-game',
-			'The Global' => 'csgo-game'
+			'Silver I'=> 'csgo-game',
+			'Silver II'=> 'csgo-game',
+			'Silver III'=> 'csgo-game',
+			'Silver IV'=> 'csgo-game',
+			'Master Silver'=> 'csgo-game',
+			'Nova I' => 'csgo-game',
+			'Nova II' => 'csgo-game',
+			'Nova III' => 'csgo-game',
+			'Nova IV' => 'csgo-game',
+			'Master Guardian (Mg)' => 'csgo-game',
+			'Master Guardian 2 (Mg2)' => 'csgo-game',
+			'Master Guardian Elite (MgE)' => 'csgo-game',
+			'Legendary Eagle (LE)' => 'csgo-game',
+			'Legendary Eagle Master (LEM)' => 'csgo-game',
+			'Supreme Master First Class' => 'csgo-game',
+			'The Global Elite' => 'csgo-game'
 		);
 		
 		foreach($list as $data=>$reference)

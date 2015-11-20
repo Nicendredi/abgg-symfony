@@ -48,6 +48,14 @@ class User extends BaseUser
     private $telephone;
 
     /**
+     * @var birth
+     *
+     * @ORM\Column(name="birth", type="date")
+     * @Assert\NotBlank
+     */
+    private $birth;
+
+    /**
      * @var tournament
      *
      * @ORM\ManyToOne(targetEntity="Game", inversedBy="user")
@@ -162,6 +170,29 @@ class User extends BaseUser
     public function getTelephone()
     {
         return $this->telephone;
+    }
+
+    /**
+     * Set birth
+     *
+     * @param date $birth
+     * @return User
+     */
+    public function setBirth($birth)
+    {
+        $this->birth = $birth;
+
+        return $this;
+    }
+
+    /**
+     * Get birth
+     *
+     * @return string
+     */
+    public function getBirth()
+    {
+        return $this->birth;
     }
 
     /**

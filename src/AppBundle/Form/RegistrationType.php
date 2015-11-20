@@ -18,6 +18,11 @@ class RegistrationType extends AbstractType
             ->add('firstName')
             ->add('lastName')
             ->add('telephone')
+			->add('birth','date', array(
+			    'input'  => 'datetime',
+			    'widget' => 'choice',
+			    'years' => range(1900,2015)
+			))
 			->add('manager')
         ;
     }

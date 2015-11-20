@@ -121,7 +121,17 @@ class ExperienceController extends Controller
     private function createCreateFormUser(Experience $entity)
     {
     	$gameId = $this->getUser()->getTournament()->getId();
-        $form = $this->createForm(new ExperienceType($gameId), $entity, array(
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Game p
+		    WHERE p.id = :id'
+		)->setParameter('id', $gameId);
+
+		$game = $query->getResult();
+		$gameName = $game[0]->getName();
+		
+        $form = $this->createForm(new ExperienceType($gameId, $gameName), $entity, array(
             'action' => $this->generateUrl('experience_create_user'),
             'method' => 'POST'
         ));

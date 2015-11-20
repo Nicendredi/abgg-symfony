@@ -1,9 +1,9 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>User</h1>
+    <h1>Team</h1>
 
-    <table class="record_properties">
+    <table class="table table-hover">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -11,15 +11,7 @@
             </tr>
             <tr>
                 <th>Firstname</th>
-                <td>{{ entity.firstName }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ entity.lastName }}</td>
-            </tr>
-            <tr>
-                <th>Telephone</th>
-                <td>{{ entity.telephone }}</td>
+                <td>{{ entity.name }}</td>
             </tr>
         </tbody>
     </table>

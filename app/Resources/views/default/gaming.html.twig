@@ -10,15 +10,20 @@
       {%else%}
       	<li><a href="{{ path('fos_user_security_login' )}}">S'inscrire au tournoi</a></li>
       {%endif%}
-      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.capitain != true) %}
+      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.capitain != true and app.user.team == null) %}
         <li><a href="{{ path('team_new' )}}">Inscrire une équipe</a></li>
       {% endif %}
     </ul>
   </div>
 </div>
 <div class="row">
+	<table>
 	{%for entity in entities%}
-		{{entity.name}}
+		<tr>
+			<td>{{entity.name}}</td>
+			<td>{{entity.captain}}</td>
+		</tr>
 	{%endfor%}
+	</table>
 </div>
 {% endblock %}

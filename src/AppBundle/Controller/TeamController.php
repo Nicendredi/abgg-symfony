@@ -127,4 +127,72 @@ class TeamController extends Controller
             'form'   => $form->createView(),
         );
     }
+
+    /**
+     * Finds and displays a User entity.
+     *
+     * @Route("/{id}", name="team_show")
+     * @Method("GET")
+     * @Template("AppBundle:Team:show.html.twig")
+     */
+    public function showAction()
+    {
+    	$id = $this->getUser()->getTeam()->getId();
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AppBundle:Team')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+	
+    /**
+     * Deletes a Team entity.
+     *
+     * @Route("/{id}", name="team_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('AppBundle:Team')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Team entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('team'));
+    }
+
+    /**
+     * Creates a form to delete a Team entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('team_delete', array('id' => $id)))
+            ->setMethod('DELETE')
+            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->getForm()
+        ;
+    }
 }

@@ -10,7 +10,7 @@
   <!-- Bootstrap -->
   <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
 
-  {% block stylesheets %}{% endblock %}
+  {% block stylesheets %}<link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">{% endblock %}
 </head>
 
 <body style="padding:1em">
@@ -32,14 +32,17 @@
           <ul class="nav navbar-nav">
             <li><a href="{{ path('lol') }}">LoL</a></li>
             <li><a href="{{ path('csgo') }}">CS:GO</a></li>
-            <li><a href="#">Animations (En construction)</a></li>
-            <li><a href="#">Editions précédentes (En construction)</a></li>
-{#             <li><a href="{{path('blog')}}">Blog</a></li> #}
+            <li><a href="#">Animations</a></li>
+            <li><a href="#">Editions précédentes</a></li>
+			{# <li><a href="{{path('blog')}}">Blog</a></li> #}
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
               {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-              <a class="btn btn-inverse" href="{{ path('profil') }}">Mon profil</a>
+              <a href="{{ path('profil') }}">Mon profil</a>
+              {% if app.user.team != null%}
+              <a href="{{ path('equipe') }}">Mon équipe</a>
+              {% endif %}
               <a class="btn btn-inverse" href="{{ path('fos_user_security_logout') }}">Se déconnecter</a>
               {% else %}
               <a class="btn btn-inverse" href="{{ path('fos_user_security_login') }}">Connexion</a>
