@@ -5,36 +5,37 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
-class RegistrationType extends AbstractType
+class TeamType extends AbstractType
 {
+	protected $gameId;
+
+	public function __construct ($gameId)
+	{
+	    $this->gameId = $gameId;
+	}
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+		$gameId=$this->gameId;
+		
         $builder
-            ->add('firstName')
-            ->add('lastName')
-            ->add('telephone')
-			->add('manager')
-        ;
+        ->add('name');
     }
-
+	
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+            'data_class' => 'AppBundle\Entity\Team'
         ));
-    }
-
-    public function getParent()
-    {
-      return 'fos_user_registration';
     }
 
     /**
@@ -42,6 +43,6 @@ class RegistrationType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_registration';
+        return 'appbundle_team';
     }
 }

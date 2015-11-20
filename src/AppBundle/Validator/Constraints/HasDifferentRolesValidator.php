@@ -21,7 +21,8 @@ class HasDifferentRolesValidator extends ConstraintValidator
 
     if ($object->getRole2() === $object->getRole3() OR
     $object->getRole2() === $object->getRole4() OR
-    $object->getRole2() === $object->getRole5()){
+    $object->getRole2() === $object->getRole5())
+    {
       $this->context->buildViolation($constraint->message)
       ->atPath('role_2')
       ->addViolation();
@@ -40,5 +41,6 @@ class HasDifferentRolesValidator extends ConstraintValidator
       ->addViolation();
       return;
     }
+	return true;
   }
 }

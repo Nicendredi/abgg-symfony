@@ -35,40 +35,28 @@ class Team
      */
     private $captain;
 
-    /**
-    * @var User
-    *
-    * @ORM\OnetoOne(targetEntity="User")
-    **/
-    private $post1;
+ 	/**
+	 * @var \Doctrine\Common\Collections\Collection|User[]
+	 * 
+     *
+     * @ORM\ManytoOne(targetEntity="User", inversedBy="team")
+     **/
+    private $user;
 
+ 	/**
+	 * @var tournament
+	 * 
+     *
+     * @ORM\ManytoOne(targetEntity="Game", inversedBy="team")
+     **/
+    private $tournament;
+	
     /**
-    * @var User
-    *
-    * @ORM\OnetoOne(targetEntity="User")
-    **/
-    private $post2;
-
-    /**
-    * @var User
-    *
-    * @ORM\OnetoOne(targetEntity="User")
-    **/
-    private $post3;
-
-    /**
-    * @var User
-    *
-    * @ORM\OnetoOne(targetEntity="User")
-    **/
-    private $post4;
-
-    /**
-    * @var User
-    *
-    * @ORM\OnetoOne(targetEntity="User")
-    **/
-    private $post5;
+     * @var boolean
+     *
+     * @ORM\Column(name="valid", type="boolean", nullable=true)
+     */
+    private $valid;
 
     /**
      * Get id
@@ -134,129 +122,13 @@ class Team
         $this->members = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
-    /**
-     * Set post1
-     *
-     * @param \AppBundle\Entity\User $post1
-     * @return Team
-     */
-    public function setPost1(\AppBundle\Entity\User $post1 = null)
-    {
-        $this->post1 = $post1;
-
-        return $this;
-    }
-
-    /**
-     * Get post1
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getPost1()
-    {
-        return $this->post1;
-    }
-
-    /**
-     * Set post2
-     *
-     * @param \AppBundle\Entity\User $post2
-     * @return Team
-     */
-    public function setPost2(\AppBundle\Entity\User $post2 = null)
-    {
-        $this->post2 = $post2;
-
-        return $this;
-    }
-
-    /**
-     * Get post2
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getPost2()
-    {
-        return $this->post2;
-    }
-
-    /**
-     * Set post3
-     *
-     * @param \AppBundle\Entity\User $post3
-     * @return Team
-     */
-    public function setPost3(\AppBundle\Entity\User $post3 = null)
-    {
-        $this->post3 = $post3;
-
-        return $this;
-    }
-
-    /**
-     * Get post3
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getPost3()
-    {
-        return $this->post3;
-    }
-
-    /**
-     * Set post4
-     *
-     * @param \AppBundle\Entity\User $post4
-     * @return Team
-     */
-    public function setPost4(\AppBundle\Entity\User $post4 = null)
-    {
-        $this->post4 = $post4;
-
-        return $this;
-    }
-
-    /**
-     * Get post4
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getPost4()
-    {
-        return $this->post4;
-    }
-
-    /**
-     * Set post5
-     *
-     * @param \AppBundle\Entity\User $post5
-     * @return Team
-     */
-    public function setPost5(\AppBundle\Entity\User $post5 = null)
-    {
-        $this->post5 = $post5;
-
-        return $this;
-    }
-
-    /**
-     * Get post5
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getPost5()
-    {
-        return $this->post5;
-    }
-
     /**
      * Set tournament
      *
-     * @param \AppBundle\Entity\Tournament $tournament
+     * @param \AppBundle\Entity\Game $tournament
      * @return Team
      */
-    public function setTournament(\AppBundle\Entity\Tournament $tournament = null)
+    public function setTournament(\AppBundle\Entity\Game $tournament = null)
     {
         $this->tournament = $tournament;
 
@@ -266,57 +138,81 @@ class Team
     /**
      * Get tournament
      *
-     * @return \AppBundle\Entity\Tournament
+     * @return \AppBundle\Entity\Team
      */
     public function getTournament()
     {
         return $this->tournament;
     }
 
-    public function getNb()
-    {
-      $compt = 0;
-      if ($this->post1 !== null) {
-        $compt++;
-      }
-      if ($this->post2 !== null) {
-        $compt++;
-      }
-      if ($this->post3 !== null) {
-        $compt++;
-      }
-      if ($this->post4 !== null) {
-        $compt++;
-      }
-      if ($this->post5 !== null) {
-        $compt++;
-      }
-      return $compt;
-    }
-
-    public function getPosts()
-    {
-      $posts[] = null;
-      if ($this->post1 == null) {
-        $posts[] = "top";
-      }
-      if ($this->post2 == null) {
-        $posts[] = "mid";
-      }
-      if ($this->post3 == null) {
-        $posts[] = "bot";
-      }
-      if ($this->post4 == null) {
-        $posts[] = "support";
-      }
-      if ($this->post5 == null) {
-        $posts[] = "jungler";
-      }
-      return $posts;
-    }
-
     public function __toString()
     {
       return $this->name;
+    }
+
+    /**
+     * Set valid
+     *
+     * @param boolean $valid
+     * @return Team
+     */
+    public function setValid($valid)
+    {
+        $this->valid = $valid;
+
+        return $this;
+    }
+
+    /**
+     * Get valid
+     *
+     * @return boolean
+     */
+    public function getValid()
+    {
+        return $this->valid;
+    }
+	
+    public function addUser(\AppBundle\Entity\User $user)
+    {
+        $this->user[] = $user;
+
+        return $this;
+    }
+    public function removeUser(\AppBundle\Entity\User $user)
+    {
+        $this->user->removeElement($user);
+    }
+    /**
+     * Get user
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+	
+    /**
+     * Set game
+     *
+     * @param \AppBundle\Entity\Game $game
+     * @return Team
+     */
+    public function setGame(\AppBundle\Entity\Game $game)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \AppBundle\Entity\Game
+     */
+    public function getGame()
+    {
+        return $this->game;
     }
 }

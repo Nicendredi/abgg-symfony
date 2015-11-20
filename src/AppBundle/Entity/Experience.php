@@ -32,14 +32,19 @@ class Experience
     private $lookingForTeam;
 
     /**
-     * @var string
+     * @var ranking
      *
-     * @ORM\Column(name="rank_actual", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Ranking", inversedBy="experience")
      * @Assert\NotBlank
-     * @Assert\Choice(callback = "getLolRanks")
-
      */
-    private $rankActual;
+    private $ranking;
+
+    /**
+     * @var underRanking
+     *
+     * @ORM\ManyToOne(targetEntity="UnderRanking", inversedBy="experience")
+     */
+    private $underRanking;
 
     /**
      * @var string
@@ -124,26 +129,49 @@ class Experience
     }
 
     /**
-     * Set rankActual
+     * Set ranking
      *
-     * @param string $rankActual
+     * @param \AppBundle\Entity\Ranking $ranking
      * @return Experience
      */
-    public function setRankActual($rankActual)
+    public function setRanking(\AppBundle\Entity\Ranking $ranking = null)
     {
-        $this->rankActual = $rankActual;
+        $this->ranking = $ranking;
 
         return $this;
     }
 
     /**
-     * Get rankActual
+     * Get ranking
      *
-     * @return string
+     * @return \AppBundle\Entity\Ranking
      */
-    public function getRankActual()
+    public function getRanking()
     {
-        return $this->rankActual;
+        return $this->ranking;
+    }
+
+    /**
+     * Set underRanking
+     *
+     * @param \AppBundle\Entity\UnderRanking $underRanking
+     * @return Experience
+     */
+    public function setUnderRanking(\AppBundle\Entity\UnderRanking $underRanking = null)
+    {
+        $this->underRanking = $underRanking;
+
+        return $this;
+    }
+
+    /**
+     * Get underRanking
+     *
+     * @return \AppBundle\Entity\UnderRanking
+     */
+    public function getUnderRanking()
+    {
+        return $this->underRanking;
     }
 
     /**
@@ -282,11 +310,6 @@ class Experience
     public function getRole5()
     {
         return $this->role_5;
-    }
-
-    public static function getLolRanks()
-    {
-      return array('Bronze I', 'Bronze II', 'Bronze III', 'Bronze IV', 'Bronze V', );
     }
 
     public function __toString()

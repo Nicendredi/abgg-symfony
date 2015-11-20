@@ -5,9 +5,10 @@ namespace AppBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Entity\Role;
+use AppBundle\Entity\Ranking;
+use AppBundle\Entity\UnderRanking;
 
-class LoadRoleData  extends AbstractFixture implements OrderedFixtureInterface
+class LoadRankingData  extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritDoc}
@@ -15,29 +16,30 @@ class LoadRoleData  extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {	
 		static $list=array(
-			'Top Lane' => 'lol-game',
-			'Middle Lane'=> 'lol-game',
-			'Bottom Carry'=> 'lol-game',
-			'Support '=> 'lol-game',
-			'Jungle'=> 'lol-game',
-			'Entry Fragger'=> 'csgo-game',
-			'Playmaker' => 'csgo-game',
-			'Strat Caller' => 'csgo-game',
-			'Support' => 'csgo-game',
-			'Awper' => 'csgo-game',
-			'Lurker' => 'csgo-game'
+			'Bronze' => 'lol-game',
+			'Argent'=> 'lol-game',
+			'Or'=> 'lol-game',
+			'Platine'=> 'lol-game',
+			'Diamant'=> 'lol-game',
+			'Silver'=> 'csgo-game',
+			'Gold Nova' => 'csgo-game',
+			'Master Guardian' => 'csgo-game',
+			'Legendary Eagle' => 'csgo-game',
+			'Supreme First Class' => 'csgo-game',
+			'The Global' => 'csgo-game'
 		);
 		
 		foreach($list as $data=>$reference)
 		{
-	        $ranking = new Role();
+	        $ranking = new Ranking();
 	        $ranking->setName($data);
         	$ranking->setGame($this->getReference($reference));
 	        $manager->persist($ranking);
 	        $manager->flush();
+			$this->addReference($data,$ranking);
 		}
     }
-	
+
     public function getOrder()
     {
         // the order in which fixtures will be loaded

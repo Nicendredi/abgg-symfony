@@ -5,14 +5,15 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Validator\Constraints as AppAssert;
+use DoctrineCommonCollectionsArrayCollection;
 
 /**
- * Role
+ * Ranking
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Entity\RoleRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\RankingRepository")
  */
-class Role
+class Ranking
 {
     /**
      * @var integer
@@ -27,7 +28,6 @@ class Role
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
-     * @Assert\NotBlank
      */
     private $name;
 
@@ -40,11 +40,23 @@ class Role
      */
      private $game;
 
+ 	/**
+	 * @var \Doctrine\Common\Collections\Collection|UnderRanking[]
+	 *
+     * @ORM\ManyToMany(targetEntity="UnderRanking", mappedBy="ranking")
+     */
+    private $underRanking;
+
+    public function __construct() 
+    {
+        $this->underRanking = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -55,7 +67,7 @@ class Role
      * Set name
      *
      * @param string $name
-     * @return Role
+     * @return Ranking
      */
     public function setName($name)
     {
@@ -67,18 +79,18 @@ class Role
     /**
      * Get name
      *
-     * @return string
+     * @return string 
      */
     public function getName()
     {
         return $this->name;
     }
-
+	
     /**
      * Set game
      *
      * @param \AppBundle\Entity\Game $game
-     * @return Role
+     * @return Ranking
      */
     public function setGame(\AppBundle\Entity\Game $game)
     {
@@ -96,9 +108,25 @@ class Role
     {
         return $this->game;
     }
-
-    public function __toString()
+	
+    public function addUnderRanking(\AppBundle\Entity\UnderRanking $underRanking)
     {
-      return $this->name;
+        $underRanking->setRanking($this);
+        $this->underRanking[] = $underRanking;
+
+        return $this;
+    }
+    public function removeUnderRanking(\AppBundle\Entity\UnderRanking $underRanking)
+    {
+        $this->underRanking->removeElement($underRanking);
+    }
+    /**
+     * Get underRanking
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUnderRanking()
+    {
+        return $this->underRanking;
     }
 }

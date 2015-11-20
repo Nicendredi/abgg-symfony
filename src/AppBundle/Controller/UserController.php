@@ -100,34 +100,16 @@ class UserController extends Controller
     }
 
     /**
-     * Displays a form to create a new User entity.
-     *
-     * @Route("/new", name="player_new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new User();
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
      * Finds and displays a User entity.
      *
      * @Route("/{id}", name="player_show")
      * @Method("GET")
-     * @Template()
+     * @Template("AppBundle:User:show.html.twig")
      */
-    public function showAction($id)
+    public function showAction()
     {
+    	$id = $this->getUser()->getId();
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppBundle:User')->find($id);
 
         if (!$entity) {

@@ -76,8 +76,18 @@ class GameController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
-
-        $response = $this->forward('AppBundle:Experience:newUser');
+		
+		$manager = $user->getManager();
+		
+		if($manager!=null)
+		{
+			$response = $this->forward('AppBundle:Default:profil');
+		}
+		else 
+		{
+			$response = $this->forward('AppBundle:Experience:newUser');
+		}
+        
         return $response;
     }
 

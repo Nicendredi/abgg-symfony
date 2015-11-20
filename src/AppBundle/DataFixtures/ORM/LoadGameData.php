@@ -18,6 +18,7 @@ class LoadGameData  extends AbstractFixture implements OrderedFixtureInterface
         $lol->setName('League of Legends');
         $lol->setSystName('lol');
         $lol->setNbPlayers(5);
+		$lol->setImage('bundles/app/images/lol.png');
 
         $manager->persist($lol);
 
@@ -25,6 +26,7 @@ class LoadGameData  extends AbstractFixture implements OrderedFixtureInterface
         $csgo->setName('Counter Strike : Global Offensive');
         $csgo->setSystName('csgo');
         $csgo->setNbPlayers(5);
+		$csgo->setImage('bundles/app/images/csgo.png');
 
         $manager->persist($csgo);
 

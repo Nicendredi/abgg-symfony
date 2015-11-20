@@ -50,7 +50,7 @@ class User extends BaseUser
     /**
      * @var tournament
      *
-     * @ORM\ManyToOne(targetEntity="Game")
+     * @ORM\ManyToOne(targetEntity="Game", inversedBy="user")
      */
     private $tournament;
 
@@ -60,6 +60,34 @@ class User extends BaseUser
      * @ORM\OneToOne(targetEntity="Experience")
      */
     private $experience;
+
+    /**
+     * @var team
+     *
+     * @ORM\OneToOne(targetEntity="Team")
+     */
+    private $team;
+
+    /**
+     * @var role
+     *
+     * @ORM\OneToOne(targetEntity="Role")
+     */
+    private $role;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="capitain", type="boolean", nullable=true)
+     */
+    private $capitain;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="manager", type="boolean", nullable=true)
+     */
+    private $manager;
 
     public function __construct()
     {
@@ -180,5 +208,97 @@ class User extends BaseUser
     public function getTournament()
     {
         return $this->tournament;
+    }
+
+    /**
+     * Set team
+     *
+     * @param \AppBundle\Entity\Team $team
+     * @return User
+     */
+    public function setTeam($team = null)
+    {
+        $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * Get team
+     *
+     * @return \AppBundle\Entity\Team
+     */
+    public function getTeam()
+    {
+        return $this->team;
+    }
+
+    /**
+     * Set role
+     *
+     * @param \AppBundle\Entity\Role $role
+     * @return User
+     */
+    public function setRole($role = null)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return \AppBundle\Entity\Role
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set capitain
+     *
+     * @param boolean $capitain
+     * @return Experience
+     */
+    public function setCapitain($capitain)
+    {
+        $this->capitain = $capitain;
+
+        return $this;
+    }
+
+    /**
+     * Get capitain
+     *
+     * @return boolean
+     */
+    public function getCapitain()
+    {
+        return $this->capitain;
+    }
+
+    /**
+     * Set manager
+     *
+     * @param boolean $manager
+     * @return Experience
+     */
+    public function setManager($manager)
+    {
+        $this->manager = $manager;
+
+        return $this;
+    }
+
+    /**
+     * Get manager
+     *
+     * @return boolean
+     */
+    public function getManager()
+    {
+        return $this->manager;
     }
 }

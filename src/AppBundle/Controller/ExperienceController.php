@@ -1,15 +1,13 @@
 <?php
-
 namespace AppBundle\Controller;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Experience;
+use AppBundle\Entity\Game;
 use AppBundle\Form\ExperienceType;
-
 /**
  * Experience controller.
  *
@@ -17,7 +15,6 @@ use AppBundle\Form\ExperienceType;
  */
 class ExperienceController extends Controller
 {
-
     /**
      * Lists all Experience entities.
      *
@@ -28,9 +25,7 @@ class ExperienceController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('AppBundle:Experience')->findAll();
-
         return array(
             'entities' => $entities,
         );
@@ -47,21 +42,17 @@ class ExperienceController extends Controller
         $entity = new Experience();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
             return $this->redirect($this->generateUrl('experience_show', array('id' => $entity->getId())));
         }
-
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
         );
     }
-
     /**
      * Creates a form to create a Experience entity.
      *
@@ -75,12 +66,9 @@ class ExperienceController extends Controller
             'action' => $this->generateUrl('experience_create'),
             'method' => 'POST',
         ));
-
         $form->add('submit', 'submit', array('label' => 'Create'));
-
         return $form;
     }
-
     /**
      * Displays a form to create a new Experience entity.
      *
@@ -92,7 +80,6 @@ class ExperienceController extends Controller
     {
         $entity = new Experience();
         $form   = $this->createCreateForm($entity);
-
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -110,25 +97,20 @@ class ExperienceController extends Controller
         $entity = new Experience();
         $form = $this->createCreateFormUser($entity);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             $user = $this->getUser();
             $user->setExperience($entity);
             $this->get('fos_user.user_manager')->updateUser($user, false);
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
             return $this->redirect($this->generateUrl('fos_user_profile_show'));
         }
-
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form'   => $form->createView()
         );
     }
-
     /**
      * Creates a form to create a Experience entity.
      *
@@ -138,16 +120,14 @@ class ExperienceController extends Controller
      */
     private function createCreateFormUser(Experience $entity)
     {
-        $form = $this->createForm(new ExperienceType(), $entity, array(
+    	$gameId = $this->getUser()->getTournament()->getId();
+        $form = $this->createForm(new ExperienceType($gameId), $entity, array(
             'action' => $this->generateUrl('experience_create_user'),
-            'method' => 'POST',
+            'method' => 'POST'
         ));
-
         $form->add('submit', 'submit', array('label' => 'Create'));
-
         return $form;
     }
-
     /**
      * Displays a form to create a new Experience entity and sets it to the
      * current User.
@@ -160,13 +140,11 @@ class ExperienceController extends Controller
     {
         $entity = new Experience();
         $form   = $this->createCreateFormUser($entity);
-
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
         );
     }
-
     /**
      * Finds and displays a Experience entity.
      *
@@ -177,21 +155,16 @@ class ExperienceController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppBundle:Experience')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Experience entity.');
         }
-
         $deleteForm = $this->createDeleteForm($id);
-
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
         );
     }
-
     /**
      * Displays a form to edit an existing Experience entity.
      *
@@ -202,23 +175,18 @@ class ExperienceController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppBundle:Experience')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Experience entity.');
         }
-
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
-
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
-
     /**
     * Creates a form to edit a Experience entity.
     *
@@ -232,9 +200,7 @@ class ExperienceController extends Controller
             'action' => $this->generateUrl('experience_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
         $form->add('submit', 'submit', array('label' => 'Update'));
-
         return $form;
     }
     /**
@@ -247,23 +213,17 @@ class ExperienceController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppBundle:Experience')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Experience entity.');
         }
-
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-
         if ($editForm->isValid()) {
             $em->flush();
-
             return $this->redirect($this->generateUrl('experience_edit', array('id' => $id)));
         }
-
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
@@ -280,22 +240,17 @@ class ExperienceController extends Controller
     {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('AppBundle:Experience')->find($id);
-
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Experience entity.');
             }
-
             $em->remove($entity);
             $em->flush();
         }
-
         return $this->redirect($this->generateUrl('experience'));
     }
-
     /**
      * Creates a form to delete a Experience entity by id.
      *
