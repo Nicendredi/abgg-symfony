@@ -54,7 +54,7 @@ class Team
     /**
      * @var validation
      *
-     * @ORM\Column(name="validation", type="datetime")
+     * @ORM\Column(name="validation", type="datetime", nullable=true)
      */
     private $validation;
 

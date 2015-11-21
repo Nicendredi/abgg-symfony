@@ -79,13 +79,13 @@ class GameController extends Controller
 		
 		$manager = $user->getManager();
 		
-		if($manager!=null)
+		if($manager==null)
 		{
-			$response = $this->forward('AppBundle:Default:profil');
+			$response = $this->forward('AppBundle:Experience:newUser');
 		}
 		else 
 		{
-			$response = $this->forward('AppBundle:Experience:newUser');
+			$response = $this->forward('AppBundle:Default:profil');
 		}
         
         return $response;

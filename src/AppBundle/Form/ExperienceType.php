@@ -30,50 +30,9 @@ class ExperienceType extends AbstractType
 		$game=$this->game;
 		
         $builder
-            ->add('lookingForTeam')
             ->add('username')
-            ->add('role_1','entity', array(
-			    'class' => 'AppBundle:Role',
-			    'query_builder' => function (RoleRepository $er) use ($gameId)
-			    {
-			        return $er->getGameId($gameId);
-			    },
-			    'choice_label' => 'name',
-			))
-            ->add('role_2','entity', array(
-			    'class' => 'AppBundle:Role',
-			    'query_builder' => function (RoleRepository $er) use ($gameId)
-			    {
-			        return $er->getGameId($gameId);
-			    },
-			    'choice_label' => 'name',
-			))
-            ->add('role_3','entity', array(
-			    'class' => 'AppBundle:Role',
-			    'query_builder' => function (RoleRepository $er) use ($gameId)
-			    {
-			        return $er->getGameId($gameId);
-			    },
-			    'choice_label' => 'name',
-			))
-            ->add('role_4','entity', array(
-			    'class' => 'AppBundle:Role',
-			    'query_builder' => function (RoleRepository $er) use ($gameId)
-			    {
-			        return $er->getGameId($gameId);
-			    },
-			    'choice_label' => 'name',
-			))
-            ->add('role_5','entity', array(
-			    'class' => 'AppBundle:Role',
-			    'query_builder' => function (RoleRepository $er) use ($gameId)
-			    {
-			        return $er->getGameId($gameId);
-			    },
-			    'choice_label' => 'name',
-			))
 			->add('ranking','entity', array(
-				//'data' => $ranking,
+				'required' => false,
 			    'class' => 'AppBundle:Ranking',
 			    'query_builder' => function (RankingRepository $er) use ($gameId)
 			    {
@@ -85,10 +44,56 @@ class ExperienceType extends AbstractType
 		if ($game == 'League of Legends')
 		{
 			$builder
-	            ->add('underRanking','entity', array(
-				    'class' => 'AppBundle:UnderRanking',
-				   'choice_label' => 'name',
-				));
+            ->add('underRanking','entity', array(
+               'required' => false,
+			   'class' => 'AppBundle:UnderRanking',
+			   'choice_label' => 'name',
+			))
+            ->add('role_1','entity', array(
+				'required' => false,
+			    'class' => 'AppBundle:Role',
+			    'query_builder' => function (RoleRepository $er) use ($gameId)
+			    {
+			        return $er->getGameId($gameId);
+			    },
+			    'choice_label' => 'name',
+			))
+            ->add('role_2','entity', array(
+				'required' => false,
+			    'class' => 'AppBundle:Role',
+			    'query_builder' => function (RoleRepository $er) use ($gameId)
+			    {
+			        return $er->getGameId($gameId);
+			    },
+			    'choice_label' => 'name',
+			))
+            ->add('role_3','entity', array(
+				'required' => false,
+			    'class' => 'AppBundle:Role',
+			    'query_builder' => function (RoleRepository $er) use ($gameId)
+			    {
+			        return $er->getGameId($gameId);
+			    },
+			    'choice_label' => 'name',
+			))
+            ->add('role_4','entity', array(
+				'required' => false,
+			    'class' => 'AppBundle:Role',
+			    'query_builder' => function (RoleRepository $er) use ($gameId)
+			    {
+			        return $er->getGameId($gameId);
+			    },
+			    'choice_label' => 'name',
+			))
+            ->add('role_5','entity', array(
+				'required' => false,
+			    'class' => 'AppBundle:Role',
+			    'query_builder' => function (RoleRepository $er) use ($gameId)
+			    {
+			        return $er->getGameId($gameId);
+			    },
+			    'choice_label' => 'name',
+			));
 		}
 		else {
 			$builder

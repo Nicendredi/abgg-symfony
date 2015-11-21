@@ -1,30 +1,34 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>User</h1>
-
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Firstname</th>
-                <td>{{ entity.firstName }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ entity.lastName }}</td>
-            </tr>
-            <tr>
-                <th>Telephone</th>
-                <td>{{ entity.telephone }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-        <ul class="record_actions">
-    <li>{{ form(delete_form) }}</li>
-</ul>
+	{%block user%}
+	    <h1>User</h1>
+	
+	    <table>
+	        <tbody>
+	            <tr>
+	                <th>Firstname</th>
+	                <td>{{ user.firstName }}</td>
+	            </tr>
+	            <tr>
+	                <th>Lastname</th>
+	                <td>{{ user.lastName }}</td>
+	            </tr>
+	            <tr>
+	                <th>Telephone</th>
+	                <td>{{ user.telephone }}</td>
+	            </tr>
+	            <tr>
+	                <th>Date de Naissance</th>
+	                <td>{{ user.birth|date('Y-m-d') }}</td>
+	            </tr>
+	        </tbody>
+	    </table>
+	
+        <button>
+	        <a href="{{ path('player_edit', {'id':user.id} ) }}">
+	        	Modifier
+	        </a>
+        </button>
+	{% endblock %}
 {% endblock %}

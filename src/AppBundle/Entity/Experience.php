@@ -25,13 +25,6 @@ class Experience
     private $id;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="looking_for_team", type="boolean")
-     */
-    private $lookingForTeam;
-
-    /**
      * @var ranking
      *
      * @ORM\ManyToOne(targetEntity="Ranking", inversedBy="experience")
@@ -43,6 +36,7 @@ class Experience
      * @var underRanking
      *
      * @ORM\ManyToOne(targetEntity="UnderRanking", inversedBy="experience")
+ 	 * @ORM\JoinColumn(name="underRanking_id", referencedColumnName="id", nullable=true)
      */
     private $underRanking;
 
@@ -55,10 +49,17 @@ class Experience
     private $username;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="steam", type="string", length=255, nullable=true)
+     */
+    private $steam;
+
+    /**
      * @var Role
      *
-     * @ORM\ManyToOne(targetEntity="Role")
-     * @Assert\NotBlank
+     * @ORM\ManyToOne(targetEntity="Role", inversedBy="experience")
+ 	 * @ORM\JoinColumn(name="role_1_id", referencedColumnName="id", nullable=true)
      */
     private $role_1;
 
@@ -66,7 +67,7 @@ class Experience
      * @var Role
      *
      * @ORM\ManyToOne(targetEntity="Role")
-     * @Assert\NotBlank
+ 	 * @ORM\JoinColumn(name="role_2_id", referencedColumnName="id", nullable=true)
      */
     private $role_2;
 
@@ -74,7 +75,7 @@ class Experience
      * @var Role
      *
      * @ORM\ManyToOne(targetEntity="Role")
-     * @Assert\NotBlank
+ 	 * @ORM\JoinColumn(name="role_3_id", referencedColumnName="id", nullable=true)
      */
     private $role_3;
 
@@ -82,7 +83,7 @@ class Experience
      * @var Role
      *
      * @ORM\ManyToOne(targetEntity="Role")
-     * @Assert\NotBlank
+ 	 * @ORM\JoinColumn(name="role_4_id", referencedColumnName="id", nullable=true)
      */
     private $role_4;
 
@@ -90,7 +91,7 @@ class Experience
      * @var Role
      *
      * @ORM\ManyToOne(targetEntity="Role")
-     * @Assert\NotBlank
+ 	 * @ORM\JoinColumn(name="role_5_id", referencedColumnName="id", nullable=true)
      */
     private $role_5;
 
@@ -103,29 +104,6 @@ class Experience
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set lookingForTeam
-     *
-     * @param boolean $lookingForTeam
-     * @return Experience
-     */
-    public function setLookingForTeam($lookingForTeam)
-    {
-        $this->lookingForTeam = $lookingForTeam;
-
-        return $this;
-    }
-
-    /**
-     * Get lookingForTeam
-     *
-     * @return boolean
-     */
-    public function getLookingForTeam()
-    {
-        return $this->lookingForTeam;
     }
 
     /**
@@ -195,6 +173,29 @@ class Experience
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * Set steam
+     *
+     * @param string $steam
+     * @return Experience
+     */
+    public function setSteam($steam)
+    {
+        $this->steam = $steam;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getSteam()
+    {
+        return $this->steam;
     }
 
     /**

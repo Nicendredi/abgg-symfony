@@ -16,6 +16,7 @@ class LoadRankingData  extends AbstractFixture implements OrderedFixtureInterfac
     public function load(ObjectManager $manager)
     {	
 		static $list=array(
+			'Pas classé' => 'lol-game',
 			'Bronze' => 'lol-game',
 			'Argent'=> 'lol-game',
 			'Or'=> 'lol-game',
@@ -25,14 +26,16 @@ class LoadRankingData  extends AbstractFixture implements OrderedFixtureInterfac
 			'Silver II'=> 'csgo-game',
 			'Silver III'=> 'csgo-game',
 			'Silver IV'=> 'csgo-game',
-			'Master Silver'=> 'csgo-game',
+			'Silver Elite'=> 'csgo-game',
+			'Silver Elite Master'=> 'csgo-game',
 			'Nova I' => 'csgo-game',
 			'Nova II' => 'csgo-game',
 			'Nova III' => 'csgo-game',
 			'Nova IV' => 'csgo-game',
-			'Master Guardian (Mg)' => 'csgo-game',
-			'Master Guardian 2 (Mg2)' => 'csgo-game',
-			'Master Guardian Elite (MgE)' => 'csgo-game',
+			'Master Guardian (MG)' => 'csgo-game',
+			'Master Guardian 2 (MG2)' => 'csgo-game',
+			'Master Guardian Elite (MGE)' => 'csgo-game',
+			'Distinguished Master Guardian (DMG)' => 'csgo-game',
 			'Legendary Eagle (LE)' => 'csgo-game',
 			'Legendary Eagle Master (LEM)' => 'csgo-game',
 			'Supreme Master First Class' => 'csgo-game',

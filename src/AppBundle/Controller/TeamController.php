@@ -71,6 +71,7 @@ class TeamController extends Controller
 			$entity->setTournament($game);
 			$entity->setCaptain($user);
             $user->setTeam($entity);
+			$user->setCapitain(true);
             $this->get('fos_user.user_manager')->updateUser($user, false);
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);

@@ -29,11 +29,6 @@ services:
             -
                 name: validator.constraint_validator
                 alias: has_different_roles
-    app.registration_email_processor:
-        class: AppBundle\Utils\EmailRegisterProcessor
-        arguments: [@mailer]
-    app.registration_email_listener:
-        class: AppBundle\Utils\EmailRegistrationConfirmListener
-        arguments: [@app.registration_email_processor]
-        tags:
-            - { name: kernel.event_listener, event: appBundle.utils.registrationEmail, method: onRegistrationComplete }
+    checkDataServices:
+        class: AppBundle\Services\CheckDataServices
+        arguments: [ @doctrine.orm.entity_manager ]

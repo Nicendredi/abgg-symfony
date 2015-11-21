@@ -8,7 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
-use AppBundle\Form\UserType;
+use AppBundle\Form\RegistrationType;
+use AppBundle\Services\CheckDataServices;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * User controller.
@@ -104,23 +106,44 @@ class UserController extends Controller
      *
      * @Route("/{id}", name="player_show")
      * @Method("GET")
-     * @Template("AppBundle:User:show.html.twig")
+     * @Template(":default:profil.html.twig")
      */
     public function showAction()
     {
     	$id = $this->getUser()->getId();
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('AppBundle:User')->find($id);
-
-        if (!$entity) {
+        $user = $em->getRepository('AppBundle:User')->find($id);
+		$checkData = $this -> container -> get('checkDataServices');
+		
+		$experience = $checkData -> checkData($user, 'getExperience', 'Experience');
+		if ($experience != null)
+		{
+			$ranking = $checkData -> checkData($experience, 'getRanking', 'Ranking');
+			$underRanking = $checkData -> checkData($experience, 'getUnderRanking', 'UnderRanking');
+		}
+		else {
+			$ranking = 0;
+			$underRanking = 0;
+		}
+		$game = $checkData -> checkData($user, 'getTournament', 'Game');
+		$role = $checkData -> checkData($user, 'getRole', 'Role');
+		$team = $checkData -> checkData($user, 'getTeam', 'Team');
+		
+        if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
-
+		
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'user'         => $user,
+            'experience'   => $experience,
+            'ranking'      => $ranking,
+            'underRanking' => $underRanking,
+            'game'         => $game,
+            'role'         => $role,
+            'team'         => $team,
+            'delete_form'  => $deleteForm->createView(),
         );
     }
 
@@ -160,7 +183,7 @@ class UserController extends Controller
     */
     private function createEditForm(User $entity)
     {
-        $form = $this->createForm(new UserType(), $entity, array(
+        $form = $this->createForm(new RegistrationType(), $entity, array(
             'action' => $this->generateUrl('player_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));

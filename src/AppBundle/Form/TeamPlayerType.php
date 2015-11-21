@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use AppBundle\Entity\RoleRepository;
 
-class TeamType extends AbstractType
+class TeamPlayerType extends AbstractType
 {
 	protected $gameId;
 
@@ -26,7 +26,15 @@ class TeamType extends AbstractType
 		$gameId=$this->gameId;
 		
         $builder
-        ->add('name');
+		->add('role','entity', array(
+				'required' => false,
+			    'class' => 'AppBundle:Role',
+			    'query_builder' => function (RoleRepository $er) use ($gameId)
+			    {
+			        return $er->getGameId($gameId);
+			    },
+			    'choice_label' => 'name',
+			));
     }
 	
     /**
@@ -35,7 +43,7 @@ class TeamType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Team'
+            'data_class' => 'AppBundle\Entity\User'
         ));
     }
 
@@ -44,6 +52,6 @@ class TeamType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_team';
+        return 'appbundle_teamplayer';
     }
 }

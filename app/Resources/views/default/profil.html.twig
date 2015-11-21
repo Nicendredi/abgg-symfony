@@ -1,5 +1,108 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Test</h1>
+{% block body -%}
+	{%block user%}
+	    <h1>User</h1>
+	
+	    <table class="table table-hover">
+	        <tbody>
+	            <tr>
+	                <th>Firstname</th>
+	                <td>{{ user.firstName }}</td>
+	            </tr>
+	            <tr>
+	                <th>Lastname</th>
+	                <td>{{ user.lastName }}</td>
+	            </tr>
+	            <tr>
+	                <th>Telephone</th>
+	                <td>{{ user.telephone }}</td>
+	            </tr>
+	            <tr>
+	                <th>Date de Naissance</th>
+	                <td>{{ user.birth|date('Y-m-d') }}</td>
+	            </tr>
+	        </tbody>
+	    </table>
+	
+        <button>
+	        <a href="{{ path('player_edit', {'id':user.id} ) }}">
+	        	Modifier
+	        </a>
+        </button>
+	{% endblock %}
+	
+	{% if experience %}
+		{% block experience %}
+		    <h1>Experience</h1>
+		
+		    <table class="table table-hover">
+		        <tbody>
+		            <tr>
+		                <th>Username</th>
+		                <td>{{ experience.username }}</td>
+		            </tr>
+		        </tbody>
+		    </table>
+		
+	        <button>
+			    <a href="{{ path('experience_edit', { 'id': experience.id }) }}">
+			        Modifier
+			    </a>
+	        </button>
+		{% endblock %}
+	{%endif%}
+	
+	{% if ranking %}
+		{% block ranking %}
+		    <h1>Ranking</h1>
+		
+		    <table class="table table-hover">
+		        <tbody>
+		        	<tr>
+		        		<th>Image</th>
+		        		<td><img src="{{ asset('bundles/app/images/'~game.systName~'/'~ranking.name~'.png') }}" /></td>
+		        	</tr>
+		            <tr>
+		                <th>Name</th>
+		                <td>{{ ranking.name }}</td>
+		            </tr>
+		            {% if underRanking %}
+			            <tr>
+			                <th>UnderRanking</th>
+			                <td>{{ underRanking.name }}</td>
+			            </tr>
+		            {%endif%}
+		        </tbody>
+		    </table>
+		
+	        <button>
+			    <a href="{{ path('experience_edit', { 'id': experience.id }) }}">
+			        Modifier
+			    </a>
+	        </button>
+		{% endblock %}
+	{%endif%}
+	
+	{% if game %}
+		{% block game %}
+		    <h1>Game</h1>
+		
+		    <table class="table table-hover">
+		        <tbody>
+		            <tr>
+		                <th>Name</th>
+		                <td>{{ game.name }}</td>
+		            </tr>
+		        </tbody>
+		    </table>
+		
+	        <button>
+			    <a href="{{ path('game_choose') }}">
+			        Modifier
+			    </a>
+	        </button>
+		{% endblock %}
+	{%endif%}
+	
 {% endblock %}

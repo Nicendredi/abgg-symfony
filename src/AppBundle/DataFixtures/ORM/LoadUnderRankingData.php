@@ -24,10 +24,11 @@ class LoadUnderRankingData  extends AbstractFixture implements OrderedFixtureInt
 			'V'
 		);
 		
-		foreach($list as $data=>$ranking)
+		foreach($list as $data)
 		{
 	        $underRanking = new UnderRanking();
 	        $underRanking->setName($data);
+	        $manager->persist($underRanking);
 	        $manager->flush();
 			$this->addReference($data,$underRanking);
 		}

@@ -9,11 +9,7 @@
     {% for entity in entities %}
     <tr>
       <a href="{{ path('game_selected', { 'id': entity.id }) }}">
-      	{% if entity.name == 'League of Legends'%}
-  			<img src="{{ asset('bundles/app/images/lol.png') }}" />
-  		{%else%}
-  			<img src="{{ asset('bundles/app/images/csgo.png') }}" />
-  		{%endif%}
+  		<img src="{{ asset('bundles/app/images/'~entity.systName~'.png') }}" />
       </a>
     </tr>
     {% endfor %}
