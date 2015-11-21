@@ -1,10 +1,38 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
     <h1>Team creation</h1>
+{{ form_start(form) }}
+    {{ form_rest(form) }}
+        {{ form_widget(form.player.vars.prototype) }}
+        <input id="addPlayerBtn" type="button" value="Add Player">
+        <hr />
+        <input type="submit" value="Send">
+    {{ form_end(form) }}
 
-    {{ form(form) }}
-
+    <script>
+        $(document).ready(function() {
+            var i=0;
+            $('form').data('authenticated', false);
+            $('#addPlayerBtn').on('click', function(e) {
+                e.preventDefault();
+                var container = $('#team_player');
+                var newForm = container.data('prototype').replace(/__name__label__/g, ' ');
+                var newFormLi = $('' +
+                '<div id="'+ i++ +'"> ' +
+                    '<hr>' +
+                    '<button type="button" id="delete"><img id="img" src="../bundles/app/images/delete.png"> ' +
+                ' </div>').append(newForm);
+                container.append(newFormLi);
+                $('button').click(function() {
+                    $(this).parent().remove();
+                });
+            });
+        });
+    </script>
         <ul class="record_actions">
     <li>
         <a href="{{ path('team') }}">

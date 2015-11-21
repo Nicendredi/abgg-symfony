@@ -67,10 +67,10 @@ class TeamController extends Controller
         $entity = new Team();
         $form = $this->createFormTeam($entity);
         $form->handleRequest($request);
-		var_dump($form->getData());exit;
         if ($form->isValid()) {
             $user = $this->getUser();
 	    	$game = $this->getUser()->getTournament();
+			$player = $this->getPlayer()->setTeam($entity);
 			$entity->setTournament($game);
 			$entity->setCaptain($user);
             $user->setTeam($entity);
@@ -112,7 +112,6 @@ class TeamController extends Controller
             'action' => $this->generateUrl('team_create'),
             'method' => 'POST'
         ));
-        $form->add('submit', 'submit', array('label' => 'Create'));
         return $form;
     }
     /**

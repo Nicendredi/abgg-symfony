@@ -119,7 +119,7 @@ class Team
      */
     public function __construct()
     {
-        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->player = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

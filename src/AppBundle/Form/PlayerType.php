@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use AppBundle\Entity\RoleRepository;
-use AppBundle\Entity\User;
+use AppBundle\Entity\Player;
 
 class PlayerType extends AbstractType
 {
@@ -26,6 +26,7 @@ class PlayerType extends AbstractType
     {
 		$gameId=$this->gameId;
         $builder
+        
         ->add('user','entity', array(
 				'required' => false,
 			    'class' => 'AppBundle:User',
@@ -59,6 +60,6 @@ class PlayerType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_player';
+        return 'player';
     }
 }

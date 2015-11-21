@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use AppBundle\Entity\RoleRepository;
-use AppBundle\Entity\User;
+use AppBundle\Entity\Player;
 
 class TeamType extends AbstractType
 {
@@ -52,6 +52,6 @@ class TeamType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_team';
+        return 'team';
     }
 }

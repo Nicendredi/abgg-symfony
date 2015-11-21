@@ -118,4 +118,13 @@ class Player
     {
         return $this->user;
     }
+	
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
+    {
+        return sprintf($this->getId());
+    }
 }
