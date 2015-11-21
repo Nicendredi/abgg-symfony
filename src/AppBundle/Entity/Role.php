@@ -40,6 +40,22 @@ class Role
      */
      private $game;
 
+ 	/**
+	 * @var \Doctrine\Common\Collections\Collection|Player[]
+	 * 
+     *
+     * @ORM\OnetoMany(targetEntity="Player", mappedBy="role",cascade={"persist", "remove"})
+     **/
+    private $player;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->player = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -96,6 +112,33 @@ class Role
     {
         return $this->game;
     }
+	
+ 
+    /**
+     * @param Player $player
+     */
+    public function addPlayer(\AppBundle\Entity\Player $player)
+    {
+        $player->setTeam($this);
+		
+		if (!$this->player->contains($player)) {
+            $this->player->add($player);
+        }
+    }
+	
+    /**
+     * @return ArrayCollection $player
+     */
+    public function getPlayer()
+    {
+        return $this->player;
+    }
+	
+    public function removePlayer(\AppBundle\Entity\Player $player)
+    {
+        $this->player->removeElement($player);
+    }
+	
 
     public function __toString()
     {

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Validator\Constraints as AppAssert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use AppBundle\Entity\Team;
 
 /**
  * @ORM\Entity
@@ -70,16 +71,29 @@ class User extends BaseUser
     private $experience;
 
     /**
-     * @var team
+     * @var player
      *
-     * @ORM\OneToOne(targetEntity="Team")
+     * @ORM\OneToOne(targetEntity="Player")
+     */
+    private $player;
+
+    /**
+     * @var Team $team
+     *
+     * @ORM\ManyToOne(targetEntity="Team", inversedBy="user", cascade={"persist", "merge"})
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="team_id", referencedColumnName="id")
+     * })
      */
     private $team;
 
     /**
-     * @var role
+     * @var Role $role
      *
-     * @ORM\OneToOne(targetEntity="Role")
+     * @ORM\ManyToOne(targetEntity="Role", inversedBy="user", cascade={"persist", "merge"})
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="role_id", referencedColumnName="id")
+     * })
      */
     private $role;
 
@@ -219,6 +233,29 @@ class User extends BaseUser
     }
 
     /**
+     * Set player
+     *
+     * @param \AppBundle\Entity\Player $player
+     * @return User
+     */
+    public function setPlayer(Player $player)
+    {
+        $this->player = $player;
+
+        return $this;
+    }
+
+    /**
+     * Get player
+     *
+     * @return \AppBundle\Entity\Player
+     */
+    public function getPlayer()
+    {
+        return $this->player;
+    }
+
+    /**
      * Set tournament
      *
      * @param \AppBundle\Entity\Game $tournament
@@ -242,12 +279,9 @@ class User extends BaseUser
     }
 
     /**
-     * Set team
-     *
-     * @param \AppBundle\Entity\Team $team
-     * @return User
+     * @param Team $team
      */
-    public function setTeam($team = null)
+    public function setTeam(Team $team)
     {
         $this->team = $team;
 
@@ -255,9 +289,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get team
-     *
-     * @return \AppBundle\Entity\Team
+     * @return \AppBundle\Entity\Team $team
      */
     public function getTeam()
     {
@@ -265,12 +297,9 @@ class User extends BaseUser
     }
 
     /**
-     * Set role
-     *
-     * @param \AppBundle\Entity\Role $role
-     * @return User
+     * @param Role $role
      */
-    public function setRole($role = null)
+    public function setRole(Role $role)
     {
         $this->role = $role;
 
@@ -278,9 +307,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get role
-     *
-     * @return \AppBundle\Entity\Role
+     * @return \AppBundle\Entity\Role $role
      */
     public function getRole()
     {

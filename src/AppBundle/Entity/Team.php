@@ -36,12 +36,12 @@ class Team
     private $captain;
 
  	/**
-	 * @var \Doctrine\Common\Collections\Collection|User[]
+	 * @var \Doctrine\Common\Collections\Collection|Player[]
 	 * 
      *
-     * @ORM\ManytoOne(targetEntity="User", inversedBy="team")
+     * @ORM\OnetoMany(targetEntity="Player", mappedBy="team",cascade={"persist", "remove"})
      **/
-    private $user;
+    private $player;
 
  	/**
 	 * @var tournament
@@ -119,7 +119,7 @@ class Team
      */
     public function __construct()
     {
-        $this->members = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -173,24 +173,30 @@ class Team
         return $this->validation;
     }
 	
-    public function addUser(\AppBundle\Entity\User $user)
-    {
-        $this->user[] = $user;
-
-        return $this;
-    }
-    public function removeUser(\AppBundle\Entity\User $user)
-    {
-        $this->user->removeElement($user);
-    }
+ 
     /**
-     * Get user
-     *
-     * @return \Doctrine\Common\Collections\Collection
+     * @param Player $player
      */
-    public function getUser()
+    public function addPlayer(\AppBundle\Entity\Player $player)
     {
-        return $this->user;
+        $player->setTeam($this);
+		
+		if (!$this->player->contains($player)) {
+            $this->player->add($player);
+        }
+    }
+	
+    /**
+     * @return ArrayCollection $player
+     */
+    public function getPlayer()
+    {
+        return $this->player;
+    }
+	
+    public function removePlayer(\AppBundle\Entity\Player $player)
+    {
+        $this->player->removeElement($player);
     }
 	
     /**

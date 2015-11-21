@@ -9,7 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Team;
 use AppBundle\Entity\Game;
+use AppBundle\Entity\Player;
 use AppBundle\Form\TeamType;
+use AppBundle\Form\PlayerType;
 
 /**
  * User controller.
@@ -65,6 +67,7 @@ class TeamController extends Controller
         $entity = new Team();
         $form = $this->createFormTeam($entity);
         $form->handleRequest($request);
+		var_dump($form->getData());exit;
         if ($form->isValid()) {
             $user = $this->getUser();
 	    	$game = $this->getUser()->getTournament();
