@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Utils;
+namespace AppBundle\Services;
 
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\UserEvent;
