@@ -44,6 +44,14 @@ class Team
     private $player;
 
  	/**
+	 * @var \Doctrine\Common\Collections\Collection|Application[]
+	 * 
+     *
+     * @ORM\OnetoMany(targetEntity="Application", mappedBy="team",cascade={"persist", "remove"})
+     **/
+    private $application;
+
+ 	/**
 	 * @var tournament
 	 * 
      *
@@ -120,6 +128,7 @@ class Team
     public function __construct()
     {
         $this->player = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->application = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -194,6 +203,29 @@ class Team
     public function removePlayer(\AppBundle\Entity\Player $player)
     {
         $this->player->removeElement($player);
+    }
+	
+ 
+    /**
+     * @param Application $application
+     */
+    public function addApplication(\AppBundle\Entity\Application $application)
+    {
+        $application->setTeam($this);
+        $this->application[] = $application;
+    }
+	
+    /**
+     * @return ArrayCollection $application
+     */
+    public function getApplication()
+    {
+        return $this->application;
+    }
+	
+    public function removeApplication(\AppBundle\Entity\Application $application)
+    {
+        $this->application->removeElement($application);
     }
 	
     /**

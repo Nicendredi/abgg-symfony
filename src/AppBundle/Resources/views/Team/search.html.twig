@@ -12,9 +12,24 @@
   </thead>
   <tbody>
     {% for entity in entities %}
+    {%set test=0%}
     <tr>
       <td>{{ entity.name }}</td>
       <td>{{ entity.captain }}</td>
+      {% if (app.user.team is null)  %}
+      	{%for team in appTeam%}
+      		{%if team == entity%}
+      			{%set test=1%}
+      		{%endif%}
+      	{%endfor%}
+      	{%if (test != 1) and (app.user.tournament == entity.tournament)%}
+      		<td><a href="{{ path('team_application', {'id':entity.id}) }}"><button>Postuler</button></a></td>
+      	{%elseif (app.user.tournament != entity.tournament)%}
+      		<td></td>
+      	{%else%}
+      		<td><p>En attente d'une réponse</p></td>
+      	{%endif%}
+      {%endif%}
     </tr>
     {% endfor %}
   </tbody>

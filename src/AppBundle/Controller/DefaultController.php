@@ -45,7 +45,8 @@ class DefaultController extends Controller
 		
       return $this->render('default/lol.html.twig', array(
           'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-          'entities' => $listEntities
+          'entities' => $listEntities,
+          'game'     => $game
       ));
     }
 
@@ -72,7 +73,8 @@ class DefaultController extends Controller
 		}
       return $this->render('default/csgo.html.twig', array(
           'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-          'entities' => $listEntities
+          'entities' => $listEntities,
+          'game'     => $game
       ));
     }
 

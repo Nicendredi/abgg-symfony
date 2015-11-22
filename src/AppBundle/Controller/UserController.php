@@ -54,6 +54,7 @@ class UserController extends Controller
             'needs_posts' => $needs_posts,
         );
     }
+	
     /**
      * Creates a new User entity.
      *

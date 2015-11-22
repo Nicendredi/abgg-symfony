@@ -112,10 +112,18 @@ class User extends BaseUser
      */
     private $manager;
 
+ 	/**
+	 * @var \Doctrine\Common\Collections\Collection|Application[]
+	 * 
+     *
+     * @ORM\OnetoMany(targetEntity="Application", mappedBy="user",cascade={"persist", "remove"})
+     **/
+    private $application;
+
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+        $this->application = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -359,5 +367,27 @@ class User extends BaseUser
     public function getManager()
     {
         return $this->manager;
+    }
+ 
+    /**
+     * @param Application $application
+     */
+    public function addApplication(\AppBundle\Entity\Application $application)
+    {
+        $application->setUser($this);
+        $this->application[] = $application;
+    }
+	
+    /**
+     * @return ArrayCollection $application
+     */
+    public function getApplication()
+    {
+        return $this->application;
+    }
+	
+    public function removeApplication(\AppBundle\Entity\Application $application)
+    {
+        $this->application->removeElement($application);
     }
 }

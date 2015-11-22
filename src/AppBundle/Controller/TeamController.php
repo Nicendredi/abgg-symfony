@@ -12,6 +12,7 @@ use AppBundle\Entity\TeamRepository;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Player;
+use AppBundle\Entity\Application;
 use AppBundle\Form\TeamType;
 use AppBundle\Form\PlayerType;
 use AppBundle\Services\CheckDataServices;
@@ -43,27 +44,57 @@ class TeamController extends Controller
     /**
      * Lists all Team entities but only the information avaible to everyone.
      *
-     * @Route("/search/{needs_posts}", name="search_team")
+     * @Route("/search/{game}", name="search_team")
      * @Method("GET")
      * @Template()
      */
-    public function searchAction($needs_posts)
+    public function searchAction($game)
     {
-    	$gameId=$this->getUser()->getTournament()->getId();
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Game p
+		    WHERE p.systName = :name'
+		)->setParameter('name', $game);
+		$gaming = $query->getResult();
+		$gameId = $gaming[0]->getId();
+		
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Team p
 		    WHERE p.tournament = :id'
 		)->setParameter('id', $gameId);
-
 		$teams = $query->getResult();
+		
+		$userId = $this->getUser()->getId();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    WHERE p.user = :id'
+		)->setParameter('id', $userId);
+		$userApp = $query->getResult();
+		
+		$i=0;
+		if ($userApp!=null)
+		{
+			foreach ($userApp as $user)
+			{
+				$userAppTeams[$i] = $user->getTeam();
+				$i++;
+			}
+		}
+		else
+		{
+			$userAppTeams=0;
+		}
 		
         return array(
             'entities' => $teams,
-            'needs_posts' => $needs_posts,
+            'appTeam'  => $userAppTeams,
         );
     }
+	
     /**
      * Creates a new Experience entity.
      *
@@ -120,6 +151,7 @@ class TeamController extends Controller
             'form'   => $form->createView()
         );
     }
+
     /**
      * Creates a form to create a Team entity.
      *
@@ -238,5 +270,33 @@ class TeamController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+	
+    /**
+     * Finds and displays a User entity.
+     *
+     * @Route("/application/{id}", name="team_application")
+     * @Method("GET")
+     */
+    public function applicationAction($id)
+    {
+        $entity = new Application();
+		$user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    WHERE p.id = :id'
+		)->setParameter('id', $id);
+		$teams = $query->getResult();
+		$team = $teams[0];
+		$gameName = $team->getTournament()->getSystName();
+		
+		$entity->setTeam($team);
+		$entity->setUser($user);
+
+        $em->persist($entity);
+        $em->flush();
+		return $this->redirect($this->generateUrl('search_team', array('game'=> $gameName )));
     }
 }

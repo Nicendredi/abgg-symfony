@@ -48,6 +48,14 @@ class Role
      **/
     private $player;
 
+ 	/**
+	 * @var \Doctrine\Common\Collections\Collection|Application[]
+	 * 
+     *
+     * @ORM\OnetoMany(targetEntity="Application", mappedBy="role",cascade={"persist", "remove"})
+     **/
+    private $application;
+
 
     /**
      * Constructor
@@ -55,6 +63,7 @@ class Role
     public function __construct()
     {
         $this->player = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->application = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -135,6 +144,28 @@ class Role
     public function removePlayer(\AppBundle\Entity\Player $player)
     {
         $this->player->removeElement($player);
+    }
+ 
+    /**
+     * @param Application $application
+     */
+    public function addApplication(\AppBundle\Entity\Application $application)
+    {
+        $application->setRole($this);
+        $this->application[] = $application;
+    }
+	
+    /**
+     * @return ArrayCollection $application
+     */
+    public function getApplication()
+    {
+        return $this->application;
+    }
+	
+    public function removeApplication(\AppBundle\Entity\Application $application)
+    {
+        $this->application->removeElement($application);
     }
 	
 

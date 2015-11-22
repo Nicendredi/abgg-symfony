@@ -21,34 +21,35 @@ class Application
      */
     private $id;
 
- 	/**
-	 * @var team
-	 *
-     * @ORM\ManyToOne(targetEntity="Team")
+    /**
+     * @var Team $team
+     *
+     * @ORM\ManyToOne(targetEntity="Team", inversedBy="application", cascade={"persist", "merge"})
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="team_id", referencedColumnName="id")
+     * })
      */
     private $team;
 
- 	/**
-	 * @var role
-	 *
-     * @ORM\ManyToOne(targetEntity="Role")
+    /**
+     * @var Role $role
+     *
+     * @ORM\ManyToOne(targetEntity="Role", inversedBy="application", cascade={"persist", "merge"})
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="role_id", referencedColumnName="id")
+     * })
      */
     private $role;
 
- 	/**
-	 * @var \Doctrine\Common\Collections\Collection|User[]
-	 *
-     * @ORM\ManyToOne(targetEntity="User")
+    /**
+     * @var User $user
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="application", cascade={"persist", "merge"})
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * })
      */
     private $user;
-
-    public function __construct() 
-    {
-        $this->team = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->role = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
 
     /**
      * Get id
@@ -59,14 +60,12 @@ class Application
     {
         return $this->id;
     }
+	
 
     /**
-     * Set team
-     *
-     * @param string $team
-     * @return Application
+     * @param Team $team
      */
-    public function setTeam($team)
+    public function setTeam(Team $team)
     {
         $this->team = $team;
 
@@ -74,22 +73,17 @@ class Application
     }
 
     /**
-     * Get team
-     *
-     * @return string
+     * @return \AppBundle\Entity\Team $team
      */
     public function getTeam()
     {
         return $this->team;
     }
-	
-	/**
-     * Set role
-     *
-     * @param string $role
-     * @return Application
+
+    /**
+     * @param Role $role
      */
-    public function setRole($role)
+    public function setRole(Role $role)
     {
         $this->role = $role;
 
@@ -97,29 +91,25 @@ class Application
     }
 
     /**
-     * Get role
-     *
-     * @return string
+     * @return \AppBundle\Entity\Role $role
      */
     public function getRole()
     {
         return $this->role;
     }
-	
-    public function addUser(\AppBundle\Entity\User $user)
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user)
     {
-        $this->user[] = $user;
+        $this->user = $user;
 
         return $this;
     }
-    public function removeUser(\AppBundle\Entity\User $user)
-    {
-        $this->user->removeElement($user);
-    }
+
     /**
-     * Get user
-     *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \AppBundle\Entity\User $user
      */
     public function getUser()
     {

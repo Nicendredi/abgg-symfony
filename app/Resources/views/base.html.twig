@@ -37,17 +37,16 @@
 			{# <li><a href="{{path('blog')}}">Blog</a></li> #}
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li>
-              {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-              <a href="{{ path('profil') }}">Mon profil</a>
-              {% if app.user.team != null%}
-              <a href="{{ path('equipe') }}">Mon équipe</a>
-              {% endif %}
-              <a class="btn btn-inverse" href="{{ path('fos_user_security_logout') }}">Se déconnecter</a>
-              {% else %}
-              <a class="btn btn-inverse" href="{{ path('fos_user_security_login') }}">Connexion</a>
-              {% endif %}
-            </li>
+	          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+		          <li><a href="{{ path('profil') }}">Mon profil [{{app.user.username}}]</a></li>
+			          {% if app.user.team != null%}
+			          <li><a href="{{ path('equipe') }}">Mon équipe [{{app.user.team.name}}]</a></li>
+			          {% endif %}
+		          <li><a class="btn btn-inverse" href="{{ path('fos_user_security_logout') }}">Se déconnecter</a></li>
+	          {% else %}
+	         	  <li><a class="btn btn-inverse" href="{{ path('fos_user_registration_register') }}">Inscription</a></li>
+	         	  <li><a class="btn btn-inverse" href="{{ path('fos_user_security_login') }}">Connexion</a></li>
+	          {% endif %}
           </ul>
         </div><!-- /.navbar-collapse -->
       </nav>

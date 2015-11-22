@@ -5,12 +5,15 @@
   <div class="col-md-3 col-md-offset-1">
     <ul class=" nav nav-pills nav-stacked">
       <li><a href="{% block search_player %}{{ path('search_player', { 'needs_posts': "false" }) }}{% endblock %}">Rechercher un joueur</a></li>
-      <li><a href="{% block search_team %}{{ path('search_team', { 'needs_posts': "false" }) }}{% endblock %}">Rechercher une équipe</a></li>
+      <li><a href="{% block search_team %}{{ path('search_team',  { 'game': game.name }) }}{% endblock %}">Rechercher une équipe</a></li>
       {% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
       {%else%}
       	<li><a href="{{ path('fos_user_security_login' )}}">S'inscrire au tournoi</a></li>
       {%endif%}
-      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.capitain != true and app.user.team == null) %}
+      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") )
+      and (app.user.capitain != true) 
+      and (app.user.team == null) 
+      and (app.user.tournament == game) %}
         <li><a href="{{ path('team_new' )}}">Inscrire une équipe</a></li>
       {% endif %}
     </ul>
