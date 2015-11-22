@@ -5,10 +5,10 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use AppBundle\Entity\RankingRepository;
-use AppBundle\Entity\RoleRepository;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use AppBundle\Entity\RankingRepository;
+use AppBundle\Entity\RoleRepository;
 
 class ExperienceType extends AbstractType
 {

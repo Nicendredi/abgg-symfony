@@ -13,7 +13,7 @@
       {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") )
       and (app.user.capitain != true) 
       and (app.user.team == null) 
-      and (app.user.tournament == game) %}
+      and (app.user.tournament == games) %}
         <li><a href="{{ path('team_new' )}}">Inscrire une équipe</a></li>
       {% endif %}
     </ul>

@@ -32,7 +32,7 @@ class DefaultController extends Controller
 		$gameId = $game[0]->getId();
 		$listEntities=array();
 		$i=0;
-		
+
 		foreach ($entities as $entity)
 		{
 			$test = $entity->getTournament()->getId();
@@ -46,7 +46,8 @@ class DefaultController extends Controller
       return $this->render('default/lol.html.twig', array(
           'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
           'entities' => $listEntities,
-          'game'     => $game
+          'game'     => $game,
+          'games'   => $game[0],
       ));
     }
 
@@ -74,7 +75,8 @@ class DefaultController extends Controller
       return $this->render('default/csgo.html.twig', array(
           'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
           'entities' => $listEntities,
-          'game'     => $game
+          'game'     => $game,
+          'games'   => $game[0],
       ));
     }
 

@@ -29,6 +29,14 @@ services:
             -
                 name: validator.constraint_validator
                 alias: has_different_roles
+    has_different_players_validator:
+        class: AppBundle\Validator\Constraints\HasDifferentPlayersValidator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            -
+                name: validator.constraint_validator
+                alias: has_different_players
     checkDataServices:
         class: AppBundle\Services\CheckDataServices
         arguments: [ @doctrine.orm.entity_manager ]

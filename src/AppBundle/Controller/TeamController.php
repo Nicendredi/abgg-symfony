@@ -16,6 +16,7 @@ use AppBundle\Entity\Application;
 use AppBundle\Form\TeamType;
 use AppBundle\Form\PlayerType;
 use AppBundle\Services\CheckDataServices;
+use AppBundle\Validator\Constraints\HasDifferentPlayers;
 
 /**
  * User controller.
@@ -107,15 +108,18 @@ class TeamController extends Controller
         $entity = new Team();
         $form = $this->createFormTeam($entity);
         $form->handleRequest($request);
+		$data = $form->getData();
+		
         if ($form->isValid()) {
             $user = $this->getUser();
 	    	$game = $this->getUser()->getTournament();
 			$player = $form->getData()->getPlayer();
+			
 			$entity->setTournament($game);
-			$entity->setCaptain($user);
             $user->setTeam($entity);
-			$user->setCapitain(true);
+			$user->setCapitain($entity);
             $this->get('fos_user.user_manager')->updateUser($user, false);
+			
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
 			
@@ -133,6 +137,7 @@ class TeamController extends Controller
             $em->persist($entity);
             $em->flush();
 			
+	    	$game = $this->getUser()->getTournament();
 			$id = $game->getId();
 	        $em = $this->getDoctrine()->getManager();
 	        $gameId = $em->getRepository('AppBundle:Game')->find($id);
@@ -146,6 +151,36 @@ class TeamController extends Controller
 			}
             return $this->redirect($this->generateUrl($url));
         }
+		elseif ((($data->getName())!=null) 
+		&& ($data->getCaptain()->getRole()) != null ){
+			$entity = new Team();
+			$entity->setName($data->getName());
+	    	$game = $this->getUser()->getTournament();
+			
+            $user = $this->getUser();
+            $user->setTeam($entity);
+			$user->setCapitain($entity);
+			$user->setRole($data->getCaptain()->getRole());
+            $this->get('fos_user.user_manager')->updateUser($user, false);
+            $em = $this->getDoctrine()->getManager();
+			$entity->setTournament($game);
+            $em->persist($entity);
+            $em->flush();
+			
+			$id = $game->getId();
+	        $em = $this->getDoctrine()->getManager();
+	        $gameId = $em->getRepository('AppBundle:Game')->find($id);
+			if ($game == $gameId)
+			{
+				$url='lol';
+			}
+			else
+			{
+				$url='csgo';
+			}
+            return $this->redirect($this->generateUrl($url));
+		}
+		var_dump('out');exit;
         return array(
             'entity' => $entity,
             'form'   => $form->createView()
@@ -172,7 +207,9 @@ class TeamController extends Controller
 		$game = $query->getResult();
 		$gameName = $game[0]->getName();
 		
-        $form = $this->createForm(new TeamType($gameId,$gameName), $entity, array(
+		$telephone = $this->getUser()->getTelephone();
+		
+        $form = $this->createForm(new TeamType($gameId,$gameName,$telephone), $entity, array(
             'action' => $this->generateUrl('team_create'),
             'method' => 'POST'
         ));

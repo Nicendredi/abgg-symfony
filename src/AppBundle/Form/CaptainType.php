@@ -8,10 +8,10 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use AppBundle\Entity\RoleRepository;
-use AppBundle\Entity\Player;
-use AppBundle\Entity\Team;
+use AppBundle\Entity\UserRepository;
+use AppBundle\Entity\User;
 
-class TeamType extends AbstractType
+class CaptainType extends AbstractType
 {
 	protected $gameId;
 	protected $game;
@@ -32,16 +32,21 @@ class TeamType extends AbstractType
 		$gameId=$this->gameId;
 		$game=$this->game;
 		$telephone=$this->telephone;
-		
-        $builder
-        ->add('name')
-		->add('captain', new CaptainType($gameId,$game,$telephone))
-		->add('player', 'collection', array(
-		'type'  => new PlayerType($gameId,$game),
-        'allow_add'   => true,
-        'allow_delete'=> true,
-        'required' => false,
-        'label' => false));
+
+		if ($game == 'League of Legends')
+		{
+			$builder
+			->add('telephone', 'hidden',array('data'=> $telephone))
+			->add('role','entity', array(
+					'required' => false,
+				    'class' => 'AppBundle:Role',
+				    'query_builder' => function (RoleRepository $er) use ($gameId)
+				    {
+				        return $er->getGameId($gameId);
+				    },
+				    'choice_label' => 'name',
+				));
+		}
     }
 	
     /**
@@ -50,16 +55,17 @@ class TeamType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Team',
+            'data_class' => 'AppBundle\Entity\User',
             'cascade_validation' => true,
         ));
     }
+	
 
     /**
      * @return string
      */
     public function getName()
     {
-        return 'team';
+        return 'user';
     }
 }

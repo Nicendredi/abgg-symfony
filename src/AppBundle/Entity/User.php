@@ -99,9 +99,9 @@ class User extends BaseUser
     private $role;
 
     /**
-     * @var boolean
+     * @var capitain
      *
-     * @ORM\Column(name="capitain", type="boolean", nullable=true)
+     * @ORM\OneToOne(targetEntity="Team", cascade={"persist"})
      */
     private $capitain;
 
@@ -326,10 +326,10 @@ class User extends BaseUser
     /**
      * Set capitain
      *
-     * @param boolean $capitain
-     * @return Experience
+     * @param \AppBundle\Entity\Team $capitain
+     * @return User
      */
-    public function setCapitain($capitain)
+    public function setCapitain(Team $capitain=null)
     {
         $this->capitain = $capitain;
 
@@ -339,7 +339,7 @@ class User extends BaseUser
     /**
      * Get capitain
      *
-     * @return boolean
+     * @return \AppBundle\Entity\Team
      */
     public function getCapitain()
     {
