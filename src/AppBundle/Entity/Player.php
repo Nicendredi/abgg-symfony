@@ -48,6 +48,13 @@ class Player
      */
     private $role;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="invitation", type="string", length=255)
+     */
+    private $invitation;
+
 
     /**
      * Get id
@@ -126,5 +133,28 @@ class Player
     public function __toString()
     {
         return sprintf($this->getId());
+    }
+
+    /**
+     * Set invitation
+     *
+     * @param string $invitation
+     * @return Player
+     */
+    public function setInvitation($invitation)
+    {
+        $this->invitation = $invitation;
+
+        return $this;
+    }
+
+    /**
+     * Get invitation
+     *
+     * @return string 
+     */
+    public function getInvitation()
+    {
+        return $this->invitation;
     }
 }

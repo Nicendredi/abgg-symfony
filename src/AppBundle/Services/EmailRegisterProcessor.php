@@ -15,7 +15,46 @@ class EmailRegisterProcessor
 		$this->mailer = $mailer;
 	}
 
-	public function sendEmailRegistration(User $user)
+	public function sendEmail($type, array $args)
+	{
+		switch ($type) {
+			case 1:
+				sendRegistration($args);
+				break;
+			case 2:
+				sendIntivation($args);
+				break;
+		}
+
+	}
+
+	private function sendIntivation(array $args)
+	{
+		$twig = $this->get('twig');
+		$template = $twig->loadTemplate('invitation.twig.html');
+		$parameters = $args;
+
+		$message=\Swift_Message::newInstance()
+		->setSubject("Invitation de "+$args->user)
+		->setFrom("contact@asso-b2g.com")
+		->setTo($args->user->getEmail())
+		->setBody(
+			$this->renderView(
+				'Ressources/mail/mailTemplate/invitation.html.twig', 
+				array('user' => $args->user,
+					'team' => $args->team,
+					'inviToken' => $args->id,
+					)
+				)
+			)
+		;
+
+		$this->get('mailer')->send($message);
+	}
+
+
+
+	private function sendRegistration(User $user)
 	{
 		$message = \Swift_Message::newInstance()
 		->setSubject("Registration complete")

@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Entity\Team;
 use AppBundle\Entity\TeamRepository;
 use AppBundle\Entity\Game;
@@ -124,6 +125,20 @@ class DefaultController extends Controller
 	    ));
 	
 	    return $response;
+    }
+
+    /**
+    * @Route("/invite/{id}", name="invite")
+    */ 
+    public function inviteAction(Request $request, $id)
+    {
+
+      $this->container->get('session')->set('invitation', $id);
+
+      $response = $this->forward('FOSUserBundle:Registration:register', array(
+        'invitation' => $id));
+
+      return $response;
     }
 
 }

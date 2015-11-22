@@ -48,3 +48,6 @@ services:
         arguments: [@app.registration_email_processor]
         tags:
             - { name: kernel.event_listener, event: appBundle.services.registrationEmail, method: onRegistrationComplete }
+    app.invitation_services:
+        class: AppBundle\Services\invitationServices
+        arguments: [ @doctrine.orm.entity_manager ]

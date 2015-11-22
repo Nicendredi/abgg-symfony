@@ -2,12 +2,14 @@
 
 namespace AppBundle\Controller;
 
-
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Game;
+use AppBundle\Services\invitationServices;
 
 /**
  * Game controller.
@@ -44,6 +46,8 @@ class GameController extends Controller
      */
     public function chooseAction()
     {
+        dump($this->container->get('session')->getId());
+        
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AppBundle:Game')->findAll();
@@ -61,7 +65,7 @@ class GameController extends Controller
      * @Template()
      */
     public function selectedAction($id)
-    {
+    {        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AppBundle:Game')->find($id);
@@ -77,6 +81,14 @@ class GameController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 		
+        $invitation = $this->container->get('session')->get('invitation');
+        if($invitation){
+            $invit = $this->container->get('app.invitation_services');
+            $invit->closeInvitation($user, $invitation);
+        }
+        $invitation = $this->container->get('session')->remove('invitation');
+
+
 		$manager = $user->getManager();
 		
 		if($manager==null)
