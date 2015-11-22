@@ -32,7 +32,6 @@ class ExperienceType extends AbstractType
         $builder
             ->add('username')
 			->add('ranking','entity', array(
-				'required' => false,
 			    'class' => 'AppBundle:Ranking',
 			    'query_builder' => function (RankingRepository $er) use ($gameId)
 			    {
@@ -45,12 +44,11 @@ class ExperienceType extends AbstractType
 		{
 			$builder
             ->add('underRanking','entity', array(
-               'required' => false,
+				'required' => false,
 			   'class' => 'AppBundle:UnderRanking',
 			   'choice_label' => 'name',
 			))
             ->add('role_1','entity', array(
-				'required' => false,
 			    'class' => 'AppBundle:Role',
 			    'query_builder' => function (RoleRepository $er) use ($gameId)
 			    {
@@ -59,7 +57,6 @@ class ExperienceType extends AbstractType
 			    'choice_label' => 'name',
 			))
             ->add('role_2','entity', array(
-				'required' => false,
 			    'class' => 'AppBundle:Role',
 			    'query_builder' => function (RoleRepository $er) use ($gameId)
 			    {
@@ -68,7 +65,6 @@ class ExperienceType extends AbstractType
 			    'choice_label' => 'name',
 			))
             ->add('role_3','entity', array(
-				'required' => false,
 			    'class' => 'AppBundle:Role',
 			    'query_builder' => function (RoleRepository $er) use ($gameId)
 			    {
@@ -77,7 +73,6 @@ class ExperienceType extends AbstractType
 			    'choice_label' => 'name',
 			))
             ->add('role_4','entity', array(
-				'required' => false,
 			    'class' => 'AppBundle:Role',
 			    'query_builder' => function (RoleRepository $er) use ($gameId)
 			    {
@@ -86,7 +81,6 @@ class ExperienceType extends AbstractType
 			    'choice_label' => 'name',
 			))
             ->add('role_5','entity', array(
-				'required' => false,
 			    'class' => 'AppBundle:Role',
 			    'query_builder' => function (RoleRepository $er) use ($gameId)
 			    {

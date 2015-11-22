@@ -34,8 +34,15 @@ class TeamType extends AbstractType
 		$telephone=$this->telephone;
 		
         $builder
-        ->add('name')
-		->add('captain', new CaptainType($gameId,$game,$telephone))
+        ->add('name');
+		
+		if ($game == 'League of Legends')
+		{
+			$builder
+			->add('captain', new CaptainType($gameId,$game,$telephone));
+		}
+		
+		$builder
 		->add('player', 'collection', array(
 		'type'  => new PlayerType($gameId,$game),
         'allow_add'   => true,

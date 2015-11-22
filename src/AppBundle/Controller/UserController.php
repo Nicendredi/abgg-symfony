@@ -39,19 +39,60 @@ class UserController extends Controller
     /**
      * Lists all User entities but only the information avaible to everyone.
      *
-     * @Route("/search/{needs_posts}", name="search_player")
+     * @Route("/search/{game}", name="search_player")
      * @Method("GET")
      * @Template()
      */
-    public function searchAction($needs_posts)
+    public function searchAction($game)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('AppBundle:User')->findAll();
-
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Game p
+		    WHERE p.systName = :name'
+		)->setParameter('name', $game);
+		$gaming = $query->getResult();
+		$gameId = $gaming[0]->getId();
+		
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    WHERE p.tournament = :id'
+		)->setParameter('id', $gameId);
+		$teams = $query->getResult();
+		
+		if (($this->getUser()) != null)
+		{
+			$userId = $this->getUser()->getId();
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Application p
+			    WHERE p.user = :id'
+			)->setParameter('id', $userId);
+			$userApp = $query->getResult();
+			
+			$i=0;
+			if ($userApp!=null)
+			{
+				foreach ($userApp as $user)
+				{
+					$userAppTeams[$i] = $user->getTeam();
+					$i++;
+				}
+			}
+			else
+			{
+				$userAppTeams=0;
+			}
+		}
+		else {
+			$userAppTeams=0;
+		}
+		
         return array(
-            'entities' => $entities,
-            'needs_posts' => $needs_posts,
+            'entities' => $teams,
+            'appTeam'  => $userAppTeams,
         );
     }
 	
@@ -216,7 +257,8 @@ class UserController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('player_edit', array('id' => $id)));
+            
+			return $this->redirect($this->generateUrl('player_show', array('id' => $this->getUser()->getId())));
         }
 
         return array(

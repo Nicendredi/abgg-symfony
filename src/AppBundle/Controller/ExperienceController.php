@@ -29,9 +29,7 @@ class ExperienceController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('AppBundle:Experience')->findAll();
-        return array(
-            'entities' => $entities,
-        );
+		return $this->redirect($this->generateUrl('player_show', array('id' => $this->getUser()->getId())));
     }
     /**
      * Creates a new Experience entity.
@@ -217,7 +215,16 @@ class ExperienceController extends Controller
     */
     private function createEditForm(Experience $entity)
     {
-        $form = $this->createForm(new ExperienceType(), $entity, array(
+    	$gameId = $this->getUser()->getTournament()->getId();
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Game p
+		    WHERE p.id = :id'
+		)->setParameter('id', $gameId);
+		$game = $query->getResult();
+
+        $form = $this->createForm(new ExperienceType($gameId,($game[0]->getName())), $entity, array(
             'action' => $this->generateUrl('experience_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
@@ -243,7 +250,8 @@ class ExperienceController extends Controller
         $editForm->handleRequest($request);
         if ($editForm->isValid()) {
             $em->flush();
-            return $this->redirect($this->generateUrl('experience_edit', array('id' => $id)));
+			$userId=$this->getUser()->getId();
+            return $this->redirect($this->generateUrl('player_show', array('id' => $userId)));
         }
         return array(
             'entity'      => $entity,

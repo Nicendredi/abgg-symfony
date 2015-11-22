@@ -67,7 +67,7 @@ class User extends BaseUser
     /**
      * @var experience
      *
-     * @ORM\OneToOne(targetEntity="Experience")
+     * @ORM\OneToOne(targetEntity="Experience", cascade={"persist", "remove"})
      */
     private $experience;
 

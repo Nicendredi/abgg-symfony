@@ -4,7 +4,7 @@
 <div class="row">
   <div class="col-md-3 col-md-offset-1">
     <ul class=" nav nav-pills nav-stacked">
-      <li><a href="{% block search_player %}{{ path('search_player', { 'needs_posts': "false" }) }}{% endblock %}">Rechercher un joueur</a></li>
+      <li><a href="{% block search_player %}{{ path('search_player', { 'game': game.name }) }}{% endblock %}">Rechercher un joueur</a></li>
       <li><a href="{% block search_team %}{{ path('search_team',  { 'game': game.name }) }}{% endblock %}">Rechercher une équipe</a></li>
       {% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
       {%else%}

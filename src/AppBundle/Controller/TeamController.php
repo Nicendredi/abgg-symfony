@@ -68,25 +68,31 @@ class TeamController extends Controller
 		)->setParameter('id', $gameId);
 		$teams = $query->getResult();
 		
-		$userId = $this->getUser()->getId();
-        $query = $em->createQuery(
-		    'SELECT p
-		    FROM AppBundle:Application p
-		    WHERE p.user = :id'
-		)->setParameter('id', $userId);
-		$userApp = $query->getResult();
-		
-		$i=0;
-		if ($userApp!=null)
+		if (($this->getUser()) != null)
 		{
-			foreach ($userApp as $user)
+			$userId = $this->getUser()->getId();
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Application p
+			    WHERE p.user = :id'
+			)->setParameter('id', $userId);
+			$userApp = $query->getResult();
+			
+			$i=0;
+			if ($userApp!=null)
 			{
-				$userAppTeams[$i] = $user->getTeam();
-				$i++;
+				foreach ($userApp as $user)
+				{
+					$userAppTeams[$i] = $user->getTeam();
+					$i++;
+				}
+			}
+			else
+			{
+				$userAppTeams=0;
 			}
 		}
-		else
-		{
+		else {
 			$userAppTeams=0;
 		}
 		
@@ -141,7 +147,7 @@ class TeamController extends Controller
 			$id = $game->getId();
 	        $em = $this->getDoctrine()->getManager();
 	        $gameId = $em->getRepository('AppBundle:Game')->find($id);
-			if ($game == $gameId)
+			if ($game -> getSystName() == 'League of Legends')
 			{
 				$url='lol';
 			}
@@ -162,7 +168,9 @@ class TeamController extends Controller
 			$user->setCapitain($entity);
 			$user->setRole($data->getCaptain()->getRole());
             $this->get('fos_user.user_manager')->updateUser($user, false);
+			
             $em = $this->getDoctrine()->getManager();
+			$entity->setCaptain($user);
 			$entity->setTournament($game);
             $em->persist($entity);
             $em->flush();
@@ -170,6 +178,7 @@ class TeamController extends Controller
 			$id = $game->getId();
 	        $em = $this->getDoctrine()->getManager();
 	        $gameId = $em->getRepository('AppBundle:Game')->find($id);
+			var_dump($game,$gameId);exit;
 			if ($game == $gameId)
 			{
 				$url='lol';
