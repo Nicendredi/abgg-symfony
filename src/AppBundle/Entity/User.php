@@ -13,6 +13,7 @@ use AppBundle\Entity\Team;
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
  * @UniqueEntity("experience")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\UserRepository")
  */
 class User extends BaseUser
 {
@@ -73,7 +74,7 @@ class User extends BaseUser
     /**
      * @var player
      *
-     * @ORM\OneToOne(targetEntity="Player")
+     * @ORM\OneToOne(targetEntity="Player", cascade={"persist"})
      */
     private $player;
 
@@ -238,7 +239,7 @@ class User extends BaseUser
      * @param \AppBundle\Entity\Player $player
      * @return User
      */
-    public function setPlayer(Player $player)
+    public function setPlayer(Player $player =null)
     {
         $this->player = $player;
 

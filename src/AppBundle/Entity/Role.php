@@ -120,10 +120,8 @@ class Role
     public function addPlayer(\AppBundle\Entity\Player $player)
     {
         $player->setTeam($this);
+        $this->player[] = $player;
 		
-		if (!$this->player->contains($player)) {
-            $this->player->add($player);
-        }
     }
 	
     /**

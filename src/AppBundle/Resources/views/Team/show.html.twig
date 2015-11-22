@@ -7,12 +7,19 @@
         <tbody>
             <tr>
                 <th>Nom de l'équipe</th>
-                <td>{{ entity.name }}</td>
+                <td>{{ team.name }}</td>
             </tr>
             <tr>
                 <th>Capitaine d'équipe</th>
-                <td>{{ entity.captain.username }}</td>
+                <td>{{ team.captain.username }}</td>
             </tr>
+            {%for player in players%}
+				<tr>
+					<th>Joueur</th>
+					<td>{{player.user.username}}</td>
+					<td>{{player.role.name}}</td>
+				</tr>
+			{%endfor%}
         </tbody>
     </table>
 

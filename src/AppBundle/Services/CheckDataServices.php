@@ -14,7 +14,6 @@ class CheckDataServices
 	
 	public function checkData($baseTable, $function, $entity)
 	{
-		//var_dump($baseTable->$function()->getId());exit;
 		if (($baseTable->$function()) !=null)
 		{
 			$id = $baseTable->$function()->getId();
@@ -25,5 +24,23 @@ class CheckDataServices
 			$data = 0;
 		}
 		return $data;
+	}
+	
+	public function checkDataCollection($baseTable, $function, $entity)
+	{
+		$i=0;
+		
+		$players = $baseTable->getPlayer()->toArray();
+		
+		foreach ($players as $element)
+		{
+			$id = $element->getId();
+			$data = $this ->em->getRepository('AppBundle:'.$entity)
+                      ->findOneById($id);
+			$array[$i]=$data;
+			$i++;
+		}
+		
+		return $array;
 	}
 }

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Team
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\TeamRepository")
  */
 class Team
 {
@@ -180,10 +180,7 @@ class Team
     public function addPlayer(\AppBundle\Entity\Player $player)
     {
         $player->setTeam($this);
-		
-		if (!$this->player->contains($player)) {
-            $this->player->add($player);
-        }
+        $this->player[] = $player;
     }
 	
     /**

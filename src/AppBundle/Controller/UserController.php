@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
 use AppBundle\Form\RegistrationType;
 use AppBundle\Services\CheckDataServices;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * User controller.

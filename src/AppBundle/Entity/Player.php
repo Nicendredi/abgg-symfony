@@ -34,7 +34,7 @@ class Player
     /**
      * @var user
      *
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\OneToOne(targetEntity="User", cascade={"persist"})
      */
     private $user;
 
@@ -102,7 +102,7 @@ class Player
      * @param \AppBundle\Entity\User $user
      * @return Player
      */
-    public function setUser(User $user)
+    public function setUser(User $user=null)
     {
         $this->user = $user;
 

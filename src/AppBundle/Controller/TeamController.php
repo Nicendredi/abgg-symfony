@@ -8,10 +8,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Team;
+use AppBundle\Entity\TeamRepository;
 use AppBundle\Entity\Game;
+use AppBundle\Entity\User;
 use AppBundle\Entity\Player;
 use AppBundle\Form\TeamType;
 use AppBundle\Form\PlayerType;
+use AppBundle\Services\CheckDataServices;
 
 /**
  * User controller.
@@ -46,12 +49,18 @@ class TeamController extends Controller
      */
     public function searchAction($needs_posts)
     {
+    	$gameId=$this->getUser()->getTournament()->getId();
         $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    WHERE p.tournament = :id'
+		)->setParameter('id', $gameId);
 
-        $entities = $em->getRepository('AppBundle:Team')->findAll();
-
+		$teams = $query->getResult();
+		
         return array(
-            'entities' => $entities,
+            'entities' => $teams,
             'needs_posts' => $needs_posts,
         );
     }
@@ -70,13 +79,26 @@ class TeamController extends Controller
         if ($form->isValid()) {
             $user = $this->getUser();
 	    	$game = $this->getUser()->getTournament();
-			$player = $this->getPlayer()->setTeam($entity);
+			$player = $form->getData()->getPlayer();
 			$entity->setTournament($game);
 			$entity->setCaptain($user);
             $user->setTeam($entity);
 			$user->setCapitain(true);
             $this->get('fos_user.user_manager')->updateUser($user, false);
             $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+			
+			$player = $entity->getPlayer();
+			
+			foreach ($player as $players)
+			{
+				$players -> setTeam($entity);
+				if ($players->getRole() != null)
+				{
+					$players -> getUser()->setRole($players->getRole());
+				}
+			}
+
             $em->persist($entity);
             $em->flush();
 			
@@ -108,7 +130,17 @@ class TeamController extends Controller
     private function createFormTeam(Team $entity)
     {
     	$gameId = $this->getUser()->getTournament()->getId();
-        $form = $this->createForm(new TeamType($gameId), $entity, array(
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Game p
+		    WHERE p.id = :id'
+		)->setParameter('id', $gameId);
+
+		$game = $query->getResult();
+		$gameName = $game[0]->getName();
+		
+        $form = $this->createForm(new TeamType($gameId,$gameName), $entity, array(
             'action' => $this->generateUrl('team_create'),
             'method' => 'POST'
         ));
@@ -142,16 +174,25 @@ class TeamController extends Controller
     {
     	$id = $this->getUser()->getTeam()->getId();
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('AppBundle:Team')->find($id);
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    WHERE p.id = :id'
+		)->setParameter('id', $id);
+		$team = $query->getResult();
+		$checkData = $this -> container -> get('checkDataServices');
+		
+		$player = $checkData -> checkDataCollection($team[0], 'getPlayer', 'Player');
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
+        if (!$team) {
+            throw $this->createNotFoundException('Unable to find Team entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'team'      => $team[0],
+            'players'   => $player, 
             'delete_form' => $deleteForm->createView(),
         );
     }

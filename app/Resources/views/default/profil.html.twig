@@ -105,4 +105,46 @@
 		{% endblock %}
 	{%endif%}
 	
+	{% if team %}
+		{% block team %}
+		    <h1>Team</h1>
+		
+		    <table class="table table-hover">
+		        <tbody>
+		            <tr>
+		                <th>Name</th>
+		                <td>{{ team.name }}</td>
+		            </tr>
+		        </tbody>
+		    </table>
+		
+	        <button>
+			    <a href="{{ path('team_show', { 'id': team.id }) }}">
+			        Voir Equipe
+			    </a>
+	        </button>
+		{% endblock %}
+	{%endif%}
+	
+	{% if role %}
+		{% block role %}
+		    <h1>Role</h1>
+		
+		    <table class="table table-hover">
+		        <tbody>
+		            <tr>
+		                <th>Name</th>
+		                <td>{{ role.name }}</td>
+		            </tr>
+		        </tbody>
+		    </table>
+		
+	        <button>
+			    <a href="{{ path('team_show', { 'id': team.id }) }}">
+			        Voir Equipe
+			    </a>
+	        </button>
+		{% endblock %}
+	{%endif%}
+	
 {% endblock %}

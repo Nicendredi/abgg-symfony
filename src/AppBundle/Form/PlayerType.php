@@ -8,15 +8,18 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use AppBundle\Entity\RoleRepository;
-use AppBundle\Entity\Player;
+use AppBundle\Entity\UserRepository;
+use AppBundle\Entity\User;
 
 class PlayerType extends AbstractType
 {
 	protected $gameId;
+	protected $game;
 
-	public function __construct ($gameId)
+	public function __construct ($gameId,$game)
 	{
 	    $this->gameId = $gameId;
+	    $this->game = $game;
 	}
     /**
      * @param FormBuilderInterface $builder
@@ -25,22 +28,32 @@ class PlayerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 		$gameId=$this->gameId;
+		$game=$this->game;
+
         $builder
-        
         ->add('user','entity', array(
 				'required' => false,
 			    'class' => 'AppBundle:User',
-			    'choice_label' => 'username',
-			))
-		->add('role','entity', array(
-				'required' => false,
-			    'class' => 'AppBundle:Role',
-			    'query_builder' => function (RoleRepository $er) use ($gameId)
+			    'query_builder' => function (UserRepository $er) use ($gameId)
 			    {
 			        return $er->getGameId($gameId);
 			    },
-			    'choice_label' => 'name',
+			    'choice_label' => 'username',
 			));
+			
+		if ($game == 'League of Legends')
+		{
+			$builder
+			->add('role','entity', array(
+					'required' => false,
+				    'class' => 'AppBundle:Role',
+				    'query_builder' => function (RoleRepository $er) use ($gameId)
+				    {
+				        return $er->getGameId($gameId);
+				    },
+				    'choice_label' => 'name',
+				));
+		}
     }
 	
     /**

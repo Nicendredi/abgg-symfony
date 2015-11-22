@@ -13,10 +13,12 @@ use AppBundle\Entity\Player;
 class TeamType extends AbstractType
 {
 	protected $gameId;
+	protected $game;
 
-	public function __construct ($gameId)
+	public function __construct ($gameId,$game)
 	{
 	    $this->gameId = $gameId;
+	    $this->game = $game;
 	}
     /**
      * @param FormBuilderInterface $builder
@@ -25,11 +27,12 @@ class TeamType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 		$gameId=$this->gameId;
+		$game=$this->game;
 		
         $builder
         ->add('name')
 		->add('player', 'collection', array(
-		'type'  => new PlayerType($gameId),
+		'type'  => new PlayerType($gameId,$game),
         'allow_add'   => true,
         'allow_delete'=> true,
         'required' => false,
