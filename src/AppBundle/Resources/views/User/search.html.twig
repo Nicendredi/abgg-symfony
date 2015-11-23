@@ -9,11 +9,11 @@
                 <th>Username</th>
                 <th>Ranking</th>
                 <th>UnderRanking</th>
-                <th>Role 1</th>
-                <th>Role 2</th>
-                <th>Role 3</th>
-                <th>Role 4</th>
-                <th>Role 5</th>
+                <th>Top</th>
+                <th>Mid</th>
+                <th>Bot</th>
+                <th>Support</th>
+                <th>Jungle</th>
                 <th>Manager</th>
             </tr>
         </thead>
@@ -21,41 +21,39 @@
         {% for entity in entities %}
             <tr>
                 <td>{{ entity.username }}</td>
-                {%if entity.experience.ranking%}
-	                <td>{{ entity.experience.ranking.name }}</td>
-	            {%else%}
-	            	<td></td>
-	            {%endif%}
-                {%if entity.experience.underRanking%}
-	                <td>{{ entity.experience.underRanking.name }}</td>
-	            {%else%}
-	            	<td></td>
-	            {%endif%}
-                {%if entity.experience.role1%}
-	                <td>{{ entity.experience.role1.name }}</td>
-	            {%else%}
-	            	<td></td>
-	            {%endif%}
-                {%if entity.experience.role2%}
-	                <td>{{ entity.experience.role2.name }}</td>
-	            {%else%}
-	            	<td></td>
-	            {%endif%}
-                {%if entity.experience.role3%}
-	                <td>{{ entity.experience.role3.name }}</td>
-	            {%else%}
-	            	<td></td>
-	            {%endif%}
-                {%if entity.experience.role4%}
-	                <td>{{ entity.experience.role4.name }}</td>
-	            {%else%}
-	            	<td></td>
-	            {%endif%}
-                {%if entity.experience.role5%}
-	                <td>{{ entity.experience.role5.name }}</td>
-	            {%else%}
-	            	<td></td>
-	            {%endif%}
+                {%if entity.experience%}
+	                {%if entity.experience.ranking%}
+		                <td>{{ entity.experience.ranking.name }}</td>
+		            {%else%}
+		            	<td></td>
+		            {%endif%}
+	                {%if entity.experience.underRanking%}
+		                <td>{{ entity.experience.underRanking.name }}</td>
+		            {%else%}
+		            	<td></td>
+		            {%endif%}
+	                {%if entity.experience.postes%}
+		                <td>{{ entity.experience.postes.top }}</td>
+		                <td>{{ entity.experience.postes.mid }}</td>
+		                <td>{{ entity.experience.postes.bot }}</td>
+		                <td>{{ entity.experience.postes.sup }}</td>
+		                <td>{{ entity.experience.postes.jungle }}</td>
+		            {%else%}
+		            	<td></td>
+		            	<td></td>
+		            	<td></td>
+		            	<td></td>
+		            	<td></td>
+		            {%endif%}
+		        {%else%}
+		            	<td></td>
+		            	<td></td>
+		            	<td></td>
+		            	<td></td>
+		            	<td></td>
+		            	<td></td>
+		            	<td></td>
+		        {%endif%}
                 {%if entity.manager%}
 	            	<td>MANAGER</td>
 	            {%else%}

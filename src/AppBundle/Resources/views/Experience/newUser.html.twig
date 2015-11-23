@@ -1,8 +1,22 @@
 {% extends '::base.html.twig' %}
-{% block header %}{% endblock %}
-{% block body -%}
-    <h1>Experience creation</h1>
 
-    {{ form(form) }}
-    
+{% block body %}
+<div class="row">
+	<div class="col-xs-4"> </div>
+	<div class="col-xs-4">
+	  	<div class="form-group">
+		{% form_theme form 'bootstrap_3_layout.html.twig' %}
+		    
+		<br>
+		<center><h1>Experience creation</h1></center>
+		<br>
+		<br>
+		<br>
+		<br>
+		
+		{{ form(form) }}
+		</div>
+	<div class="col-xs-4"></div>
+	</div>
+</div>
 {% endblock %}

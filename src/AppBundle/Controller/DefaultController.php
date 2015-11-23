@@ -44,11 +44,22 @@ class DefaultController extends Controller
 			}
 		}
 		
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:User p
+		    WHERE p.tournament = :id
+		    AND p.team is null
+		    AND p.player is null'
+		)->setParameter('id', $gameId);
+		$users = $query->getResult();
+		
       return $this->render('default/lol.html.twig', array(
           'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
           'entities' => $listEntities,
           'game'     => $game,
           'games'   => $game[0],
+          'searchUsers' => count($users)
       ));
     }
 

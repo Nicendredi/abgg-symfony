@@ -1,19 +1,29 @@
 {% extends '::base.html.twig' %}
 
-{% block header %}{% endblock %}
 {% block body -%}
-<h1>Choisissez votre tournoi</h1>
-
-<table class="records_list">
-  <tbody>
-    {% for entity in entities %}
-    <tr>
-      <a href="{{ path('game_selected', { 'id': entity.id }) }}">
-  		<img src="{{ asset('bundles/app/images/'~entity.systName~'.png') }}" />
-      </a>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-xs-4"></div>
+  <div class="col-xs-4">
+  	<div class="form-group">
+		<br>
+		<center><h1>Choisissez votre tournoi</h1></center>
+		<br>
+		<br>
+		<br>
+		<br>
+		<table class="records_list">
+		  <tbody>
+		    {% for entity in entities %}
+		    <tr>
+		      <a href="{{ path('game_selected', { 'id': entity.id }) }}">
+		  		<img width="100%" src="{{ asset('bundles/app/images/'~entity.systName~'.png') }}" />
+		      </a>
+		    </tr>
+		    {% endfor %}
+		  </tbody>
+		</table>
+	</div>
+    <div class="col-xs-4"></div>
+</div>
 
 {% endblock %}

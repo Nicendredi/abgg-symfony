@@ -175,11 +175,7 @@ class TeamController extends Controller
             $em->persist($entity);
             $em->flush();
 			
-			$id = $game->getId();
-	        $em = $this->getDoctrine()->getManager();
-	        $gameId = $em->getRepository('AppBundle:Game')->find($id);
-			var_dump($game,$gameId);exit;
-			if ($game == $gameId)
+			if ($game->getName() == 'League of Legends')
 			{
 				$url='lol';
 			}
@@ -189,7 +185,6 @@ class TeamController extends Controller
 			}
             return $this->redirect($this->generateUrl($url));
 		}
-		var_dump('out');exit;
         return array(
             'entity' => $entity,
             'form'   => $form->createView()
@@ -259,7 +254,7 @@ class TeamController extends Controller
 		)->setParameter('id', $id);
 		$team = $query->getResult();
 		$checkData = $this -> container -> get('checkDataServices');
-		
+
 		$player = $checkData -> checkDataCollection($team[0], 'getPlayer', 'Player');
 
         if (!$team) {

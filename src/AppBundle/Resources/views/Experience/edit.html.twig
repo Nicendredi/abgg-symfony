@@ -1,16 +1,26 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Experience edit</h1>
+<div class="row">
+  <div class="col-xs-4"></div>
+  <div class="col-xs-4">
+  	<div class="form-group">
+		{% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+		
+		<br>
+		<center><h1>Experience edit</h1></center>
+		<br>
+		<br>
+		<br>
+		<br>
+    
 
-    {{ form(edit_form) }}
+    	{{ form(edit_form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('experience') }}">
+        <a class="btn btn-default" href="{{ path('experience') }}">
             Back to the list
         </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+	</div>
+    <div class="col-xs-4"></div>
+</div>
 {% endblock %}

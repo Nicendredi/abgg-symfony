@@ -28,7 +28,7 @@ class PostesType extends AbstractType
 	            	3 => 3,
 	            	4 => 4,
 	            	5 => 5),
-				'expanded'=>true,
+				'expanded'=>false,
 				'multiple'=>false))
             ->add('mid', 'choice', array(
 	            'choices' => array(
@@ -37,7 +37,7 @@ class PostesType extends AbstractType
 	            	3 => 3,
 	            	4 => 4,
 	            	5 => 5),
-				'expanded'=>true,
+				'expanded'=>false,
 				'multiple'=>false))
             ->add('bot', 'choice', array(
 	            'choices' => array(
@@ -46,7 +46,7 @@ class PostesType extends AbstractType
 	            	3 => 3,
 	            	4 => 4,
 	            	5 => 5),
-				'expanded'=>true,
+				'expanded'=>false,
 				'multiple'=>false))
             ->add('sup', 'choice', array(
 	            'choices' => array(
@@ -55,7 +55,7 @@ class PostesType extends AbstractType
 	            	3 => 3,
 	            	4 => 4,
 	            	5 => 5),
-				'expanded'=>true,
+				'expanded'=>false,
 				'multiple'=>false))
             ->add('jungle', 'choice', array(
 	            'choices' => array(
@@ -64,7 +64,7 @@ class PostesType extends AbstractType
 	            	3 => 3,
 	            	4 => 4,
 	            	5 => 5),
-				'expanded'=>true,
+				'expanded'=>false,
 				'multiple'=>false));
     }
 	

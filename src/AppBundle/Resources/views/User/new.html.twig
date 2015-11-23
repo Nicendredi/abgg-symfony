@@ -1,15 +1,24 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>User creation</h1>
-
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('user') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+<div class="row">
+	<div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	  	<div class="form-group">
+			{% form_theme form 'bootstrap_3_layout.html.twig' %}
+		    <h1>User creation</h1>
+		
+		    {{ form(form) }}
+		
+		        <ul class="record_actions">
+		    <li>
+		        <a href="{{ path('user') }}">
+		            Back to the list
+		        </a>
+		    </li>
+		</ul>
+		</div>
+	<div class="col-xs-4"></div>
+	</div>
+</div>
 {% endblock %}

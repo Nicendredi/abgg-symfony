@@ -50,21 +50,18 @@ class ExperienceController extends Controller
             $this->get('fos_user.user_manager')->updateUser($user, false);
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
-            
-    		var_dump('in controller');exit;
 			
             $em->flush();
 
-            $event = new RegistrationCompleteEvent($this->getUser());
+            //$event = new RegistrationCompleteEvent($this->getUser());
 
-            $this
-            ->get('event_dispatcher')
-            ->dispatch(BgfesEvents::onRegistrationComplete, $event)
-            ;
+            //$this
+            //->get('event_dispatcher')
+            //->dispatch(BgfesEvents::onRegistrationComplete, $event)
+            //;
 
             return $this->redirect($this->generateUrl('profil'));
         }
-		var_dump('out');exit;
         return array(
             'entity' => $entity,
             'form'   => $form->createView()
