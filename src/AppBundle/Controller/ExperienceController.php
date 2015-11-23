@@ -8,9 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Experience;
 use AppBundle\Entity\Game;
 use AppBundle\Form\ExperienceType;
-use AppBundle\Services\BgfesEvents;
-use AppBundle\Services\RegistrationCompleteEvent;
-
 /**
  * Experience controller.
  *
@@ -54,13 +51,6 @@ class ExperienceController extends Controller
     		var_dump('in controller');exit;
 			
             $em->flush();
-
-            $event = new RegistrationCompleteEvent($this->getUser());
-
-            $this
-            ->get('event_dispatcher')
-            ->dispatch(BgfesEvents::onRegistrationComplete, $event)
-            ;
 
             return $this->redirect($this->generateUrl('profil'));
         }

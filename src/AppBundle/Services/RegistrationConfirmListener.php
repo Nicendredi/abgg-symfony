@@ -8,6 +8,8 @@ use FOS\UserBundle\Event\FormEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use AppBundle\Services\BgfesEvents;
+use AppBundle\Services\RegistrationCompleteEvent;
 
 
 class RegistrationConfirmListener implements EventSubscriberInterface
@@ -22,12 +24,19 @@ class RegistrationConfirmListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-                FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess',
-        );
+            FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess',
+            );
     }
 
     public function onRegistrationSuccess(FormEvent $event)
     {
+
+        $event = new RegistrationCompleteEvent($this->getUser());
+
+        $this->get('event_dispatcher')
+            ->dispatch(BgfesEvents::onRegistrationComplete, $event)
+            ;
+
         $url = $this->router->generate('game_choose');
 
         $event->setResponse(new RedirectResponse($url));
