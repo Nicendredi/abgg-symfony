@@ -9,6 +9,9 @@ class HasDifferentRolesValidator extends ConstraintValidator
 {
   public function validate($object, Constraint $constraint)
   {
+  	var_dump($object);exit;
+  	var_dump($constraint);exit;
+	
   	if(($object->getRanking()->getGame()->getName()) == 'League of Legends')
 	{
 	    if ($object->getRole1() === $object->getRole2() OR

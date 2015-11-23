@@ -31,61 +31,7 @@ class ExperienceController extends Controller
         $entities = $em->getRepository('AppBundle:Experience')->findAll();
 		return $this->redirect($this->generateUrl('player_show', array('id' => $this->getUser()->getId())));
     }
-    /**
-     * Creates a new Experience entity.
-     *
-     * @Route("/", name="experience_create")
-     * @Method("POST")
-     * @Template("AppBundle:Experience:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $entity = new Experience();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-            return $this->redirect($this->generateUrl('experience_show', array('id' => $entity->getId())));
-        }
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-    /**
-     * Creates a form to create a Experience entity.
-     *
-     * @param Experience $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Experience $entity)
-    {
-        $form = $this->createForm(new ExperienceType(), $entity, array(
-            'action' => $this->generateUrl('experience_create'),
-            'method' => 'POST',
-        ));
-        $form->add('submit', 'submit', array('label' => 'Create'));
-        return $form;
-    }
-    /**
-     * Displays a form to create a new Experience entity.
-     *
-     * @Route("/new", name="experience_new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Experience();
-        $form   = $this->createCreateForm($entity);
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
+	
     /**
      * Creates a new Experience entity.
      *
@@ -96,7 +42,7 @@ class ExperienceController extends Controller
     public function createUserAction(Request $request)
     {
         $entity = new Experience();
-        $form = $this->createCreateFormUser($entity);
+        $form = $this->createFormExperience($entity);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $user = $this->getUser();
@@ -104,6 +50,9 @@ class ExperienceController extends Controller
             $this->get('fos_user.user_manager')->updateUser($user, false);
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
+            
+    		var_dump('in controller');exit;
+			
             $em->flush();
 
             $event = new RegistrationCompleteEvent($this->getUser());
@@ -115,6 +64,7 @@ class ExperienceController extends Controller
 
             return $this->redirect($this->generateUrl('profil'));
         }
+		var_dump('out');exit;
         return array(
             'entity' => $entity,
             'form'   => $form->createView()
@@ -127,7 +77,7 @@ class ExperienceController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateFormUser(Experience $entity)
+    private function createFormExperience(Experience $entity)
     {
     	$gameId = $this->getUser()->getTournament()->getId();
         $em = $this->getDoctrine()->getManager();
@@ -158,7 +108,7 @@ class ExperienceController extends Controller
     public function newUserAction()
     {
         $entity = new Experience();
-        $form   = $this->createCreateFormUser($entity);
+        $form   = $this->createFormExperience($entity);
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),

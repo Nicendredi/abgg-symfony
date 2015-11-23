@@ -57,42 +57,15 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
 		    'SELECT p
-		    FROM AppBundle:Team p
-		    WHERE p.tournament = :id'
+		    FROM AppBundle:User p
+		    WHERE p.tournament = :id
+		    AND p.team is null
+		    AND p.player is null'
 		)->setParameter('id', $gameId);
-		$teams = $query->getResult();
-		
-		if (($this->getUser()) != null)
-		{
-			$userId = $this->getUser()->getId();
-	        $query = $em->createQuery(
-			    'SELECT p
-			    FROM AppBundle:Application p
-			    WHERE p.user = :id'
-			)->setParameter('id', $userId);
-			$userApp = $query->getResult();
-			
-			$i=0;
-			if ($userApp!=null)
-			{
-				foreach ($userApp as $user)
-				{
-					$userAppTeams[$i] = $user->getTeam();
-					$i++;
-				}
-			}
-			else
-			{
-				$userAppTeams=0;
-			}
-		}
-		else {
-			$userAppTeams=0;
-		}
+		$users = $query->getResult();
 		
         return array(
-            'entities' => $teams,
-            'appTeam'  => $userAppTeams,
+            'entities' => $users,
         );
     }
 	

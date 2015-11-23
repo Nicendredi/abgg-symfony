@@ -1,32 +1,70 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-<h1>Liste des joueurs</h1>
+    <h1>User list</h1>
 
-<table class="records_list">
-  <thead>
-    <tr>
-      <th>Pseudo</th>
-    {% if is_granted("ROLE_ADMIN") %}
-      <th>Nom</th>
-      <th>Prénom</th>
-    {% endif %}
-      <th>Equipe</th>
-      <th>Contacter</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for entity in entities %}
-    <tr>
-      <td>{{ entity.username }}</td>
-    {% if is_granted("ROLE_ADMIN") %}
-      <td>{{ entity.lastName }}</td>
-      <td>{{ entity.firstName }}</td>
-    {% endif %}
-      <td>{{ entity.team }}</td>
-      <td><a href='mailto:{{ entity.email }}'>E-Mail</a></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% endblock %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Ranking</th>
+                <th>UnderRanking</th>
+                <th>Role 1</th>
+                <th>Role 2</th>
+                <th>Role 3</th>
+                <th>Role 4</th>
+                <th>Role 5</th>
+                <th>Manager</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.username }}</td>
+                {%if entity.experience.ranking%}
+	                <td>{{ entity.experience.ranking.name }}</td>
+	            {%else%}
+	            	<td></td>
+	            {%endif%}
+                {%if entity.experience.underRanking%}
+	                <td>{{ entity.experience.underRanking.name }}</td>
+	            {%else%}
+	            	<td></td>
+	            {%endif%}
+                {%if entity.experience.role1%}
+	                <td>{{ entity.experience.role1.name }}</td>
+	            {%else%}
+	            	<td></td>
+	            {%endif%}
+                {%if entity.experience.role2%}
+	                <td>{{ entity.experience.role2.name }}</td>
+	            {%else%}
+	            	<td></td>
+	            {%endif%}
+                {%if entity.experience.role3%}
+	                <td>{{ entity.experience.role3.name }}</td>
+	            {%else%}
+	            	<td></td>
+	            {%endif%}
+                {%if entity.experience.role4%}
+	                <td>{{ entity.experience.role4.name }}</td>
+	            {%else%}
+	            	<td></td>
+	            {%endif%}
+                {%if entity.experience.role5%}
+	                <td>{{ entity.experience.role5.name }}</td>
+	            {%else%}
+	            	<td></td>
+	            {%endif%}
+                {%if entity.manager%}
+	            	<td>MANAGER</td>
+	            {%else%}
+	            	<td></td>
+	            {%endif%}
+                	
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% endblock %}

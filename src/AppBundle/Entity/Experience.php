@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Validator\Constraints as AppAssert;
 
+
 /**
  * Experience
  *
@@ -28,7 +29,6 @@ class Experience
      * @var ranking
      *
      * @ORM\ManyToOne(targetEntity="Ranking", inversedBy="experience")
-     * @Assert\NotBlank
      */
     private $ranking;
 
@@ -56,44 +56,13 @@ class Experience
     private $steam;
 
     /**
-     * @var Role
+     * @var postes
      *
-     * @ORM\ManyToOne(targetEntity="Role", inversedBy="experience")
- 	 * @ORM\JoinColumn(name="role_1_id", referencedColumnName="id", nullable=true)
+     * @ORM\OneToOne(targetEntity="Postes", cascade={"persist", "remove"})
+     * @Assert\NotBlank
      */
-    private $role_1;
+    private $postes;
 
-    /**
-     * @var Role
-     *
-     * @ORM\ManyToOne(targetEntity="Role")
- 	 * @ORM\JoinColumn(name="role_2_id", referencedColumnName="id", nullable=true)
-     */
-    private $role_2;
-
-    /**
-     * @var Role
-     *
-     * @ORM\ManyToOne(targetEntity="Role")
- 	 * @ORM\JoinColumn(name="role_3_id", referencedColumnName="id", nullable=true)
-     */
-    private $role_3;
-
-    /**
-     * @var Role
-     *
-     * @ORM\ManyToOne(targetEntity="Role")
- 	 * @ORM\JoinColumn(name="role_4_id", referencedColumnName="id", nullable=true)
-     */
-    private $role_4;
-
-    /**
-     * @var Role
-     *
-     * @ORM\ManyToOne(targetEntity="Role")
- 	 * @ORM\JoinColumn(name="role_5_id", referencedColumnName="id", nullable=true)
-     */
-    private $role_5;
 
 
     /**
@@ -198,121 +167,31 @@ class Experience
         return $this->steam;
     }
 
+
     /**
-     * Set role_1
+     * Set postes
      *
-     * @param \AppBundle\Entity\Role $role1
+     * @param \AppBundle\Entity\Postes $postes
      * @return Experience
      */
-    public function setRole1(\AppBundle\Entity\Role $role1 = null)
+    public function setPostes(Postes $postes)
     {
-        $this->role_1 = $role1;
+        $this->postes = $postes;
 
         return $this;
     }
 
     /**
-     * Get role_1
+     * Get postes
      *
-     * @return \AppBundle\Entity\Role
+     * @return \AppBundle\Entity\User
      */
-    public function getRole1()
+    public function getPostes()
     {
-        return $this->role_1;
+        return $this->postes;
     }
-
-    /**
-     * Set role_2
-     *
-     * @param \AppBundle\Entity\Role $role2
-     * @return Experience
-     */
-    public function setRole2(\AppBundle\Entity\Role $role2 = null)
-    {
-        $this->role_2 = $role2;
-
-        return $this;
-    }
-
-    /**
-     * Get role_2
-     *
-     * @return \AppBundle\Entity\Role
-     */
-    public function getRole2()
-    {
-        return $this->role_2;
-    }
-
-    /**
-     * Set role_3
-     *
-     * @param \AppBundle\Entity\Role $role3
-     * @return Experience
-     */
-    public function setRole3(\AppBundle\Entity\Role $role3 = null)
-    {
-        $this->role_3 = $role3;
-
-        return $this;
-    }
-
-    /**
-     * Get role_3
-     *
-     * @return \AppBundle\Entity\Role
-     */
-    public function getRole3()
-    {
-        return $this->role_3;
-    }
-
-    /**
-     * Set role_4
-     *
-     * @param \AppBundle\Entity\Role $role4
-     * @return Experience
-     */
-    public function setRole4(\AppBundle\Entity\Role $role4 = null)
-    {
-        $this->role_4 = $role4;
-
-        return $this;
-    }
-
-    /**
-     * Get role_4
-     *
-     * @return \AppBundle\Entity\Role
-     */
-    public function getRole4()
-    {
-        return $this->role_4;
-    }
-
-    /**
-     * Set role_5
-     *
-     * @param \AppBundle\Entity\Role $role5
-     * @return Experience
-     */
-    public function setRole5(\AppBundle\Entity\Role $role5 = null)
-    {
-        $this->role_5 = $role5;
-
-        return $this;
-    }
-
-    /**
-     * Get role_5
-     *
-     * @return \AppBundle\Entity\Role
-     */
-    public function getRole5()
-    {
-        return $this->role_5;
-    }
-
+	
+	
     public function __toString()
     {
       return $this->username;

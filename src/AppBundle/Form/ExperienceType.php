@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use AppBundle\Entity\RankingRepository;
 use AppBundle\Entity\RoleRepository;
+use AppBundle\Form\PostesType;
 
 class ExperienceType extends AbstractType
 {
@@ -43,51 +44,12 @@ class ExperienceType extends AbstractType
 		if ($game == 'League of Legends')
 		{
 			$builder
-            ->add('underRanking','entity', array(
-				'required' => false,
-			   'class' => 'AppBundle:UnderRanking',
-			   'choice_label' => 'name',
-			))
-            ->add('role_1','entity', array(
-			    'class' => 'AppBundle:Role',
-			    'query_builder' => function (RoleRepository $er) use ($gameId)
-			    {
-			        return $er->getGameId($gameId);
-			    },
-			    'choice_label' => 'name',
-			))
-            ->add('role_2','entity', array(
-			    'class' => 'AppBundle:Role',
-			    'query_builder' => function (RoleRepository $er) use ($gameId)
-			    {
-			        return $er->getGameId($gameId);
-			    },
-			    'choice_label' => 'name',
-			))
-            ->add('role_3','entity', array(
-			    'class' => 'AppBundle:Role',
-			    'query_builder' => function (RoleRepository $er) use ($gameId)
-			    {
-			        return $er->getGameId($gameId);
-			    },
-			    'choice_label' => 'name',
-			))
-            ->add('role_4','entity', array(
-			    'class' => 'AppBundle:Role',
-			    'query_builder' => function (RoleRepository $er) use ($gameId)
-			    {
-			        return $er->getGameId($gameId);
-			    },
-			    'choice_label' => 'name',
-			))
-            ->add('role_5','entity', array(
-			    'class' => 'AppBundle:Role',
-			    'query_builder' => function (RoleRepository $er) use ($gameId)
-			    {
-			        return $er->getGameId($gameId);
-			    },
-			    'choice_label' => 'name',
-			));
+            ->add('underRanking','entity',array(
+            	'required' => false,
+			    'class' => 'AppBundle:UnderRanking',
+			    'choice_label' => 'name'))
+            ->add('postes', new PostesType());
+            
 		}
 		else {
 			$builder

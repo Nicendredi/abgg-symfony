@@ -44,7 +44,7 @@ class Role
 	 * @var \Doctrine\Common\Collections\Collection|Player[]
 	 * 
      *
-     * @ORM\OnetoMany(targetEntity="Player", mappedBy="role",cascade={"persist", "remove"})
+     * @ORM\OnetoMany(targetEntity="Player", mappedBy="role",cascade={"persist"})
      **/
     private $player;
 
@@ -52,7 +52,7 @@ class Role
 	 * @var \Doctrine\Common\Collections\Collection|Application[]
 	 * 
      *
-     * @ORM\OnetoMany(targetEntity="Application", mappedBy="role",cascade={"persist", "remove"})
+     * @ORM\OnetoMany(targetEntity="Application", mappedBy="role",cascade={"persist"})
      **/
     private $application;
 
@@ -167,7 +167,7 @@ class Role
     {
         $this->application->removeElement($application);
     }
-	
+ 
 
     public function __toString()
     {
