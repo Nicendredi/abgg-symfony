@@ -10,9 +10,8 @@
 		<br>
 		<center><h1>Inscription Etape 1</h1></center>
 		<br>
-		<br>
-		<br>
-		<br>
+		<img width="100%" src="{{ asset('bundles/app/images/etape1.png') }}" />
+		<br><br><br>
 		
 		{% trans_default_domain 'FOSUserBundle' %}
 		{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}

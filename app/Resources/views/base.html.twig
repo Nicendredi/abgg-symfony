@@ -43,6 +43,35 @@
 		          Mon profil [{{app.user.username}}]</a></li>
 			          {% if app.user.team != null%}
 			          <li><a href="{{ path('equipe') }}">Mon équipe [{{app.user.team.name}}]</a></li>
+				          {%if app.user.tournament%}
+				          	<li><a href="{% block search_player %}{{ path('search_player', { 'game': app.user.tournament.systName }) }}{% endblock %}">
+					      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					      		Rechercher joueurs <span class="badge">{{ searchUsersService.getSearchingUsers(app.user.tournament.id) }}</span>
+					      </a></li>
+	      				  {% endif %}
+			          {%else%}
+			          	{%if app.user.manager == true or app.user.experience%}
+					      <li><a href="{{ path('team_new' )}}">
+						  	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						  	Inscrire une équipe
+					      </a></li>
+					    {%elseif (app.user.tournament==null)%}
+						    <li><a href="{{ path('game_choose') }}">
+						    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						        Choisir le tournoi
+						    </li></a>
+					    {%elseif (app.user.experience==null)%}
+						    <li><a href="{{ path('experience_new_user') }}">
+						    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						        Saisir Ranking/Roles
+						    </li></a>
+					    {%endif%}
+				      {%if app.user.tournament%}
+					      <li><a href="{% block search_team %}{{ path('search_team',  { 'game': app.user.tournament.systName }) }}{% endblock %}">
+	      					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+	      					Rechercher équipes
+	      				  </a></li>
+      				  {% endif %}
 			          {% endif %}
 		          <li><a class="btn btn-inverse" href="{{ path('fos_user_security_logout') }}">
 		          <span class="glyphicon glyphicon-off" aria-hidden="true"></span>

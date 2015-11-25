@@ -59,7 +59,6 @@ class Experience
      * @var postes
      *
      * @ORM\OneToOne(targetEntity="Postes", cascade={"persist", "remove"})
-     * @Assert\NotBlank
      */
     private $postes;
 

@@ -40,6 +40,9 @@ services:
     checkDataServices:
         class: AppBundle\Services\CheckDataServices
         arguments: [ @doctrine.orm.entity_manager ]
+    searchUsersService:
+        class: AppBundle\Services\SearchUsers
+        arguments: [ @doctrine.orm.entity_manager ]
     app.registration_email_processor:
         class: AppBundle\Services\EmailRegisterProcessor
         arguments: [@mailer]

@@ -17,8 +17,22 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+		$game = $em -> getRepository('AppBundle:Game')->findByName('League of Legends');
+		$gameId = $game[0]->getId();
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:User p
+		    WHERE p.tournament = :id
+		    AND p.team is null
+		    AND p.player is null'
+		)->setParameter('id', $gameId);
+		$users = $query->getResult();
+		
       return $this->render('default/index.html.twig', array(
           'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
+          'searchUsers' => count($users),
       ));
     }
 
@@ -54,12 +68,29 @@ class DefaultController extends Controller
 		)->setParameter('id', $gameId);
 		$users = $query->getResult();
 		
+		if(($this->getUser()) && ($this->getUser()->getTournament()))
+		{
+	        $em = $this->getDoctrine()->getManager();
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Game p
+			    WHERE p.name = :name'
+			)->setParameter('name', $this->getUser()->getTournament()->getName());
+			$checkGame = $query->getResult();
+			$checking=$checkGame[0]->getName();
+		}
+		else
+		{
+			$checking=0;
+		}
+		
       return $this->render('default/lol.html.twig', array(
           'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
           'entities' => $listEntities,
           'game'     => $game,
           'games'   => $game[0],
-          'searchUsers' => count($users)
+          'searchUsers' => count($users),
+          'checkGame' => $checking
       ));
     }
 
@@ -84,11 +115,41 @@ class DefaultController extends Controller
 				$i++;
 			}
 		}
+		
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:User p
+		    WHERE p.tournament = :id
+		    AND p.team is null
+		    AND p.player is null'
+		)->setParameter('id', $gameId);
+		$users = $query->getResult();
+		
+		
+		if(($this->getUser()) && ($this->getUser()->getTournament()))
+		{
+	        $em = $this->getDoctrine()->getManager();
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Game p
+			    WHERE p.name = :name'
+			)->setParameter('name', $this->getUser()->getTournament()->getName());
+			$checkGame = $query->getResult();
+			$checking=$checkGame[0]->getName();
+		}
+		else
+		{
+			$checking=0;
+		}
+		
       return $this->render('default/csgo.html.twig', array(
           'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
           'entities' => $listEntities,
           'game'     => $game,
           'games'   => $game[0],
+          'searchUsers' => count($users),
+          'checkGame' => $checking
       ));
     }
 

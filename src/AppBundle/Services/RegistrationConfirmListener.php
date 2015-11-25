@@ -31,11 +31,11 @@ class RegistrationConfirmListener implements EventSubscriberInterface
     public function onRegistrationSuccess(FormEvent $event)
     {
 
-        $event = new RegistrationCompleteEvent($this->getUser());
+        //$event = new RegistrationCompleteEvent($this->getUser());
 
-        $this->get('event_dispatcher')
-            ->dispatch(BgfesEvents::onRegistrationComplete, $event)
-            ;
+        //$this->get('event_dispatcher')
+        //    ->dispatch(BgfesEvents::onRegistrationComplete, $event)
+        //    ;
 
         $url = $this->router->generate('game_choose');
 

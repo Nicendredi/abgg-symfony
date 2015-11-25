@@ -50,7 +50,6 @@ class ExperienceController extends Controller
 			
             $em->flush();
 
-<<<<<<< HEAD
             //$event = new RegistrationCompleteEvent($this->getUser());
 
             //$this
@@ -58,8 +57,6 @@ class ExperienceController extends Controller
             //->dispatch(BgfesEvents::onRegistrationComplete, $event)
             //;
 
-=======
->>>>>>> origin/master
             return $this->redirect($this->generateUrl('profil'));
         }
         return array(

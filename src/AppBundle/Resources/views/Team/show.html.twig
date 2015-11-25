@@ -23,7 +23,8 @@
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    <a class="btn btn-default" href="{{ path('team_edit', {'id':app.user.team.id} ) }}">
+        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+        Modifier
+    </a>
 {% endblock %}

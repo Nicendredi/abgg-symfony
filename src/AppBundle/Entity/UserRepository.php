@@ -16,6 +16,7 @@ class UserRepository extends EntityRepository
     {
 		$query = $this->createQueryBuilder('p')
 		    ->where('p.tournament = :id')
+		    ->andWhere('p.team is null')
 		    ->setParameter('id', $gameId);
 
         return $query;

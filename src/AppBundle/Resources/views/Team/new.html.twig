@@ -10,7 +10,7 @@
 		    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		    
 		    <h1>Team creation</h1>
-		{{ form_start(form) }}
+			{{ form_start(form) }}
 		    {{ form_rest(form) }}
 		        {{ form_widget(form.player.vars.prototype) }}
 		        <input class="btn btn-default"  id="addPlayerBtn" type="button" value="Add Player">
@@ -29,7 +29,7 @@
 		                var newFormLi = $('' +
 		                '<div id="'+ i++ +'"> ' +
 		                    '<hr>' +
-		                    '<button type="button" id="delete"><img id="img" src="../bundles/app/images/delete.png"> ' +
+		                    '<button type="button" id="delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' +
 		                ' </div>').append(newForm);
 		                container.append(newFormLi);
 		                $('button').click(function() {

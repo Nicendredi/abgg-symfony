@@ -8,7 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
+use AppBundle\Entity\Role;
 use AppBundle\Form\RegistrationType;
+use AppBundle\Form\SearchType;
 use AppBundle\Services\CheckDataServices;
 
 /**
@@ -36,23 +38,28 @@ class UserController extends Controller
             'entities' => $entities,
         );
     }
+	
     /**
      * Lists all User entities but only the information avaible to everyone.
      *
      * @Route("/search/{game}", name="search_player")
      * @Method("GET")
-     * @Template()
+     * @Template("AppBundle:User:search.html.twig")
      */
-    public function searchAction($game)
+    public function searchAction(Request $request)
     {
+    	$requestURL = $this->getRequest()->getRequestUri();
+		$exploded = explode("/",$requestURL);
+
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Game p
 		    WHERE p.systName = :name'
-		)->setParameter('name', $game);
+		)->setParameter('name', $exploded[6]);
 		$gaming = $query->getResult();
 		$gameId = $gaming[0]->getId();
+		$games = $gaming[0]->getSystName();
 		
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
@@ -64,11 +71,172 @@ class UserController extends Controller
 		)->setParameter('id', $gameId);
 		$users = $query->getResult();
 		
+			
+		if($games=='lol')
+		{
+	        $form = $this->createFormBuilder()
+	            ->add('ranking', 'choice', array(
+	            	'label'    => 'Par Niveau',
+				    'choices'  => array('asc' => '+ au - élevé', 'desc' => '- au + élevé'),
+				    'required' => false,
+				    'expanded' => true,
+				    'multiple' => true
+				))
+				
+				->add('role','entity', array(
+				    'required' => false,
+			    	'class' => 'AppBundle:Role',
+				    'choice_label' => 'name'))
+				->add('manager', 'choice', array(
+	            	'label'    => 'Par Niveau',
+				    'choices'  => array('man' => 'Manager'),
+				    'required' => false,
+				    'expanded' => true,
+				    'multiple' => true
+				))
+				->add('main', 'choice', array(
+	            	'label'    => 'Par Niveau',
+				    'choices'  => array(
+					    'top' => 'Top Lane',
+					    'mid' => 'Middle Lane',
+					    'bot' => 'Bottom Carry',
+					    'sup' => 'Support ',
+					    'jungle' => 'Jungle',
+						),
+				    'required' => false,
+				    'expanded' => true,
+				    'multiple' => true
+				))
+				->add('pseudo','text', array(
+	            	'label'    => 'Chercher par pseudo',
+				    'required' => false,
+				))
+	            ->add('save', 'submit', array('label' => 'Rechercher'))
+	            ->getForm();
+		}
+		else
+		{
+	        $form = $this->createFormBuilder()
+	            ->add('ranking', 'choice', array(
+	            	'label'    => 'Par Niveau',
+				    'choices'  => array('asc' => '+ au - élevé', 'desc' => '- au + élevé'),
+				    'required' => false,
+				    'expanded' => true,
+				    'multiple' => true
+				))
+				->add('manager', 'choice', array(
+	            	'label'    => 'Par Niveau',
+				    'choices'  => array('man' => 'Manager'),
+				    'required' => false,
+				    'expanded' => true,
+				    'multiple' => true
+				))
+				->add('pseudo','text', array(
+	            	'label'    => 'Chercher par pseudo',
+				    'required' => false,
+				))
+	            ->getForm();
+		}
+		
         return array(
             'entities' => $users,
+            'game' => $games,
+            'form'   => $form->createView()
         );
     }
-	
+    /**
+     * Creates a new User entity.
+     *
+     * @Route("/search/{game}", name="player_create")
+     * @Method("POST")
+     * @Template("AppBundle:User:new.html.twig")
+     */
+    public function createSearchAction(Request $request)
+    {
+    	$requestURL = $this->getRequest()->getRequestUri();
+		$exploded = explode("/",$requestURL);
+		
+		if($exploded[6]=='lol')
+		{
+	        $form = $this->createFormBuilder()
+	            ->add('ranking', 'choice', array(
+	            	'label'    => 'Par Niveau',
+				    'choices'  => array('asc' => '+ au - élevé', 'desc' => '- au + élevé'),
+				    'required' => false,
+				    'expanded' => true,
+				    'multiple' => true
+				))
+				
+				->add('role','entity', array(
+				    'required' => false,
+			    	'class' => 'AppBundle:Role',
+				    'choice_label' => 'name'))
+				->add('manager', 'choice', array(
+	            	'label'    => 'Par Niveau',
+				    'choices'  => array('man' => 'Manager'),
+				    'required' => false,
+				    'expanded' => true,
+				    'multiple' => true
+				))
+				->add('main', 'choice', array(
+	            	'label'    => 'Par Niveau',
+				    'choices'  => array(
+					    'top' => 'Top Lane',
+					    'mid' => 'Middle Lane',
+					    'bot' => 'Bottom Carry',
+					    'sup' => 'Support ',
+					    'jungle' => 'Jungle',
+						),
+				    'required' => false,
+				    'expanded' => true,
+				    'multiple' => true
+				))
+				->add('pseudo','text', array(
+	            	'label'    => 'Chercher par pseudo',
+				    'required' => false,
+				))
+	            ->getForm();
+		}
+		else
+		{
+	        $form = $this->createFormBuilder()
+	            ->add('ranking', 'choice', array(
+	            	'label'    => 'Par Niveau',
+				    'choices'  => array('asc' => '+ au - élevé', 'desc' => '- au + élevé'),
+				    'required' => false,
+				    'expanded' => true,
+				    'multiple' => true
+				))
+				->add('manager', 'choice', array(
+	            	'label'    => 'Par Niveau',
+				    'choices'  => array('man' => 'Manager'),
+				    'required' => false,
+				    'expanded' => true,
+				    'multiple' => true
+				))
+				->add('pseudo','text', array(
+	            	'label'    => 'Chercher par pseudo',
+				    'required' => false,
+				))
+	            ->getForm();
+		}
+			
+        $form->handleRequest($request);
+		var_dump($form->getData());exit;
+
+        if ($form->isValid()) {
+			var_dump('in');exit;
+
+            return $this->redirect($this->generateUrl('player_show', array('id' => $entity->getId())));
+        }
+			var_dump('out');exit;
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
     /**
      * Creates a new User entity.
      *
@@ -142,6 +310,7 @@ class UserController extends Controller
 		$game = $checkData -> checkData($user, 'getTournament', 'Game');
 		$role = $checkData -> checkData($user, 'getRole', 'Role');
 		$team = $checkData -> checkData($user, 'getTeam', 'Team');
+		
 		
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');

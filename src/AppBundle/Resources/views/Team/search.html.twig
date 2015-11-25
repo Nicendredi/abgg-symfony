@@ -22,10 +22,16 @@
       			{%set test=1%}
       		{%endif%}
       	{%endfor%}
-      	{%if (test != 1) and (app.user.tournament == entity.tournament)%}
+      	{%if (test != 1) and (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
       		<td><a class="btn btn-default" href="{{ path('team_application', {'id':entity.id}) }}">Postuler</a></td>
       	{%elseif (app.user.tournament != entity.tournament)%}
       		<td></td>
+      	{%elseif (app.user.experience == null)%}
+      		<td>
+	      		<div class="alert alert-warning">
+				  <strong>Warning!</strong> Finissez votre inscription afin de postuler à une équipe
+				</div>
+			</td>
       	{%else%}
       		<td><p>En attente d'une réponse</p></td>
       	{%endif%}

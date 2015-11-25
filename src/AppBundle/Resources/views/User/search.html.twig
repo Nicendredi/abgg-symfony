@@ -1,6 +1,38 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+	<link href="{{ asset('bundles/app/css/search.css') }}" rel="stylesheet" media="screen">
+	<div class="row">
+		{{ form_start(form) }}
+		{% form_theme form 'bootstrap_3_layout.html.twig' %}
+		<div class="col-xs-2"> </div>
+		<div class="col-xs-2">
+			<h3>Par Niveau</h3>
+			{{ form(form.ranking) }}
+		</div>
+		<div class="col-xs-2">
+			<h3>Un role spécifique</h3>
+			{{ form(form.role) }}
+			{{ form(form.manager) }}
+		</div>
+		<div class="col-xs-2">
+			<h3>Par Joueur</h3>
+			{{ form(form.main) }}
+			<br>
+		</div>
+		<div class="col-xs-2">
+			<h3>Par Pseudo</h3>
+			<br>
+			{{ form(form.pseudo) }}
+			<br>
+		</div>
+		<div class="col-xs-2"> </div>
+	</div>
+	<div class="formend">
+		<input class="btn btn-default"  type="submit" value="Send">
+		{{ form_end(form) }}
+	</div>
+
     <h1>User list</h1>
 
     <table class="table table-hover">
@@ -8,12 +40,14 @@
             <tr>
                 <th>Username</th>
                 <th>Ranking</th>
+	            {%if game =='lol'%}
                 <th>UnderRanking</th>
                 <th>Top</th>
                 <th>Mid</th>
                 <th>Bot</th>
                 <th>Support</th>
                 <th>Jungle</th>
+                {%endif%}
                 <th>Manager</th>
             </tr>
         </thead>
@@ -21,24 +55,34 @@
         {% for entity in entities %}
             <tr>
                 <td>{{ entity.username }}</td>
-                {%if entity.experience%}
-	                {%if entity.experience.ranking%}
-		                <td>{{ entity.experience.ranking.name }}</td>
-		            {%else%}
+		        {%if game =='lol'%}
+	                {%if entity.experience%}
+		                {%if entity.experience.ranking%}
+			                <td>{{ entity.experience.ranking.name }}</td>
+			            {%else%}
+			            	<td></td>
+			            {%endif%}
+		                {%if entity.experience.underRanking%}
+			                <td>{{ entity.experience.underRanking.name }}</td>
+			            {%else%}
+			            	<td></td>
+			            {%endif%}
+		                {%if entity.experience.postes%}
+			                <td>{{ entity.experience.postes.top }}</td>
+			                <td>{{ entity.experience.postes.mid }}</td>
+			                <td>{{ entity.experience.postes.bot }}</td>
+			                <td>{{ entity.experience.postes.sup }}</td>
+			                <td>{{ entity.experience.postes.jungle }}</td>
+			            {%else%}
+			            	<td></td>
+			            	<td></td>
+			            	<td></td>
+			            	<td></td>
+			            	<td></td>
+			            {%endif%}
+			        {%else%}
 		            	<td></td>
-		            {%endif%}
-	                {%if entity.experience.underRanking%}
-		                <td>{{ entity.experience.underRanking.name }}</td>
-		            {%else%}
 		            	<td></td>
-		            {%endif%}
-	                {%if entity.experience.postes%}
-		                <td>{{ entity.experience.postes.top }}</td>
-		                <td>{{ entity.experience.postes.mid }}</td>
-		                <td>{{ entity.experience.postes.bot }}</td>
-		                <td>{{ entity.experience.postes.sup }}</td>
-		                <td>{{ entity.experience.postes.jungle }}</td>
-		            {%else%}
 		            	<td></td>
 		            	<td></td>
 		            	<td></td>
@@ -46,13 +90,15 @@
 		            	<td></td>
 		            {%endif%}
 		        {%else%}
+	                {%if entity.experience%}
+		                {%if entity.experience.ranking%}
+			                <td>{{ entity.experience.ranking.name }}</td>
+			            {%else%}
+			            	<td></td>
+			            {%endif%}
+		            {%else%}
 		            	<td></td>
-		            	<td></td>
-		            	<td></td>
-		            	<td></td>
-		            	<td></td>
-		            	<td></td>
-		            	<td></td>
+			        {%endif%}
 		        {%endif%}
                 {%if entity.manager%}
 	            	<td>MANAGER</td>
