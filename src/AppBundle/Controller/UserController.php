@@ -12,6 +12,7 @@ use AppBundle\Entity\Role;
 use AppBundle\Form\RegistrationType;
 use AppBundle\Form\SearchType;
 use AppBundle\Services\CheckDataServices;
+use AppBundle\Services\SearchFormService;
 
 /**
  * User controller.
@@ -71,72 +72,16 @@ class UserController extends Controller
 		)->setParameter('id', $gameId);
 		$users = $query->getResult();
 		
-			
-		if($games=='lol')
-		{
-	        $form = $this->createFormBuilder()
-	            ->add('ranking', 'choice', array(
-	            	'label'    => 'Par Niveau',
-				    'choices'  => array('asc' => '+ au - élevé', 'desc' => '- au + élevé'),
-				    'required' => false,
-				    'expanded' => true,
-				    'multiple' => true
-				))
-				
-				->add('role','entity', array(
-				    'required' => false,
-			    	'class' => 'AppBundle:Role',
-				    'choice_label' => 'name'))
-				->add('manager', 'choice', array(
-	            	'label'    => 'Par Niveau',
-				    'choices'  => array('man' => 'Manager'),
-				    'required' => false,
-				    'expanded' => true,
-				    'multiple' => true
-				))
-				->add('main', 'choice', array(
-	            	'label'    => 'Par Niveau',
-				    'choices'  => array(
-					    'top' => 'Top Lane',
-					    'mid' => 'Middle Lane',
-					    'bot' => 'Bottom Carry',
-					    'sup' => 'Support ',
-					    'jungle' => 'Jungle',
-						),
-				    'required' => false,
-				    'expanded' => true,
-				    'multiple' => true
-				))
-				->add('pseudo','text', array(
-	            	'label'    => 'Chercher par pseudo',
-				    'required' => false,
-				))
-	            ->add('save', 'submit', array('label' => 'Rechercher'))
-	            ->getForm();
-		}
-		else
-		{
-	        $form = $this->createFormBuilder()
-	            ->add('ranking', 'choice', array(
-	            	'label'    => 'Par Niveau',
-				    'choices'  => array('asc' => '+ au - élevé', 'desc' => '- au + élevé'),
-				    'required' => false,
-				    'expanded' => true,
-				    'multiple' => true
-				))
-				->add('manager', 'choice', array(
-	            	'label'    => 'Par Niveau',
-				    'choices'  => array('man' => 'Manager'),
-				    'required' => false,
-				    'expanded' => true,
-				    'multiple' => true
-				))
-				->add('pseudo','text', array(
-	            	'label'    => 'Chercher par pseudo',
-				    'required' => false,
-				))
-	            ->getForm();
-		}
+		$function='createForm'.$games;
+		$formArray = $this->get('searchFormService')->$function();
+		
+	    $formBuilder = $this->createFormBuilder($formArray);
+	
+	    foreach($formArray as $field) {
+	        $formBuilder->add($field['name'], $field['type'],$field['array']);
+	    }        
+	
+	    $form = $formBuilder->getForm();
 		
         return array(
             'entities' => $users,
@@ -147,89 +92,56 @@ class UserController extends Controller
     /**
      * Creates a new User entity.
      *
-     * @Route("/search/{game}", name="player_create")
+     * @Route("/search/{game}", name="search_player_by")
      * @Method("POST")
-     * @Template("AppBundle:User:new.html.twig")
+     * @Template("AppBundle:User:search.html.twig")
      */
     public function createSearchAction(Request $request)
     {
     	$requestURL = $this->getRequest()->getRequestUri();
 		$exploded = explode("/",$requestURL);
+		$games = $exploded[6];
 		
-		if($exploded[6]=='lol')
-		{
-	        $form = $this->createFormBuilder()
-	            ->add('ranking', 'choice', array(
-	            	'label'    => 'Par Niveau',
-				    'choices'  => array('asc' => '+ au - élevé', 'desc' => '- au + élevé'),
-				    'required' => false,
-				    'expanded' => true,
-				    'multiple' => true
-				))
-				
-				->add('role','entity', array(
-				    'required' => false,
-			    	'class' => 'AppBundle:Role',
-				    'choice_label' => 'name'))
-				->add('manager', 'choice', array(
-	            	'label'    => 'Par Niveau',
-				    'choices'  => array('man' => 'Manager'),
-				    'required' => false,
-				    'expanded' => true,
-				    'multiple' => true
-				))
-				->add('main', 'choice', array(
-	            	'label'    => 'Par Niveau',
-				    'choices'  => array(
-					    'top' => 'Top Lane',
-					    'mid' => 'Middle Lane',
-					    'bot' => 'Bottom Carry',
-					    'sup' => 'Support ',
-					    'jungle' => 'Jungle',
-						),
-				    'required' => false,
-				    'expanded' => true,
-				    'multiple' => true
-				))
-				->add('pseudo','text', array(
-	            	'label'    => 'Chercher par pseudo',
-				    'required' => false,
-				))
-	            ->getForm();
-		}
-		else
-		{
-	        $form = $this->createFormBuilder()
-	            ->add('ranking', 'choice', array(
-	            	'label'    => 'Par Niveau',
-				    'choices'  => array('asc' => '+ au - élevé', 'desc' => '- au + élevé'),
-				    'required' => false,
-				    'expanded' => true,
-				    'multiple' => true
-				))
-				->add('manager', 'choice', array(
-	            	'label'    => 'Par Niveau',
-				    'choices'  => array('man' => 'Manager'),
-				    'required' => false,
-				    'expanded' => true,
-				    'multiple' => true
-				))
-				->add('pseudo','text', array(
-	            	'label'    => 'Chercher par pseudo',
-				    'required' => false,
-				))
-	            ->getForm();
-		}
-			
+		$function='createForm'.$exploded[6];
+		$formArray = $this->get('searchFormService')->$function();
+		
+	    $formBuilder = $this->createFormBuilder($formArray);
+	
+	    foreach($formArray as $field) {
+	        $formBuilder->add($field['name'], $field['type'],$field['array']);
+	    }       
+		
+	    $form = $formBuilder->getForm();
         $form->handleRequest($request);
-		var_dump($form->getData());exit;
 
         if ($form->isValid()) {
-			var_dump('in');exit;
 
-            return $this->redirect($this->generateUrl('player_show', array('id' => $entity->getId())));
+			$tradDataSearch = $this->get('traductionDataSearchService')->getTraductionData($form,$games);
+			
+			if($tradDataSearch=='error')
+			{
+				return $this->render("AppBundle:User:error.html.twig");
+			}
+
+
+			$function='createForm'.$games;
+			$formArray = $this->get('searchFormService')->$function();
+			
+		    $formBuilder = $this->createFormBuilder($formArray);
+		
+		    foreach($formArray as $field) {
+		        $formBuilder->add($field['name'], $field['type'],$field['array']);
+		    }        
+		
+		    $form = $formBuilder->getForm();
+			
+	        return array(
+	            'entities' => $tradDataSearch,
+	            'game' => $games,
+	            'form'   => $form->createView()
+	        );
         }
-			var_dump('out');exit;
+		var_dump('out');exit;
 
         return array(
             'entity' => $entity,

@@ -1,37 +1,9 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-	<link href="{{ asset('bundles/app/css/search.css') }}" rel="stylesheet" media="screen">
-	<div class="row">
-		{{ form_start(form) }}
-		{% form_theme form 'bootstrap_3_layout.html.twig' %}
-		<div class="col-xs-2"> </div>
-		<div class="col-xs-2">
-			<h3>Par Niveau</h3>
-			{{ form(form.ranking) }}
-		</div>
-		<div class="col-xs-2">
-			<h3>Un role spécifique</h3>
-			{{ form(form.role) }}
-			{{ form(form.manager) }}
-		</div>
-		<div class="col-xs-2">
-			<h3>Par Joueur</h3>
-			{{ form(form.main) }}
-			<br>
-		</div>
-		<div class="col-xs-2">
-			<h3>Par Pseudo</h3>
-			<br>
-			{{ form(form.pseudo) }}
-			<br>
-		</div>
-		<div class="col-xs-2"> </div>
-	</div>
-	<div class="formend">
-		<input class="btn btn-default"  type="submit" value="Send">
-		{{ form_end(form) }}
-	</div>
+	
+	
+		{{ form(form) }}
 
     <h1>User list</h1>
 
