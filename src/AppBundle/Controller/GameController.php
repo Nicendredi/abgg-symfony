@@ -1,7 +1,5 @@
 <?php
-
 namespace AppBundle\Controller;
-
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -9,8 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Game;
+use AppBundle\Entity\Experience;
 use AppBundle\Services\invitationServices;
-
 /**
  * Game controller.
  *
@@ -18,7 +16,6 @@ use AppBundle\Services\invitationServices;
  */
 class GameController extends Controller
 {
-
     /**
      * Lists all Game entities.
      *
@@ -29,14 +26,11 @@ class GameController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('AppBundle:Game')->findAll();
-
         return array(
             'entities' => $entities,
         );
     }
-
     /**
      * Finds and displays a choice between the games.
      *
@@ -49,14 +43,11 @@ class GameController extends Controller
         dump($this->container->get('session')->getId());
         
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('AppBundle:Game')->findAll();
-
         return array(
             'entities' => $entities,
         );
     }
-
     /**
      * Finds and displays a Game entity.
      *
@@ -67,17 +58,13 @@ class GameController extends Controller
     public function selectedAction($id)
     {        
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppBundle:Game')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Game entity.');
         }
-
         $user = $this->getUser();
         $user->setTournament($entity);
         $this->get('fos_user.user_manager')->updateUser($user, false);
-
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 		
@@ -87,8 +74,6 @@ class GameController extends Controller
             $invit->closeInvitation($user, $invitation);
         }
         $invitation = $this->container->get('session')->remove('invitation');
-
-
 		$manager = $user->getManager();
 		
 		if($manager==null)
@@ -97,12 +82,15 @@ class GameController extends Controller
 		}
 		else 
 		{
+			$experience = new Experience;
+			$user->setExperience($experience);
+        	$this->get('fos_user.user_manager')->updateUser($user, false);
+        	$em->flush();
 			$response = $this->forward('AppBundle:Default:profil');
 		}
         
         return $response;
     }
-
     /**
      * Finds and displays a Game entity.
      *
@@ -113,13 +101,10 @@ class GameController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppBundle:Game')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Game entity.');
         }
-
         return array(
             'entity'      => $entity,
         );

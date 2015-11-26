@@ -66,9 +66,7 @@ class UserController extends Controller
         $query = $em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:User p
-		    WHERE p.tournament = :id
-		    AND p.team is null
-		    AND p.player is null'
+		    WHERE p.tournament = :id'
 		)->setParameter('id', $gameId);
 		$users = $query->getResult();
 		

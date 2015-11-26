@@ -1,9 +1,31 @@
 {% extends 'base.html.twig' %}
 
+{%block stylesheets%}
+	<link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+	<link href="{{ asset('bundles/app/css/profil.css') }}" rel="stylesheet" media="screen"> 
+{%endblock%}
+
 {% block body -%}
 
-<!--<link href="{{ asset('bundles/app/css/profil.css') }}" rel="stylesheet" media="screen">-->
 
+
+	{%block baniere%}
+		<div id="baniere">
+			<div class="row">
+			  <div class="col-xs-3">
+			    <img width="100%" src="{{ asset('bundles/app/images/'~game.systName~'.png') }}" />
+			  </div>
+			  <div class="col-xs-6">
+			  <p>tttttttttttttttttttttttteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeest</p>
+			  </div>
+			  <div class="col-xs-1">
+			  	{% if ranking %}
+			  		<img src="{{ asset('bundles/app/images/'~game.systName~'/'~ranking.name~'.png') }}" />
+			  	{%endif%}
+			  </div>
+			</div>
+		</div>
+	{%endblock%}
 	
 	{%block user%}
 	    <h1>User</h1>
@@ -77,10 +99,6 @@
 				
 				    <table class="table table-hover">
 				        <tbody>
-				        	<tr>
-				        		<th>Image</th>
-				        		<td><img src="{{ asset('bundles/app/images/'~game.systName~'/'~ranking.name~'.png') }}" /></td>
-				        	</tr>
 				            <tr>
 				                <th>Name</th>
 				                <td>{{ ranking.name }}</td>

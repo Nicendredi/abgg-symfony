@@ -25,6 +25,7 @@ class TraductionDataSearchService
 		$ranking = $array['ranking'];
 		$manager = $array['manager'];
 		$pseudo = $array['pseudo'];
+		$players = $array['players'];
 		if($game=='lol')
 		{
 			$main = $array['main'];
@@ -59,7 +60,7 @@ class TraductionDataSearchService
 			{
 				switch($ranking)
 				{
-					case (count($ranking)==2):
+					case ((count($ranking))==2):
 						$form='error';
 						return $form;
 				        break;
@@ -88,7 +89,7 @@ class TraductionDataSearchService
 			    inner join AppBundle:Game g
 			    with p.tournament=g.id
 		    	where g.systName=\''.$game.'\'
-			    WHERE p.manager=1'
+			    and p.manager=1'
 			);
 			$users = $query->getResult();
 			
@@ -172,6 +173,25 @@ class TraductionDataSearchService
 			$pseudo='';
 		}
 
+		if($players)
+		{
+			switch($players)
+			{
+				case ((count($ranking))==2):
+					$joueurs='';
+			        break;
+				case (in_array("inscrit", $players)):
+					$joueurs=' and p.team is not null';
+			        break;
+				case (in_array("noninscrit", $players)):
+					$joueurs=' and p.team is null';
+			        break;
+				default:
+					$joueurs='';
+			        break;
+			}
+		}
+
 		if($mainRole !='')
 		{
 			$innerJoin =' inner join AppBundle:Postes po with e.postes=po.id';
@@ -179,15 +199,17 @@ class TraductionDataSearchService
 		else {
 			$innerJoin='';
 		}
+
         $query = $this->em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:User p
 		    inner join AppBundle:Experience e
-		    with p.experience=e.id
+		    with p.experience=e.id 
 		    inner join AppBundle:Game g
 		    with p.tournament=g.id '.$innerJoin.' 
-		    where g.systName=\''.$game.'\''.$mainRole.$ranking
+		    where g.systName=\''.$game.'\' '.$mainRole.$ranking.$joueurs
 		);
+		var_dump($query);exit;
 		$users = $query->getResult();
 		
 		return $users;

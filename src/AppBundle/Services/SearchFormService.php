@@ -48,7 +48,7 @@ class SearchFormService
             'name' => 'main', 
             'type' =>'choice',
             'array' => $array =  array(
-            	'label'    => 'Par Niveau',
+            	'label'    => 'Par Role',
 			    'choices'  => array(
 				    'top' => 'Top Lane',
 				    'mid' => 'Middle Lane',
@@ -69,6 +69,20 @@ class SearchFormService
 			    )
             ),
         4 => array(
+            'name' => 'players', 
+            'type' =>'choice',
+            'array' => $array =  array(
+            	'label'    => 'Par Role',
+			    'choices'  => array(
+				    'inscrit' => 'Inscrits',
+				    'noninscrit' => 'Non Inscrit',
+				    ),
+			    'required' => false,
+			    'expanded' => true,
+			    'multiple' => true
+            	)
+            ),
+        5 => array(
             'name' => 'save', 
             'type' =>'submit',
             'array' => $array = array(
@@ -113,6 +127,20 @@ class SearchFormService
 			    )
             ),
         3 => array(
+            'name' => 'players', 
+            'type' =>'choice',
+            'array' => $array =  array(
+            	'label'    => 'Inscrits dans une équipe',
+			    'choices'  => array(
+				    'inscrit' => 'Inscrits',
+				    'noninscrit' => 'Non Inscrit',
+				    ),
+			    'required' => false,
+			    'expanded' => true,
+			    'multiple' => true
+            	)
+			),
+        4 => array(
             'name' => 'save', 
             'type' =>'submit',
             'array' => $array = array(

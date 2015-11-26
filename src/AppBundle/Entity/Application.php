@@ -52,6 +52,13 @@ class Application
     private $user;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="origin", type="string", length=255)
+     */
+    private $origin;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -114,5 +121,28 @@ class Application
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set origin
+     *
+     * @param string $origin
+     * @return Application
+     */
+    public function setOrigin($origin)
+    {
+        $this->origin = $origin;
+
+        return $this;
+    }
+
+    /**
+     * Get origin
+     *
+     * @return string
+     */
+    public function getOrigin()
+    {
+        return $this->origin;
     }
 }
