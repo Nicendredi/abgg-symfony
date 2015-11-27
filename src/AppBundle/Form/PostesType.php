@@ -22,6 +22,7 @@ class PostesType extends AbstractType
 		
         $builder
             ->add('top', 'choice', array(
+				'label'=> 'Top Lane',
 	            'choices' => array(
 	            	1 => 1,
 	            	2 => 2,
@@ -31,6 +32,7 @@ class PostesType extends AbstractType
 				'expanded'=>false,
 				'multiple'=>false))
             ->add('mid', 'choice', array(
+				'label'=> 'Middle Lane',
 	            'choices' => array(
 	            	1 => 1,
 	            	2 => 2,
@@ -40,6 +42,7 @@ class PostesType extends AbstractType
 				'expanded'=>false,
 				'multiple'=>false))
             ->add('bot', 'choice', array(
+				'label'=> 'Bottom Carry',
 	            'choices' => array(
 	            	1 => 1,
 	            	2 => 2,
@@ -49,6 +52,7 @@ class PostesType extends AbstractType
 				'expanded'=>false,
 				'multiple'=>false))
             ->add('sup', 'choice', array(
+				'label'=> 'Support',
 	            'choices' => array(
 	            	1 => 1,
 	            	2 => 2,
@@ -58,6 +62,7 @@ class PostesType extends AbstractType
 				'expanded'=>false,
 				'multiple'=>false))
             ->add('jungle', 'choice', array(
+				'label'=> 'Jungle',
 	            'choices' => array(
 	            	1 => 1,
 	            	2 => 2,

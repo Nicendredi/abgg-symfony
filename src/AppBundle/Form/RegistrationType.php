@@ -15,15 +15,25 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName')
-            ->add('lastName')
-            ->add('telephone')
+            ->add('firstName','text',array(
+				'label'=> 'Nom'
+			))
+            ->add('lastName','text',array(
+				'label'=> 'Prénom'
+			))
+            ->add('telephone','text',array(
+				'label'=> 'Téléphone'
+			))
 			->add('birth','date', array(
+				'label'=> 'Date de Naissance',
 			    'input'  => 'datetime',
 			    'widget' => 'choice',
 			    'years' => range(1900,2015)
 			))
-			->add('manager')
+			->add('manager','checkbox',array(
+				'label'=> 'Cochez si vous êtes Manager d\'une équipe',
+				'required' =>false
+				))
         ;
     }
 

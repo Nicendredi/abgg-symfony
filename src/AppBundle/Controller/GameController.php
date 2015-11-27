@@ -84,6 +84,7 @@ class GameController extends Controller
 		{
 			$experience = new Experience;
 			$user->setExperience($experience);
+			$user->getExperience()->setUsername($user->getUsername());
         	$this->get('fos_user.user_manager')->updateUser($user, false);
         	$em->flush();
 			$response = $this->forward('AppBundle:Default:profil');

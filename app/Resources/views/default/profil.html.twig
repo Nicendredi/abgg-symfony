@@ -5,204 +5,201 @@
 	<link href="{{ asset('bundles/app/css/profil.css') }}" rel="stylesheet" media="screen"> 
 {%endblock%}
 
-{% block body -%}
-
-
-
-	{%block baniere%}
-		<div id="baniere">
-			<div class="row">
-			  <div class="col-xs-3">
+{% block body %}
+	<div id="baniere">
+		<div class="row">
+		  <div class="col-xs-3">
+			{% if game %}
 			    <img width="100%" src="{{ asset('bundles/app/images/'~game.systName~'.png') }}" />
-			  </div>
-			  <div class="col-xs-6">
-			  <p>tttttttttttttttttttttttteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeest</p>
-			  </div>
-			  <div class="col-xs-1">
+			    <center>
+				    <a class="btn btn-default" href="{{ path('game_choose') }}">
+				    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+				        Modifier
+				    </a>
+			    </center>
+			{%else%}
+				<br>
+			    <center>
+				    <a class="btn btn-default" href="{{ path('game_choose') }}">
+				    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				        Choisir le tournoi
+				    </a>
+			    </center>
+				<br>
+			{%endif%}
+		  </div>
+		  <div class="col-xs-6">
+		  {% if experience %}
+			  <br>
+			  <br>
+			  	<center><hp>{{ experience.username }}</hp></center>
+		  {%else%}
+			  <br>
+			  <br>
+			  	<center><hp>{{ app.user.username }}</hp></center>
+		  {%endif%}
+		  <br>
+		  </div>
+		  <div class="col-xs-1">
+			{%if game%}
+			  {%if experience%}
 			  	{% if ranking %}
 			  		<img src="{{ asset('bundles/app/images/'~game.systName~'/'~ranking.name~'.png') }}" />
+					<br>
+				    <center>
+					    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
+					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					        Modifier
+					    </a>
+				    </center>
 			  	{%endif%}
-			  </div>
-			</div>
+			  {%endif%}
+			  {%else%}
+				<br>
+			    <center>
+				    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
+				    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				        Saisir Ranking/Roles
+				    </a>
+			    </center>
+				<br>
+		  	{%endif%}
+		  </div>
 		</div>
-	{%endblock%}
+	</div>
 	
-	{%block user%}
-	    <h1>User</h1>
+	<div class="row">
+		<div class="col-xs-3">
+		    <h3>Données Persos</h3>
 	
-	    <table class="table table-hover">
-	        <tbody>
-	            <tr>
-	                <th>Firstname</th>
-	                <td>{{ user.firstName }}</td>
-	            </tr>
-	            <tr>
-	                <th>Lastname</th>
-	                <td>{{ user.lastName }}</td>
-	            </tr>
-	            <tr>
-	                <th>Telephone</th>
-	                <td>{{ user.telephone }}</td>
-	            </tr>
-	            <tr>
-	                <th>Date de Naissance</th>
-	                <td>{{ user.birth|date('Y-m-d') }}</td>
-	            </tr>
-	        </tbody>
-	    </table>
-	
-        <a class="btn btn-default" href="{{ path('player_edit', {'id':user.id} ) }}">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-            Modifier
-        </a>
-	{% endblock %}
-	
-	{% if game %}
-		{% block game %}
-		    <h1>Game</h1>
-		
 		    <table class="table table-hover">
 		        <tbody>
 		            <tr>
-		                <th>Name</th>
-		                <td>{{ game.name }}</td>
+		                <th>Firstname</th>
+		                <td>{{ user.firstName }}</td>
+		            </tr>
+		            <tr>
+		                <th>Lastname</th>
+		                <td>{{ user.lastName }}</td>
+		            </tr>
+		            <tr>
+		                <th>Telephone</th>
+		                <td>{{ user.telephone }}</td>
+		            </tr>
+		            <tr>
+		                <th>Date de Naissance</th>
+		                <td>{{ user.birth|date('Y-m-d') }}</td>
 		            </tr>
 		        </tbody>
 		    </table>
 		
-		    <a class="btn btn-default" href="{{ path('game_choose') }}">
-		    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-		        Modifier
-		    </a>
-		{% endblock %}
-		{% if experience %}
-			{% block experience %}
-			    <h1>Experience</h1>
-			
-			    <table class="table table-hover">
-			        <tbody>
-			            <tr>
-			                <th>Username</th>
-			                <td>{{ experience.username }}</td>
-			            </tr>
-			        </tbody>
-			    </table>
-			
-			    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
-			    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-			        Modifier
-			    </a>
-			{% endblock %}
-			{% if ranking %}
-				{% block ranking %}
-				    <h1>Ranking</h1>
+	        <a class="btn btn-default" href="{{ path('player_edit', {'id':user.id} ) }}">
+	            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+	            Modifier
+	        </a>
+		</div>
+	
+		<div class="col-xs-1"></div>
+		
+		<div class="col-xs-3">
+		{%if game%}
+			{% if experience %}
+				    <h3>In-Game</h3>
 				
 				    <table class="table table-hover">
 				        <tbody>
 				            <tr>
-				                <th>Name</th>
+				                <th>Pseudo In-Game</th>
+				                <td>{{ experience.username }}</td>
+				            <tr>
+				            </tr>
+				                <th>Classement</th>
 				                <td>{{ ranking.name }}</td>
 				            </tr>
 				            {% if underRanking %}
 					            <tr>
-					                <th>UnderRanking</th>
+					                <th>Sous-Classement</th>
 					                <td>{{ underRanking.name }}</td>
 					            </tr>
 				            {%endif%}
+				            {% if experience.steam %}
+					            <tr>
+					                <th>Pseudo Steam</th>
+					                <td>{{ experience.steam }}</td>
+					            </tr>
+				            {%endif%}
 				        </tbody>
-				    </table>
-				
+					    </table>
 				    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
 				    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 				        Modifier
 				    </a>
-				{% endblock %}
+				{%else%}
+						<br>
+					    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
+					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					        Modifier Ranking
+					    </a>
+						<br>
+				{%endif%}
 			{%else%}
-				{% block newRanking %}
 					<br>
-				    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
-				    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-				        Modifier Ranking
+				    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
+				    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				        Saisir Ranking/Roles
 				    </a>
 					<br>
-				{% endblock %}
 			{%endif%}
-		{%else%}
-			{% block newExperience %}
-				<br>
-			    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
-			    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-			        Saisir Ranking/Roles
-			    </a>
-				<br>
-			{% endblock %}
-		{%endif%}
-	{%else%}
-		{% block chooseGame %}
-			<br>
-		    <a class="btn btn-default" href="{{ path('game_choose') }}">
-		    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-		        Choisir le tournoi
-		    </a>
-			<br>
-		{% endblock %}
-	{%endif%}
-	
-	
-	
-	
-	{%if game%}
-		{% if team %}
-			{% block team %}
-			    <h1>Team</h1>
-			
-			    <table class="table table-hover">
-			        <tbody>
-			            <tr>
-			                <th>Name</th>
-			                <td>{{ team.name }}</td>
-			            </tr>
-			        </tbody>
-			    </table>
-			
-			    <a class="btn btn-default" href="{{ path('team_show', { 'id': team.id }) }}">
-			        Voir Equipe
-			    </a>
-			{% endblock %}
-		{%else%}
-			{% block newTeam %}
-				<br>
-			    <a class="btn btn-default" href="{{ path('team_new') }}">
-			    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-			        Créer une équipe
-			    </a>
-				<br>
-			    <a class="btn btn-default" href="{{ path('search_team', { 'game': game.name }) }}">
-			    	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-			        Chercher une équipe
-			    </a>
-				<br>
-			{% endblock %}
-		{%endif%}
-	{%endif%}
-	
-	{% if role %}
-		{% block role %}
-		    <h1>Role</h1>
+		</div>
 		
-		    <table class="table table-hover">
-		        <tbody>
-		            <tr>
-		                <th>Name</th>
-		                <td>{{ role.name }}</td>
-		            </tr>
-		        </tbody>
-		    </table>
+		<div class="col-xs-1"></div>
 		
-		    <a class="btn btn-default" href="{{ path('team_show', { 'id': team.id }) }}">
-		        Voir Equipe
-		    </a>
-		{% endblock %}
-	{%endif%}
+		<div class="col-xs-3">
+		{%if game and experience%}
+			{% if team %}
+				    <h3>Votre Equipe</h3>
+				
+				    <table class="table table-hover">
+				        <tbody>
+				            <tr>
+				                <th>Nom de l'équipe</th>
+				                <td>{{ team.name }}</td>
+				            </tr>
+				            <tr>
+				            	<th>Pseudo capitaine d'équipe<th>
+				            	<td>{{team.captain.experience.username}}</td>
+				            </tr>
+				            {%if role%}
+				            <tr>
+				            	<th>Role capitaine d'équipe</th>
+				            	<td>{{team.captain.role}}</td>
+				            </tr>
+				            <tr>
+				                <th>Votre role</th>
+				                <td>{{ role.name }}</td>
+				            </tr>
+				            {%endif%}
+				        </tbody>
+				    </table>
+				
+				    <a class="btn btn-default" href="{{ path('team_show', { 'id': team.id }) }}">
+				        Voir Equipe
+				    </a>
+			{%else%}
+					<br>
+				    <a class="btn btn-default" href="{{ path('team_new') }}">
+				    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				        Créer une équipe
+				    </a>
+					<br>
+				    <a class="btn btn-default" href="{{ path('search_team', { 'game': game.name }) }}">
+				    	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				        Chercher une équipe
+				    </a>
+					<br>
+			{%endif%}
+		{%endif%}
+		</div>
+	</div>
 	
 {% endblock %}

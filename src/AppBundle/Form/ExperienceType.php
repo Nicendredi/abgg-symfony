@@ -31,8 +31,11 @@ class ExperienceType extends AbstractType
 		$game=$this->game;
 		
         $builder
-            ->add('username')
+            ->add('username','text', array(
+				'label'=> 'Pseudo In-Game'
+			))
 			->add('ranking','entity', array(
+				'label'=> 'Classement',
 			    'class' => 'AppBundle:Ranking',
 			    'query_builder' => function (RankingRepository $er) use ($gameId)
 			    {
@@ -45,15 +48,20 @@ class ExperienceType extends AbstractType
 		{
 			$builder
             ->add('underRanking','entity',array(
+				'label'=> 'Sous-Classement',
             	'required' => false,
 			    'class' => 'AppBundle:UnderRanking',
 			    'choice_label' => 'name'))
-            ->add('postes', new PostesType());
+            ->add('postes', new PostesType(), array(
+				'label'=> 'Donnez une note de 1 (meilleur) à 5 (pas maitrisé) sur votre maitrise d\'un poste : '
+				));
             
 		}
 		else {
 			$builder
-				-> add('steam');
+				-> add('steam', 'text', array(
+					'label'=> 'Pseudo Steam'
+				));
 		}
     }
 	
