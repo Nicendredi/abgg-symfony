@@ -40,8 +40,11 @@ class CheckDataServices
 			$array[$i]=$data;
 			$i++;
 		}
-		if($array)
-		{}
+		
+		if(isset($array))
+		{
+			
+		}
 		else {
 			$array=array();
 		}

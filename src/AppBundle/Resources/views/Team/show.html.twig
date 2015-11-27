@@ -2,12 +2,36 @@
 
 {% block body -%}
     <h1>Team</h1>
+	<br>
+	
+	{%if validation == true and app.user.capitain!=null%}
+		<div class="alert alert-info">
+		    <strong> 
+	    		<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+	    		Info!
+	    	</strong> 
+	    	Vous avez désormais suffisement de joueurs afin de valider votre équipe. <br>
+	    	SEUL UNE EQUIPE VALIDEE POURRA ETRE INSCRITE
+	    	<br>
+	    	<br>
+    		<a class="btn btn-default" href="{{ path('validate_team', {'team':team.id} ) }}">
+	    		Valider l'équipe
+	    	</a>
+		</div>
+		
+	{%endif%}
+
+	<br>
 
     <table class="table table-hover">
         <tbody>
             <tr>
                 <th>Nom de l'équipe</th>
                 <td>{{ team.name }}</td>
+                <td></td>
+                {%if team.captain.tournament.systName == 'lol'%}
+                	<td></td>
+                {%endif%}
                 {%if players%}
                 	<td></td>
                 {%endif%}
@@ -15,14 +39,22 @@
             <tr>
                 <th>Capitaine d'équipe</th>
                 <td>{{ team.captain.username }}</td>
-                {%if players%}
-                	<td></td>
+                <td>{{ team.captain.experience.ranking.name }}</td>
+                {%if team.captain.tournament.systName == 'lol' and  team.captain.experience.ranking.name!='Pas classé'%}
+                	<td>{{ team.captain.experience.underRanking.name }}</td>
+                {%endif%}
+                {%if team.captain.role%}
+                	<td>{{ team.captain.role.name }}</td>
                 {%endif%}
             </tr>
             {%for player in players%}
 				<tr>
 					<th>Joueur</th>
 					<td>{{player.user.username}}</td>
+                	<td>{{player.user.experience.ranking.name }}</td>
+	                {%if team.captain.tournament.systName == 'lol' and  player.user.experience.ranking.name!='Pas classé'%}
+	                	<td>{{ player.user.experience.underRanking.name }}</td>
+	                {%endif%}
 					<td>{{player.role.name}}</td>
 				</tr>
 			{%endfor%}
@@ -30,48 +62,62 @@
     </table>
     
 	<br><br><br>
-    <h2>Candidatures déposées 
-    	<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
-    </h2>
-    	<table class="table table-hover">
-	        <tbody>
-	            <tr>
-	                <th>Pseudo joueur</th>
-	                <th>Classement</th>
-	                {%if app.user.tournament.systName == 'lol'%}
-	                	<th>Sous-classement</th>
-	                	<th>Poste désiré</th>
-	                {%endif%}
-	                <th>Réponse</th>
-	            </tr>
-			    {%for candidats in team.application %}
-			    <tr>
-			    	<td>{{candidats.user.username}}</td>
-			    	<td>{{candidats.user.experience.ranking.name}}</td>
-	                {%if app.user.tournament.systName == 'lol' 
-	                and candidats.user.manager == null 
-	                and candidats.user.experience.ranking.name != 'Pas classé'%}
-			    		<td>{{candidats.user.experience.underRanking.name}}</td>
-	                {%else%}
-	                	<td></td>
-	                {%endif%}
-			    	{%if app.user.tournament.systName == 'lol' %}
-			    		<td>{{candidats.role}}</td>
-	                {%endif%}
-	                <td>
-	                	<a class="btn btn-default"  href="{{ path('validate_application', {'candidats':candidats.id} ) }}">
-	                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-	                	</a>
-	                	<a class="btn btn-default"  href="{{ path('delete_application', {'candidats':candidats.id} ) }}">
-	                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-	                	</a>
-	                </td>
-			    </tr>
-			    {%endfor%}
-
-	<br><br><br>
-    <a class="btn btn-default" href="{{ path('team_edit', {'id':app.user.team.id} ) }}">
-        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-        Modifier
-    </a>
+	
+	{%if team.validation == null %}
+	    <h2>Candidatures déposées 
+	    	<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
+	    </h2>
+	    
+	    	<table class="table table-hover">
+		        <tbody>
+		            <tr>
+		                <th>Pseudo joueur</th>
+		                <th>Classement</th>
+		                {%if app.user.tournament.systName == 'lol'%}
+		                	<th>Sous-classement</th>
+		                	<th>Poste désiré</th>
+		                {%endif%}
+		                <th>Réponse</th>
+		            </tr>
+				    {%for candidats in team.application %}
+				    <tr>
+				    	<td>{{candidats.user.username}}</td>
+				    	<td>{{candidats.user.experience.ranking.name}}</td>
+		                {%if app.user.tournament.systName == 'lol' 
+		                and candidats.user.manager == null 
+		                and candidats.user.experience.ranking.name != 'Pas classé'%}
+				    		<td>{{candidats.user.experience.underRanking.name}}</td>
+		                {%else%}
+		                	<td></td>
+		                {%endif%}
+				    	{%if app.user.tournament.systName == 'lol' %}
+				    		<td>{{candidats.role}}</td>
+		                {%endif%}
+		                {%if app.user.capitain%}
+			                <td>
+			                	<a class="btn btn-default"  href="{{ path('validate_application', {'candidats':candidats.id} ) }}">
+			                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			                	</a>
+			                	<a class="btn btn-default"  href="{{ path('delete_application', {'candidats':candidats.id} ) }}">
+			                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			                	</a>
+			                </td>
+			            {%else%}
+			            	<td>
+			            		Seul le capitain d'équipe peut accepter ou rejetter une cadidature
+			            	</td>
+			            {%endif%}
+				    </tr>
+				    {%endfor%}
+				</tbody>
+			</table>
+	
+		<br><br><br>
+	    <a class="btn btn-default" href="{{ path('team_edit', {'id':app.user.team.id} ) }}">
+	        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+	        Modifier
+	    </a>
+	{%else%}
+		
+	{%endif%}
 {% endblock %}

@@ -6,8 +6,15 @@
 <table  class="table table-hover">
   <thead>
     <tr>
-      <th>Equipe</th>
-      <th>Capitaine d'équipe</th>
+        <th>Equipe</th>
+        <th>Capitaine d'équipe</th>
+		<th>Joueur 1</th>
+		<th>Joueur 2</th>
+		<th>Joueur 3</th>
+		<th>Joueur 4</th>
+		<th>Joueur 5</th>
+		<th>Joueur 6</th>
+		<th>Postuler</th>
     </tr>
   </thead>
   <tbody>
@@ -15,7 +22,35 @@
     {%set test=0%}
     <tr>
       <td>{{ entity.name }}</td>
-      <td>{{ entity.captain }}</td>
+      <td>
+      	{{ entity.captain }}
+      	{%if entity.captain.tournament.systName == 'lol' %}
+      		- {{entity.captain.role.name}}
+      	{%endif%}
+      	<br>
+      	{{entity.captain.experience.ranking.name}}
+      	{%if entity.captain.tournament.systName == 'lol' and entity.captain.experience.ranking.name != 'Pas classé'%}
+      		{{entity.captain.experience.underRanking.name}}
+      	{%endif%}
+      </td>
+      {%if entity.player%}
+      	{%for player in entity.player%}
+      		<td>
+      			{{player.user.experience.username}}
+		      	{%if player.user.tournament.systName == 'lol' %}
+		      		- {{player.role.name}}
+		      	{%endif%}
+		      	<br>
+		      	{{player.user.experience.ranking.name}}
+		      	{%if entity.captain.tournament.systName == 'lol' and player.user.experience.ranking.name != 'Pas classé'%}
+		      		{{player.user.experience.underRanking.name}}
+		      	{%endif%}
+      		</td>
+      	{%endfor%}
+      	{%for i in (entity.player|length)..5%}
+      		<td></td>
+      	{%endfor%}
+      {%endif%}
       {% if (app.user.team is null)  %}
       	{%for team in appTeam%}
       		{%if team == entity%}
@@ -40,6 +75,8 @@
       	{%else%}
       		<td><p>En attente d'une réponse</p></td>
       	{%endif%}
+      {%else%}
+      	<td></td>
       {%endif%}
     </tr>
     {% endfor %}

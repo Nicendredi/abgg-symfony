@@ -33,6 +33,23 @@
 			  <br>
 			  <br>
 			  	<center><hp>{{ experience.username }}</hp></center>
+			  <br>
+			  <br>
+			  <br>
+			  {%if app.user.team and app.user.tournament%}
+			  	{%if app.user.tournament.systName == 'lol'%}
+				  	<div class="row">
+				  		<div class="col-xs-6">
+				  			<center><h1>{{app.user.role.name}}</h1></center>
+				  		</div>
+				  		<div class="col-xs-6">
+				  			<center><h1>{{app.user.team.name}}</h1></center>
+				  		</div>
+				  	</div>
+				 {%else%}
+				 	<center><h2>{{app.user.team.name}}</h2></center>
+				 {%endif%}
+			  {%endif%}
 		  {%else%}
 			  <br>
 			  <br>
@@ -128,6 +145,28 @@
 					                <td>{{ experience.steam }}</td>
 					            </tr>
 				            {%endif%}
+				            {%if app.user.tournament.systName == 'lol'%}
+				            	<tr>
+				            		<th>Top Lane</th>
+				            		<td>{{app.user.experience.postes.top}}</td>
+				            	</tr>
+				            	<tr>
+				            		<th>Middle Lane</th>
+				            		<td>{{app.user.experience.postes.mid}}</td>
+				            	</tr>
+				            	<tr>
+				            		<th>Bottom Carry</th>
+				            		<td>{{app.user.experience.postes.bot}}</td>
+				            	</tr>
+				            	<tr>
+				            		<th>Support </th>
+				            		<td>{{app.user.experience.postes.sup}}</td>
+				            	</tr>
+				            	<tr>
+				            		<th>Jungle</th>
+				            		<td>{{app.user.experience.postes.jungle}}</td>
+				            	</tr>
+				            {%endif%}
 				        </tbody>
 					    </table>
 				    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
@@ -154,7 +193,7 @@
 		
 		<div class="col-xs-1"></div>
 		
-		<div class="col-xs-3">
+		<div class="col-xs-4">
 		{%if game and experience%}
 			{% if team %}
 				    <h3>Votre Equipe</h3>
@@ -164,20 +203,35 @@
 				            <tr>
 				                <th>Nom de l'équipe</th>
 				                <td>{{ team.name }}</td>
+						        <td></td>
 				            </tr>
 				            <tr>
-				            	<th>Pseudo capitaine d'équipe<th>
+				            	<th>Pseudo capitaine d'équipe</th>
 				            	<td>{{team.captain.experience.username}}</td>
+						        <td></td>
 				            </tr>
 				            {%if role%}
-				            <tr>
-				            	<th>Role capitaine d'équipe</th>
-				            	<td>{{team.captain.role}}</td>
-				            </tr>
-				            <tr>
-				                <th>Votre role</th>
-				                <td>{{ role.name }}</td>
-				            </tr>
+					            <tr>
+					                <th>Votre role</th>
+						            <td></td>
+					                <td>{{ role.name }}</td>
+					            </tr>
+					            {%if app.user.capitain==null%}
+						            <tr>
+						            	<th>Role capitaine d'équipe</th>
+						            	<td></td>
+						            	<td>{{team.captain.role}}</td>
+						            </tr>
+					            {%endif%}
+				            {%endif%}
+				            {% if app.user.team.player %}
+				            	{%for player in app.user.team.player%}
+						            <tr>
+						            	<th>Joueur</th>
+						            	<td>{{player.user.experience.username}}</td>
+						            	<td>{{player.role.name}}</td>
+						            </tr>
+						         {%endfor%}
 				            {%endif%}
 				        </tbody>
 				    </table>

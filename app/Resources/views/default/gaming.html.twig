@@ -32,18 +32,43 @@
     </ul>
   </div>
 </div>
-<div class="row">
-	<table class="table table-hover">
-		<tr>
-			<th>Nom Equipe</th>
-			<th>Pseudo Capitaine</th>
-		</tr>
-	{%for entity in entities%}
-		<tr>
-			<td>{{entity.name}}</td>
-			<td>{{entity.captain}}</td>
-		</tr>
-	{%endfor%}
-	</table>
-</div>
+{%if entities%}
+	<div class="row">
+		<table class="table table-hover">
+			<tr>
+				<th>Nom Equipe</th>
+				<th>Capitaine</th>
+				<th>Joueur 1</th>
+				<th>Joueur 2</th>
+				<th>Joueur 3</th>
+				<th>Joueur 4</th>
+				<th>Joueur 5</th>
+				<th>Joueur 6</th>
+			</tr>
+		{%for entity in entities%}
+			{%if entity.validation != null%}
+				<tr>
+					<td>{{entity.name}}</td>
+					<td>{{entity.captain}} 
+						{%if entity.captain.tournament.systName == 'lol'%}
+							- {{entity.captain.role.name}}
+						{%endif%}
+					</td>
+					{%for player in entity.player%}
+						<td>{{player.user.experience.username}}
+						{%if entity.captain.tournament.systName == 'lol'%}
+							 - {{player.role.name}}</td>
+						{%endif%}
+					{%endfor%}
+				</tr>
+			{%else%}
+				Cette équipe n'est pas encore valide
+			{%endif%}
+		{%endfor%}
+		</table>
+	</div>
+{%else%}
+	<br><center><h1>Aucune équipe n'est actuellement valide/complète</h1></center>
+	<center><img width="25%"  src="{{ asset('bundles/app/images/forever-alone.jpg') }}" /></center>
+{%endif%}
 {% endblock %}

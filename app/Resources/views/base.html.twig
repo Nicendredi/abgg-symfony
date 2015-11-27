@@ -43,7 +43,11 @@
 			          {% if app.user.team != null%}
 			          <li><a href="{{ path('equipe') }}">
 			          	Mon équipe [{{app.user.team.name}}] 
-			          	<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
+			          	{% if app.user.team.validation == null%}
+			          		<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
+			          	{%else%}
+			          		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			          	{%endif%}
 			          </a></li>
 				          {%if app.user.tournament%}
 				          	<li><a href="{% block search_player %}{{ path('search_player', { 'game': app.user.tournament.systName }) }}{% endblock %}">

@@ -17,6 +17,7 @@ use AppBundle\Form\TeamType;
 use AppBundle\Form\PlayerType;
 use AppBundle\Services\CheckDataServices;
 use AppBundle\Validator\Constraints\HasDifferentPlayers;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * User controller.
@@ -266,13 +267,19 @@ class TeamController extends Controller
         if (!$team) {
             throw $this->createNotFoundException('Unable to find Team entity.');
         }
-
-        $deleteForm = $this->createDeleteForm($id);
+		
+		if((count($player)>=4) && ($team[0]->getValidation()==null))
+		{
+			$validation = true;
+		}
+		else {
+			$validation = false;
+		}
 		
         return array(
-            'team'      => $team[0],
-            'players'   => $player, 
-            'delete_form' => $deleteForm->createView(),
+            'team'        => $team[0],
+            'players'     => $player, 
+            'validation'  => $validation,
         );
     }
 	
@@ -521,7 +528,7 @@ class TeamController extends Controller
 		    WHERE p.id = :id'
 		)->setParameter('id', $teamId);
 		$team = $query->getResult();
-		
+			
 		if ($entity->getRole() != null)
 		{
 			$roleId=$entity->getRole()->getId();
@@ -549,7 +556,7 @@ class TeamController extends Controller
 
 	    if($entity->getRole() != null)
 	    {
-	    	$phrase='or p.team='.$teamId.' and p.role = '.$roleId ;
+	    	$phrase=' or p.team='.$teamId.' and p.role = '.$roleId ;
 		}
 		else
 		{
@@ -558,8 +565,7 @@ class TeamController extends Controller
         $query = $em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Application p
-		    where p.user= '.$userId.'
-		     and p.team= '.$teamId.$phrase
+		    where p.user= '.$userId.$phrase 
 		);
 		$applications = $query->getResult();
 		
@@ -571,4 +577,34 @@ class TeamController extends Controller
         $em->flush();
 		return $this->redirect($this->generateUrl('team_show', array('id'=> ($this->getUser()->getTeam()->getId()) )));
     }
+	
+    /**
+     * Finds and displays a User entity.
+     *
+     * @Route("/validate/{team}", name="validate_team")
+     * @Method("GET")
+     */
+    public function validateTeamAction($team)
+    {
+    	
+        $em = $this->getDoctrine()->getManager();
+		$entity = $this->getDoctrine()->getRepository('AppBundle:Team')->find($team);
+		$entity->setValidation(new \DateTime('now'));
+		$em->persist($entity);
+		
+		$query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    where p.team= '.$team
+		);
+		$applications = $query->getResult();
+		
+		foreach ($applications as $application) 
+		{
+        	$em->remove($application);
+		}
+		
+        $em->flush();
+		return $this->redirect($this->generateUrl('team_show', array('id'=> ($this->getUser()->getTeam()->getId()) )));
+	}
 }
