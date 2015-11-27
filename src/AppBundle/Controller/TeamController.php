@@ -56,7 +56,7 @@ class TeamController extends Controller
 		{
 			$game=$this->getUser()->getTournament()->getSystName();
 		}
-		
+
         $query = $em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Game p
@@ -429,9 +429,69 @@ class TeamController extends Controller
 		
 		$entity->setTeam($team);
 		$entity->setUser($user);
+		$entity->setOrigin('player');
 
         $em->persist($entity);
         $em->flush();
 		return $this->redirect($this->generateUrl('search_team', array('game'=> $gameName )));
+    }
+
+    /**
+     * Lists all Team entities but only the information avaible to everyone.
+     *
+     * @Route("/search/{game}", name="search_team_post")
+     * @Method("POST")
+     * @Template()
+     */
+     public function searchPostAction(Request $request)
+     {
+     	$data=$request->request->all();
+		$forms =$data['form'];
+		$teamId = $forms['teamId'];
+		$form = $forms['role'];
+		
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT t
+		    FROM AppBundle:Team t
+		    WHERE t.id = :id'
+		)->setParameter('id', $teamId);
+		$team = $query->getResult();
+		
+		foreach($form as $role)
+		{
+	        $em = $this->getDoctrine()->getManager();
+	        $query = $em->createQuery(
+			    'SELECT r
+			    FROM AppBundle:Role r
+			    WHERE r.id = :id'
+			)->setParameter('id', intval($role));
+			$roleArray = $query->getResult();
+			
+			$entity = new Application();
+			$entity->setUser($this->getUser());
+			$entity->setTeam($team[0]);
+			$entity->setRole($roleArray[0]);
+			$entity->setOrigin('player');
+	        $em->persist($entity);
+		}
+	    $em->flush();
+		
+		return $this->redirect($this->generateUrl('search_team', array('game'=> $this->getUser()->getTournament()->getSystName() )));
+     }
+	
+    /**
+     * Finds and displays a User entity.
+     *
+     * @Route("/delete/application/{candidats}", name="delete_application")
+     * @Method("GET")
+     */
+    public function deleteApplicationAction($candidats)
+    {
+        $em = $this->getDoctrine()->getManager();
+		$entity = $this->getDoctrine()->getRepository('AppBundle:Application')->find($candidats);
+        $em->remove($entity);
+        $em->flush();
+		return $this->redirect($this->generateUrl('team_show', array('id'=> ($this->getUser()->getTeam()->getId()) )));
     }
 }

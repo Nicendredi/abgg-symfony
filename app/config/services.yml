@@ -37,13 +37,20 @@ services:
             -
                 name: validator.constraint_validator
                 alias: has_different_players
-                
+
     checkDataServices:
         class: AppBundle\Services\CheckDataServices
         arguments: [ @doctrine.orm.entity_manager ]
     searchUsersService:
         class: AppBundle\Services\SearchUsers
         arguments: [ @doctrine.orm.entity_manager ]
+    countCandidatsService:
+        class: AppBundle\Services\CountCandidats
+        arguments: [ @doctrine.orm.entity_manager ]
+    checkRoleService:
+        class: AppBundle\Services\CheckRoleTeamApplication
+        arguments: [ @doctrine.orm.entity_manager , @service_container]
+
     searchFormService:
         class: AppBundle\Services\SearchFormService
         arguments: [ @doctrine.orm.entity_manager ]

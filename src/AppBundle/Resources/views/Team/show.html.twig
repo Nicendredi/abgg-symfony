@@ -22,7 +22,42 @@
 			{%endfor%}
         </tbody>
     </table>
+    
+	<br><br><br>
+    <h2>Candidatures déposées 
+    	<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
+    </h2>
+    	<table class="table table-hover">
+	        <tbody>
+	            <tr>
+	                <th>Pseudo joueur</th>
+	                <th>Classement</th>
+	                {%if app.user.tournament.systName == 'lol'%}
+	                	<th>Sous-classement</th>
+	                	<th>Poste désiré</th>
+	                {%endif%}
+	                <th>Réponse</th>
+	            </tr>
+			    {%for candidats in team.application %}
+			    <tr>
+			    	<td>{{candidats.user.username}}</td>
+			    	<td>{{candidats.user.experience.ranking.name}}</td>
+	                {%if app.user.tournament.systName == 'lol'%}
+			    		<td>{{candidats.user.experience.underRanking.name}}</td>
+			    		<td>{{candidats.role}}</td>
+	                {%endif%}
+	                <td>
+	                	<a class="btn btn-default" >
+	                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+	                	</a>
+	                	<a class="btn btn-default"  href="{{ path('delete_application', {'candidats':candidats.id} ) }}">
+	                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+	                	</a>
+	                </td>
+			    </tr>
+			    {%endfor%}
 
+	<br><br><br>
     <a class="btn btn-default" href="{{ path('team_edit', {'id':app.user.team.id} ) }}">
         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
         Modifier

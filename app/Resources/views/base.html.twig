@@ -41,7 +41,10 @@
 		          <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 		          Mon profil [{{app.user.username}}]</a></li>
 			          {% if app.user.team != null%}
-			          <li><a href="{{ path('equipe') }}">Mon équipe [{{app.user.team.name}}]</a></li>
+			          <li><a href="{{ path('equipe') }}">
+			          	Mon équipe [{{app.user.team.name}}] 
+			          	<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
+			          </a></li>
 				          {%if app.user.tournament%}
 				          	<li><a href="{% block search_player %}{{ path('search_player', { 'game': app.user.tournament.systName }) }}{% endblock %}">
 					      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>

@@ -39,6 +39,8 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         searchUsersService: "@searchUsersService"
+        countCandidatsService: "@countCandidatsService"
+        checkRoleService: "@checkRoleService"
 
 # Assetic Configuration
 assetic:
