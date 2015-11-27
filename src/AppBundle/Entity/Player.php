@@ -51,7 +51,7 @@ class Player
     /**
      * @var string
      *
-     * @ORM\Column(name="invitation", type="string", length=255)
+     * @ORM\Column(name="invitation", type="string", length=255, nullable=true)
      */
     private $invitation;
 

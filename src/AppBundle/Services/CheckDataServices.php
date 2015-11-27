@@ -31,7 +31,6 @@ class CheckDataServices
 		$i=0;
 		
 		$players = $baseTable->getPlayer()->toArray();
-		$array=0;
 		
 		foreach ($players as $element)
 		{
@@ -40,6 +39,11 @@ class CheckDataServices
                       ->findOneById($id);
 			$array[$i]=$data;
 			$i++;
+		}
+		if($array)
+		{}
+		else {
+			$array=array();
 		}
 		
 		return $array;

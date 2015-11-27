@@ -494,4 +494,81 @@ class TeamController extends Controller
         $em->flush();
 		return $this->redirect($this->generateUrl('team_show', array('id'=> ($this->getUser()->getTeam()->getId()) )));
     }
+	
+    /**
+     * Finds and displays a User entity.
+     *
+     * @Route("/validate/application/{candidats}", name="validate_application")
+     * @Method("GET")
+     */
+    public function validateApplicationAction($candidats)
+    {
+        $em = $this->getDoctrine()->getManager();
+		$entity = $this->getDoctrine()->getRepository('AppBundle:Application')->find($candidats);
+		
+		$userId=$entity->getUser()->getId();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:User p
+		    WHERE p.id = :id'
+		)->setParameter('id', $userId);
+		$user = $query->getResult();
+		
+		$teamId=$entity->getTeam()->getId();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    WHERE p.id = :id'
+		)->setParameter('id', $teamId);
+		$team = $query->getResult();
+		
+		if ($entity->getRole() != null)
+		{
+			$roleId=$entity->getRole()->getId();
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Role p
+			    WHERE p.id = :id'
+			)->setParameter('id', $roleId);
+			$role = $query->getResult();
+		}
+		
+		$player = new Player;
+		$player->setUser($user[0]);
+		$player->setTeam($team[0]);	
+		
+		if ($entity->getRole() != null)
+		{$player->setRole($role[0]);}
+		
+		$em->persist($player);
+		$users=$user[0];
+        $users->setTeam($team[0]);
+        $users->setPlayer($player);
+        $this->get('fos_user.user_manager')->updateUser($users, false);
+		
+
+	    if($entity->getRole() != null)
+	    {
+	    	$phrase='or p.team='.$teamId.' and p.role = '.$roleId ;
+		}
+		else
+		{
+			$phrase='';
+		}
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    where p.user= '.$userId.'
+		     and p.team= '.$teamId.$phrase
+		);
+		$applications = $query->getResult();
+		
+		foreach ($applications as $application) 
+		{
+        	$em->remove($application);
+		}
+		
+        $em->flush();
+		return $this->redirect($this->generateUrl('team_show', array('id'=> ($this->getUser()->getTeam()->getId()) )));
+    }
 }

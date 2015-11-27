@@ -8,10 +8,16 @@
             <tr>
                 <th>Nom de l'équipe</th>
                 <td>{{ team.name }}</td>
+                {%if players%}
+                	<td></td>
+                {%endif%}
             </tr>
             <tr>
                 <th>Capitaine d'équipe</th>
                 <td>{{ team.captain.username }}</td>
+                {%if players%}
+                	<td></td>
+                {%endif%}
             </tr>
             {%for player in players%}
 				<tr>
@@ -42,12 +48,18 @@
 			    <tr>
 			    	<td>{{candidats.user.username}}</td>
 			    	<td>{{candidats.user.experience.ranking.name}}</td>
-	                {%if app.user.tournament.systName == 'lol'%}
+	                {%if app.user.tournament.systName == 'lol' 
+	                and candidats.user.manager == null 
+	                and candidats.user.experience.ranking.name != 'Pas classé'%}
 			    		<td>{{candidats.user.experience.underRanking.name}}</td>
+	                {%else%}
+	                	<td></td>
+	                {%endif%}
+			    	{%if app.user.tournament.systName == 'lol' %}
 			    		<td>{{candidats.role}}</td>
 	                {%endif%}
 	                <td>
-	                	<a class="btn btn-default" >
+	                	<a class="btn btn-default"  href="{{ path('validate_application', {'candidats':candidats.id} ) }}">
 	                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 	                	</a>
 	                	<a class="btn btn-default"  href="{{ path('delete_application', {'candidats':candidats.id} ) }}">
