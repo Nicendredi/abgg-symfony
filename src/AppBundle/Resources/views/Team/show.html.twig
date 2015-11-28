@@ -68,11 +68,15 @@
 			{%endfor%}
         </tbody>
     </table>
-    
+    <br>
+	    <a class="btn btn-default" href="{{ path('team_edit', {'id':app.user.team.id} ) }}">
+	        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+	        Modifier
+	    </a>
 	<br><br><br>
 	
 	{%if team.validation == null %}
-	    <h2>Candidatures déposées 
+	    <h2>Candidatures déposées par les joueurs
 	    	<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
 	    </h2>
 	    
@@ -87,7 +91,7 @@
 		                {%endif%}
 		                <th>Réponse</th>
 		            </tr>
-				    {%for candidats in team.application %}
+				    {%for candidats in (countCandidatsService.getAllSearchingCandidats(app.user.team.id)) %}
 				    <tr>
 				    	<td>{{candidats.user.username}}</td>
 				    	{%if candidats.user.manager %}
@@ -126,10 +130,58 @@
 			</table>
 	
 		<br><br><br>
-	    <a class="btn btn-default" href="{{ path('team_edit', {'id':app.user.team.id} ) }}">
-	        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-	        Modifier
-	    </a>
+	    
+	    
+	    <h2>Recrutement par le chef d'équipe en attente de réponse
+	    	<span class="badge">{{ countCandidatsService.getApplicationFromTeam(app.user.team.id) }}</span>
+	    </h2>
+	    <table class="table table-hover">
+		        <tbody>
+		            <tr>
+		                <th>Pseudo joueur</th>
+		                <th>Classement</th>
+		                {%if app.user.tournament.systName == 'lol'%}
+		                	<th>Sous-classement</th>
+		                	<th>Poste désiré</th>
+		                {%endif%}
+		                <th>Réponse</th>
+		            </tr>
+				    {%for candidats in (countCandidatsService.getAllApplicationFromTeam(app.user.team.id)) %}
+				    <tr>
+				    	<td>{{candidats.user.username}}</td>
+				    	{%if candidats.user.manager %}
+				    		<td></td>
+				    		<td></td>
+				    	{%else%}
+					    	<td>{{candidats.user.experience.ranking.name}}</td>
+			                {%if app.user.tournament.systName == 'lol' 
+			                and candidats.user.manager == null 
+			                and candidats.user.experience.ranking.name != 'Pas classé'%}
+					    		<td>{{candidats.user.experience.underRanking.name}}</td>
+			                {%else%}
+			                	<td></td>
+		                	{%endif%}
+		                {%endif%}
+				    	{%if app.user.tournament.systName == 'lol' %}
+				    		<td>{{candidats.role}}</td>
+		                {%endif%}
+		                {%if app.user.capitain%}
+			                <td>
+			                	<a class="btn btn-default"  href="{{ path('delete_application_recrutement', {'candidats':candidats.id} ) }}">
+			                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			                	</a>
+			                </td>
+			            {%else%}
+			            	<td>
+			            		Seul le capitain d'équipe peut accepter ou rejetter une cadidature
+			            	</td>
+			            {%endif%}
+				    </tr>
+				    {%endfor%}
+				</tbody>
+			</table>
+	    
+	    
 	{%else%}
 		
 	{%endif%}

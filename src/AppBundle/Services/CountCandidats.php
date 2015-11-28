@@ -23,4 +23,51 @@ class CountCandidats
 		$users = count($query->getResult());
 		return $users;
 	}
+	public function getAllSearchingCandidats($teamId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    WHERE p.team = :id
+		    AND p.origin = \'player\''
+		)->setParameter('id', $teamId);
+		$users = $query->getResult();
+		return $users;
+	}
+	
+	public function getApplicationFromTeam($teamId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    WHERE p.team = :id
+		    AND p.origin = \'team\''
+		)->setParameter('id', $teamId);
+		$users = count($query->getResult());
+		return $users;
+	}
+	
+	public function getAllApplicationFromTeam($teamId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    WHERE p.team = :id
+		    AND p.origin = \'team\''
+		)->setParameter('id', $teamId);
+		$users = $query->getResult();
+		return $users;
+	}
+	
+	public function getCandidatureFromTeam($user)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    WHERE p.user = :id
+		    AND p.origin = \'team\''
+		)->setParameter('id', $user);
+		$users = count($query->getResult());
+		return $users;
+	}
 }

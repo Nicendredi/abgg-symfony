@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Role;
 use AppBundle\Entity\Experience;
+use AppBundle\Entity\Application;
 use AppBundle\Form\RegistrationType;
 use AppBundle\Form\SearchType;
 use AppBundle\Services\CheckDataServices;
@@ -81,11 +82,41 @@ class UserController extends Controller
 	    }        
 	
 	    $form = $formBuilder->getForm();
-		
+	    
+	    if (($this->getUser()->getTeam()) != null)
+		{
+			$teamId = $this->getUser()->getTeam()->getId();
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Application p
+			    WHERE p.team = :id
+			    and p.origin=\'team\''
+			)->setParameter('id', $teamId);
+			$userApp = $query->getResult();
+			
+			$i=0;
+			if ($userApp!=null)
+			{
+				foreach ($userApp as $user)
+				{
+					$userAppTeams[$i] = $user->getUser();
+					$i++;
+				}
+			}
+			else
+			{
+				$userAppTeams=0;
+			}
+		}
+		else {
+			$userAppTeams=0;
+		}
+
         return array(
             'entities' => $users,
             'game' => $games,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'appTeam'  => $userAppTeams,
         );
     }
     /**
@@ -140,7 +171,56 @@ class UserController extends Controller
 	            'form'   => $form->createView()
 	        );
         }
-		var_dump('out');exit;
+		
+		$data= $request->request->all();
+		$forms = $data['form'];
+		if($forms['role'])
+		{
+			$forms =$data['form'];
+			$teamId = $forms['teamId'];
+			$userId = $forms['userId'];
+			$form = $forms['role'];
+			
+	        $em = $this->getDoctrine()->getManager();
+	        $query = $em->createQuery(
+			    'SELECT t
+			    FROM AppBundle:Team t
+			    WHERE t.id = :id'
+			)->setParameter('id', $teamId);
+			$team = $query->getResult();
+			
+	        $em = $this->getDoctrine()->getManager();
+	        $query = $em->createQuery(
+			    'SELECT t
+			    FROM AppBundle:User t
+			    WHERE t.id = :id'
+			)->setParameter('id', $userId);
+			$user = $query->getResult();
+			
+			foreach($form as $role)
+			{
+		        $em = $this->getDoctrine()->getManager();
+		        $query = $em->createQuery(
+				    'SELECT r
+				    FROM AppBundle:Role r
+				    WHERE r.id = :id'
+				)->setParameter('id', intval($role));
+				$roleArray = $query->getResult();
+				
+				$entity = new Application();
+				$entity->setUser($user[0]);
+				$entity->setTeam($team[0]);
+				$entity->setRole($roleArray[0]);
+				$entity->setOrigin('team');
+		        $em->persist($entity);
+			}
+		    $em->flush();
+			
+	    	$requestURL = $this->getRequest()->getRequestUri();
+			$exploded = explode("/",$requestURL);
+			
+			return $this->redirect($this->generateUrl('search_player', array('game'=> $exploded[6] )));
+		}
 
         return array(
             'entity' => $entity,
@@ -232,6 +312,15 @@ class UserController extends Controller
 		)->setParameter('id', $id);
 		$applications = $query->getResult();
 		
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    WHERE p.user = :id
+		    and p.origin = \'team\''
+		)->setParameter('id', $id);
+		$propositions = $query->getResult();
+		
 		
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -248,7 +337,8 @@ class UserController extends Controller
             'role'         => $role,
             'team'         => $team,
             'delete_form'  => $deleteForm->createView(),
-            'applications' => $applications
+            'applications' => $applications,
+            'propositions' => $propositions
         );
     }
 
@@ -384,4 +474,23 @@ class UserController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * Displays a form to edit an existing User entity.
+     *
+     * @Route("/{id}/delete/application", name="delete_application_player")
+     * @Method("GET")
+     * @Template()
+     */
+     public function deleteApplicationPlayerAction($id)
+	 {
+        $em = $this->getDoctrine()->getManager();
+        $application = $em->getRepository('AppBundle:Application')->find($id);
+		
+		$em->remove($application);
+		$em->flush();
+		
+		return $this->redirect($this->generateUrl('player_show', array('id' => $this->getUser()->getId())));
+	 }
+	
 }

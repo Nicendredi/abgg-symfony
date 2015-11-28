@@ -46,7 +46,7 @@ class TeamController extends Controller
     /**
      * Lists all Team entities but only the information avaible to everyone.
      *
-     * @Route("/search/{game}", name="search_team")
+     * @Route("/search/{game}", name="search_team_get")
      * @Method("GET")
      * @Template()
      */
@@ -107,6 +107,51 @@ class TeamController extends Controller
             'appTeam'  => $userAppTeams,
         );
     }
+
+    /**
+     * Lists all Team entities but only the information avaible to everyone.
+     *
+     * @Route("/search/{game}", name="search_team")
+     * @Method("POST")
+     * @Template()
+     */
+     public function searchPostAction(Request $request)
+     {
+     	$data=$request->request->all();
+		$forms =$data['form'];
+		$teamId = $forms['teamId'];
+		$form = $forms['role'];
+		
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT t
+		    FROM AppBundle:Team t
+		    WHERE t.id = :id'
+		)->setParameter('id', $teamId);
+		$team = $query->getResult();
+		
+		foreach($form as $role)
+		{
+	        $em = $this->getDoctrine()->getManager();
+	        $query = $em->createQuery(
+			    'SELECT r
+			    FROM AppBundle:Role r
+			    WHERE r.id = :id'
+			)->setParameter('id', intval($role));
+			$roleArray = $query->getResult();
+			
+			$entity = new Application();
+			$entity->setUser($this->getUser());
+			$entity->setTeam($team[0]);
+			$entity->setRole($roleArray[0]);
+			$entity->setOrigin('player');
+	        $em->persist($entity);
+		}
+	    $em->flush();
+		
+		return $this->redirect($this->generateUrl('search_team', array('game'=> $this->getUser()->getTournament()->getSystName() )));
+     }
+	
 	
     /**
      * Creates a new Experience entity.
@@ -478,51 +523,6 @@ class TeamController extends Controller
         $em->flush();
 		return $this->redirect($this->generateUrl('search_team', array('game'=> $gameName )));
     }
-
-    /**
-     * Lists all Team entities but only the information avaible to everyone.
-     *
-     * @Route("/search/{game}", name="search_team_post")
-     * @Method("POST")
-     * @Template()
-     */
-     public function searchPostAction(Request $request)
-     {
-     	$data=$request->request->all();
-		$forms =$data['form'];
-		$teamId = $forms['teamId'];
-		$form = $forms['role'];
-		
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-		    'SELECT t
-		    FROM AppBundle:Team t
-		    WHERE t.id = :id'
-		)->setParameter('id', $teamId);
-		$team = $query->getResult();
-		
-		foreach($form as $role)
-		{
-	        $em = $this->getDoctrine()->getManager();
-	        $query = $em->createQuery(
-			    'SELECT r
-			    FROM AppBundle:Role r
-			    WHERE r.id = :id'
-			)->setParameter('id', intval($role));
-			$roleArray = $query->getResult();
-			
-			$entity = new Application();
-			$entity->setUser($this->getUser());
-			$entity->setTeam($team[0]);
-			$entity->setRole($roleArray[0]);
-			$entity->setOrigin('player');
-	        $em->persist($entity);
-		}
-	    $em->flush();
-		
-		return $this->redirect($this->generateUrl('search_team', array('game'=> $this->getUser()->getTournament()->getSystName() )));
-     }
-	
     /**
      * Finds and displays a User entity.
      *
@@ -649,4 +649,23 @@ class TeamController extends Controller
         $em->flush();
 		return $this->redirect($this->generateUrl('team_show', array('id'=> ($this->getUser()->getTeam()->getId()) )));
 	}
+	
+
+    /**
+     * Displays a form to edit an existing User entity.
+     *
+     * @Route("/{id}/delete/application", name="delete_application_recrutement")
+     * @Method("GET")
+     * @Template()
+     */
+     public function deleteApplicationPlayerAction($id)
+	 {
+        $em = $this->getDoctrine()->getManager();
+        $application = $em->getRepository('AppBundle:Application')->find($id);
+		
+		$em->remove($application);
+		$em->flush();
+		
+		return $this->redirect($this->generateUrl('team_show', array('id' => $id)));
+	 }
 }
