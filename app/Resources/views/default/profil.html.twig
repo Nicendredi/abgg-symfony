@@ -291,11 +291,17 @@
 		            <tr>
 		            	<th>Nom équipe</th>
 		            	<th>Pour poste</th>
+		            	<th>Supprimer candidature</th>
 		            </tr>
 					{%for application in applications%}
 						<tr>
 							<td>{{application.team.name}}</td>
 							<td>{{application.role.name}}</td>
+							<td>
+							    <a class="btn btn-default" href="{{ path('delete_application_player', { 'id': application.id }) }}">
+							    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							    </a>
+							</td>
 						</tr>
 					{%endfor%}
 			</div>

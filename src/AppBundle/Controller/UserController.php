@@ -384,4 +384,22 @@ class UserController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * Displays a form to edit an existing User entity.
+     *
+     * @Route("/{id}/delete/application", name="delete_application_player")
+     * @Method("GET")
+     * @Template()
+     */
+     public function deleteApplicationPlayerAction($id)
+	 {
+        $em = $this->getDoctrine()->getManager();
+        $application = $em->getRepository('AppBundle:Application')->find($id);
+		
+		$em->remove($application);
+		$em->flush();
+		
+		return $this->redirect($this->generateUrl('player_show', array('id' => $this->getUser()->getId())));
+	 }
 }
