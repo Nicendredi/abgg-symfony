@@ -38,7 +38,7 @@ class CaptainType extends AbstractType
 			$builder
 			->add('telephone', 'hidden',array('data'=> $telephone))
 			->add('role','entity', array(
-					'required' => false,
+					'required' => true,
 				    'class' => 'AppBundle:Role',
 				    'query_builder' => function (RoleRepository $er) use ($gameId)
 				    {

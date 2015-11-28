@@ -37,6 +37,7 @@ class EmailRegisterProcessor
 		$message=\Swift_Message::newInstance()
 		->setSubject("Invitation de "+$args->user)
 		->setFrom("contact@asso-b2g.com")
+		->setCc("contact@asso-b2g.com")
 		->setTo($args->user->getEmail())
 		->setBody(
 			$this->renderView(

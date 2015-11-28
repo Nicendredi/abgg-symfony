@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use AppBundle\Entity\RoleRepository;
-use AppBundle\Entity\Player;
+use AppBundle\Entity\Application;
 use AppBundle\Entity\Team;
 
 class TeamType extends AbstractType
@@ -43,8 +43,8 @@ class TeamType extends AbstractType
 		}
 		
 		$builder
-		->add('player', 'collection', array(
-		'type'  => new PlayerType($gameId,$game),
+		->add('application', 'collection', array(
+		'type'  => new ApplicationType($gameId,$game,null, null, null/*$team,$user,$origin*/),
         'allow_add'   => true,
         'allow_delete'=> true,
         'required' => false,

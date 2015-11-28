@@ -11,15 +11,21 @@ use AppBundle\Entity\RoleRepository;
 use AppBundle\Entity\UserRepository;
 use AppBundle\Entity\User;
 
-class PlayerType extends AbstractType
+class ApplicationType extends AbstractType
 {
 	protected $gameId;
 	protected $game;
+	protected $team;
+	protected $user;
+	protected $origin;
 
-	public function __construct ($gameId,$game)
+	public function __construct ($gameId,$game, $team, $user, $origin)
 	{
 	    $this->gameId = $gameId;
 	    $this->game = $game;
+	    $this->team = $team;
+	    $this->user = $user;
+	    $this->origin = $origin;
 	}
     /**
      * @param FormBuilderInterface $builder
@@ -29,23 +35,20 @@ class PlayerType extends AbstractType
     {
 		$gameId=$this->gameId;
 		$game=$this->game;
+		$team=$this->team;
+		$user=$this->user;
+		$origin=$this->origin;
 
         $builder
-        ->add('user','entity', array(
-				'required' => false,
-			    'class' => 'AppBundle:User',
-			    'query_builder' => function (UserRepository $er) use ($gameId)
-			    {
-			        return $er->getGameId($gameId);
-			    },
-			    'choice_label' => 'username',
-			));
+        ->add('user', 'hidden', array('data' => $user))
+        ->add('origin', 'hidden', array('data' => $origin))
+        ->add('Email', 'email');
 			
 		if ($game == 'League of Legends')
 		{
 			$builder
 			->add('role','entity', array(
-					'required' => false,
+					'required' => true,
 				    'class' => 'AppBundle:Role',
 				    'query_builder' => function (RoleRepository $er) use ($gameId)
 				    {
@@ -62,7 +65,7 @@ class PlayerType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Player',
+            'data_class' => 'AppBundle\Entity\Application',
             'cascade_validation' => true,
         ));
     }
@@ -73,6 +76,6 @@ class PlayerType extends AbstractType
      */
     public function getName()
     {
-        return 'player';
+        return 'application';
     }
 }

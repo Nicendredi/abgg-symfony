@@ -54,9 +54,16 @@ class Application
     /**
      * @var string
      *
-     * @ORM\Column(name="origin", type="string", length=255)
+     * @ORM\Column(name="origin", type="string", length=255, nullable=true)
      */
     private $origin;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     */
+    private $email;
 
     /**
      * Get id
@@ -67,7 +74,7 @@ class Application
     {
         return $this->id;
     }
-	
+
 
     /**
      * @param Team $team
@@ -144,5 +151,28 @@ class Application
     public function getOrigin()
     {
         return $this->origin;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return Application
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 }

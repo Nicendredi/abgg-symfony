@@ -161,39 +161,58 @@ class TeamController extends Controller
 			else
 			{
 				$url='csgo';
-			}
+            }
             return $this->redirect($this->generateUrl($url));
         }
-		elseif ((($data->getName())!=null) 
-		&& ($data->getCaptain()->getRole()) != null ){
-			$entity = new Team();
-			$entity->setName($data->getName());
-	    	$game = $this->getUser()->getTournament();
-			
-            $user = $this->getUser();
-			
-	    	$game = $this->getUser()->getTournament();
-			$id = $game->getId();
-	        $em = $this->getDoctrine()->getManager();
-	        $gameId = $em->getRepository('AppBundle:Game')->find($id);
-			if ($game -> getSystName() == 'lol')
-			{
-				$totalrequest =$request->request->all();
-				$team=$totalrequest['team'];
-				$captain = $team['captain'];
-				$role = $captain['role'];
-			
-		        $em = $this->getDoctrine()->getManager();
-		        $roleEntity = $em->getRepository('AppBundle:Role')->find($role);
-				$user->setRole($roleEntity);
-			}
-			
-            $user->setTeam($entity);
-			$user->setCapitain($entity);
-			
-            $this->get('fos_user.user_manager')->updateUser($user, false);
-			
+        elseif ((($data->getName())!=null) 
+        && ($data->getCaptain()->getRole()) != null ){
+
             $em = $this->getDoctrine()->getManager();
+
+            $entity = new Team();
+            $entity->setName($data->getName());
+            $game = $this->getUser()->getTournament();
+            
+            $user = $this->getUser();
+            
+            $game = $this->getUser()->getTournament();
+            $id = $game->getId();
+            $em = $this->getDoctrine()->getManager();
+            $gameId = $em->getRepository('AppBundle:Game')->find($id);
+            if ($game -> getSystName() == 'lol')
+            {
+                $totalrequest =$request->request->all();
+                $team=$totalrequest['team'];
+                $captain = $team['captain'];
+                $role = $captain['role'];
+            
+                $em = $this->getDoctrine()->getManager();
+                $roleEntity = $em->getRepository('AppBundle:Role')->find($role);
+                $user->setRole($roleEntity);
+            }
+            
+            $user->setTeam($entity);
+            $user->setCapitain($entity);
+            
+            $this->get('fos_user.user_manager')->updateUser($user, false);
+            
+            //$application = new Application();
+            $application = $data->getApplication();
+            // var_dump($application); exit();
+            foreach ($application as $appli) {
+                $appli->setTeam($entity);
+                $appli->setUser($user);
+                $appli->setOrigin("team");
+
+                $mailer = $this->container->get('invitation_services');
+                $mailer->sendInvitation($appli);
+
+                var_dump($appli); exit();    
+                $em->persist($appli);
+
+            }
+
+
 			$entity->setCaptain($user);
 			$entity->setTournament($game);
             $em->persist($entity);
