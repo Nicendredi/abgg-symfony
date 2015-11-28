@@ -21,7 +21,7 @@ class CheckRoleTeamApplication
 	  $this->container = $container;
 	}
 	
-	public function getRoleAvailable($teamId)
+	public function getRoleAvailable($teamId, $userId = null)
 	{
         $query = $this->em->createQuery(
 		    'SELECT r
@@ -31,10 +31,10 @@ class CheckRoleTeamApplication
 		    WHERE u.team = :id'
 		)->setParameter('id', $teamId);
 		$roles = $query->getResult();
-		$gameId=$roles[0]->getGame()->getId();
 		
 		if($roles[0]!=null)
 		{
+			
 			$i=0;
 			$phrase='';
 			foreach($roles as $role)
@@ -44,20 +44,30 @@ class CheckRoleTeamApplication
 				$i++;
 			}
 			
+			if($roles[0]->getGame())
+			{
+				$gameId=$roles[0]->getGame()->getId();
+				$game='r.game='.$gameId.$phrase.' or ';
+			}
+			else
+			{
+				$game='';
+			}
+			
 	        $query = $this->em->createQuery(
 			    'SELECT r
 			    FROM AppBundle:Role r 
-			    where r.game='.$gameId.$phrase.
-			    'or r.game is null 
+			    where '.$game.' r.game is null 
 			    and r.name != \'Manager\''.$phrase
 			);
 			$postes = $query->getResult();
+			
 			
 			foreach($postes as $poste)
 			{
 				$choice[$poste->getId()]=$poste->getName();
 			}
-			
+
 		    $formBuilder = $this->container->get('form.factory')->createBuilder()
 				->add('role','choice', array(
 					'label'    => 'Postes disponibles',
@@ -68,8 +78,14 @@ class CheckRoleTeamApplication
 					))
 				->add('teamId','hidden', array('data'=> $teamId))
 	            ->add('save', 'submit', array('label' => 'Postuler'));
+				
+			if($userId != null)
+			{
+				$formBuilder ->add('userId','hidden', array('data'=> $userId));
+			}
+				
 			$form = $formBuilder->getForm();
-			
+
 			return ($form->createView());
 		}
 		
@@ -93,6 +109,8 @@ class CheckRoleTeamApplication
 		
 		return ($form->createView());
 	}
+
+
 	public function getManagerAvailable($teamId)
 	{
         $query = $this->em->createQuery(

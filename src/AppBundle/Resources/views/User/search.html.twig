@@ -21,10 +21,12 @@
                 <th>Jungle</th>
                 {%endif%}
                 <th>Manager</th>
+				<th>Recruter</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
+    	{%set test=0%}
             <tr>
                 <td>{{ entity.username }}</td>
 		        {%if game =='lol'%}
@@ -77,7 +79,29 @@
 	            {%else%}
 	            	<td></td>
 	            {%endif%}
-                	
+            	{%if app.user.capitain and entity.team == null%}
+	            	{%for user in appTeam%}
+			      		{%if user == entity%}
+			      			{%set test=1%}
+			      		{%endif%}
+			      	{%endfor%}
+			      	{%if (test != 1) and (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
+		            	{%if entity.tournament.systName == 'csgo'%}
+			      			<td><a class="btn btn-default" href="{{ path('team_application', {'id':entity.id}) }}">Postuler</a></td>
+			      		{%else%}
+			      			<td>
+								{% form_theme checkRoleService.getRoleAvailable(app.user.team.id,entity.id) 'bootstrap_3_layout.html.twig' %}
+				      			{{form(checkRoleService.getRoleAvailable(app.user.team.id,entity.id))}}
+			      			</td>
+			      		{%endif%}
+			      	{%elseif (app.user.tournament != entity.tournament)%}
+			      		<td></td>
+			      	{%else%}
+			      		<td><p>En attente d'une réponse</p></td>
+			      	{%endif%}
+            	{%else%}
+            		<td></td>
+            	{%endif%}
             </tr>
         {% endfor %}
         </tbody>
