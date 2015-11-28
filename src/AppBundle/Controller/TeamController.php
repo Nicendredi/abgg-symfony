@@ -154,7 +154,7 @@ class TeamController extends Controller
 			$id = $game->getId();
 	        $em = $this->getDoctrine()->getManager();
 	        $gameId = $em->getRepository('AppBundle:Game')->find($id);
-			if ($game -> getSystName() == 'League of Legends')
+			if ($game -> getSystName() == 'lol')
 			{
 				$url='lol';
 			}
@@ -171,9 +171,26 @@ class TeamController extends Controller
 	    	$game = $this->getUser()->getTournament();
 			
             $user = $this->getUser();
+			
+	    	$game = $this->getUser()->getTournament();
+			$id = $game->getId();
+	        $em = $this->getDoctrine()->getManager();
+	        $gameId = $em->getRepository('AppBundle:Game')->find($id);
+			if ($game -> getSystName() == 'lol')
+			{
+				$totalrequest =$request->request->all();
+				$team=$totalrequest['team'];
+				$captain = $team['captain'];
+				$role = $captain['role'];
+			
+		        $em = $this->getDoctrine()->getManager();
+		        $roleEntity = $em->getRepository('AppBundle:Role')->find($role);
+				$user->setRole($roleEntity);
+			}
+			
             $user->setTeam($entity);
 			$user->setCapitain($entity);
-			$user->setRole($data->getCaptain()->getRole());
+			
             $this->get('fos_user.user_manager')->updateUser($user, false);
 			
             $em = $this->getDoctrine()->getManager();

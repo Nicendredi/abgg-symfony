@@ -223,6 +223,16 @@ class UserController extends Controller
 		$team = $checkData -> checkData($user, 'getTeam', 'Team');
 		
 		
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    WHERE p.user = :id
+		    and p.origin = \'player\''
+		)->setParameter('id', $id);
+		$applications = $query->getResult();
+		
+		
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
@@ -238,6 +248,7 @@ class UserController extends Controller
             'role'         => $role,
             'team'         => $team,
             'delete_form'  => $deleteForm->createView(),
+            'applications' => $applications
         );
     }
 
@@ -353,7 +364,7 @@ class UserController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('player'));
+        return $this->redirect($this->generateUrl('homepage'));
     }
 
     /**
@@ -368,7 +379,8 @@ class UserController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('player_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array(
+            	'label' => 'Supprimer votre profil/compte'))
             ->getForm()
         ;
     }

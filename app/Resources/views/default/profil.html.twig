@@ -31,6 +31,8 @@
 		  <div class="col-xs-6">
 		  {% if experience %}
 			  <br>
+		  	  {% form_theme delete_form 'bootstrap_3_layout.html.twig' %}
+		  	  <center>{{form(delete_form)}}</center>
 			  <br>
 			  	<center><hp>{{ experience.username }}</hp></center>
 			  <br>
@@ -277,5 +279,29 @@
 		{%endif%}
 		</div>
 	</div>
+	
+	{%if app.user.team == null%}
+		<div class="row">
+			<div class="col-xs-1"></div>
+			<div class="col-xs-10">
+			<h2>Candidatures</h2>
+			<br>
+			<table class="table table-hover">
+		        <tbody>
+		            <tr>
+		            	<th>Nom équipe</th>
+		            	<th>Pour poste</th>
+		            </tr>
+					{%for application in applications%}
+						<tr>
+							<td>{{application.team.name}}</td>
+							<td>{{application.role.name}}</td>
+						</tr>
+					{%endfor%}
+			</div>
+			<div class="col-xs-1"></div>
+		</div>
+	{%endif%}
+		
 	
 {% endblock %}
