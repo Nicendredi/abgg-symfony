@@ -51,10 +51,18 @@
 				<tr>
 					<th>Joueur</th>
 					<td>{{player.user.username}}</td>
-                	<td>{{player.user.experience.ranking.name }}</td>
-	                {%if team.captain.tournament.systName == 'lol' and  player.user.experience.ranking.name!='Pas classé'%}
-	                	<td>{{ player.user.experience.underRanking.name }}</td>
-	                {%endif%}
+					{%if player.user.manager%}
+						<td></td>
+						{%if team.captain.tournament.systName == 'lol'%}
+							<td></td>
+						{%endif%}
+					{%else%}
+                		<td>{{player.user.experience.ranking.name }}</td>
+		                {%if team.captain.tournament.systName == 'lol' 
+		                and  player.user.experience.ranking.name!='Pas classé'%}
+		                	<td>{{ player.user.experience.underRanking.name }}</td>
+		                {%endif%}
+                	{%endif%}
 					<td>{{player.role.name}}</td>
 				</tr>
 			{%endfor%}
@@ -82,13 +90,18 @@
 				    {%for candidats in team.application %}
 				    <tr>
 				    	<td>{{candidats.user.username}}</td>
-				    	<td>{{candidats.user.experience.ranking.name}}</td>
-		                {%if app.user.tournament.systName == 'lol' 
-		                and candidats.user.manager == null 
-		                and candidats.user.experience.ranking.name != 'Pas classé'%}
-				    		<td>{{candidats.user.experience.underRanking.name}}</td>
-		                {%else%}
-		                	<td></td>
+				    	{%if candidats.user.manager %}
+				    		<td></td>
+				    		<td></td>
+				    	{%else%}
+					    	<td>{{candidats.user.experience.ranking.name}}</td>
+			                {%if app.user.tournament.systName == 'lol' 
+			                and candidats.user.manager == null 
+			                and candidats.user.experience.ranking.name != 'Pas classé'%}
+					    		<td>{{candidats.user.experience.underRanking.name}}</td>
+			                {%else%}
+			                	<td></td>
+		                	{%endif%}
 		                {%endif%}
 				    	{%if app.user.tournament.systName == 'lol' %}
 				    		<td>{{candidats.role}}</td>

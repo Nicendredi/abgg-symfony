@@ -41,17 +41,20 @@
 		      		- {{player.role.name}}
 		      	{%endif%}
 		      	<br>
-		      	{{player.user.experience.ranking.name}}
-		      	{%if entity.captain.tournament.systName == 'lol' and player.user.experience.ranking.name != 'Pas classé'%}
-		      		{{player.user.experience.underRanking.name}}
-		      	{%endif%}
+		      	{%if player.user.manager%}
+		      	{%else%}
+			      	{{player.user.experience.ranking.name}}
+			      	{%if entity.captain.tournament.systName == 'lol' and player.user.experience.ranking.name != 'Pas classé'%}
+			      		{{player.user.experience.underRanking.name}}
+			      	{%endif%}
+			    {%endif%}
       		</td>
       	{%endfor%}
       	{%for i in (entity.player|length)..5%}
       		<td></td>
       	{%endfor%}
       {%endif%}
-      {% if (app.user.team is null)  %}
+      {% if (app.user.team is null) and (app.user.manager == null) %}
       	{%for team in appTeam%}
       		{%if team == entity%}
       			{%set test=1%}
@@ -75,6 +78,21 @@
       	{%else%}
       		<td><p>En attente d'une réponse</p></td>
       	{%endif%}
+      {%elseif (app.user.manager)%}
+      	{%for team in appTeam%}
+      		{%if team == entity%}
+      			{%set test=1%}
+      		{%endif%}
+      	{%endfor%}
+      	{%if (test != 1) and (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
+	      	{%if (checkRoleService.getManagerAvailable(entity.id)) == false%}
+	      	<td>
+	      		En attente d'une réponse
+	      	</td>
+	      	{%else%}
+	      		<td>{{form(checkRoleService.getManagerAvailable(entity.id))}}</td>
+	      	{%endif%}
+	     {%endif%}
       {%else%}
       	<td></td>
       {%endif%}

@@ -35,8 +35,7 @@ class Role
      * @var game
      *
      * @ORM\ManyToOne(targetEntity="Game")
-     * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank
+     * @ORM\JoinColumn(nullable=true)
      */
      private $game;
 

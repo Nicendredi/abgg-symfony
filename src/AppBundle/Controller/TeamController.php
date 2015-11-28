@@ -545,12 +545,18 @@ class TeamController extends Controller
 		$player->setTeam($team[0]);	
 		
 		if ($entity->getRole() != null)
-		{$player->setRole($role[0]);}
+		{
+			$player->setRole($role[0]);
+		}
 		
 		$em->persist($player);
 		$users=$user[0];
         $users->setTeam($team[0]);
         $users->setPlayer($player);
+		if ($entity->getRole() != null)
+		{
+			$users->setRole($role[0]);
+		}
         $this->get('fos_user.user_manager')->updateUser($users, false);
 		
 

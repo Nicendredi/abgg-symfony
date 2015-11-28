@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Role;
+use AppBundle\Entity\Experience;
 use AppBundle\Form\RegistrationType;
 use AppBundle\Form\SearchType;
 use AppBundle\Services\CheckDataServices;
@@ -307,6 +308,16 @@ class UserController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $user = $this->getUser();
+			if(($user->getManager())&&(($user->getExperience())==null))
+			{
+				$experience = new Experience;
+				$user->setExperience($experience);
+				$user->getExperience()->setUsername($user->getUsername());
+	        	$this->get('fos_user.user_manager')->updateUser($user, false);
+			}
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
             $em->flush();
 
             

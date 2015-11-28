@@ -25,14 +25,19 @@ class LoadRoleData  extends AbstractFixture implements OrderedFixtureInterface
 			'Strat Caller' => 'csgo-game',
 			'Support' => 'csgo-game',
 			'Awper' => 'csgo-game',
-			'Lurker' => 'csgo-game'
+			'Lurker' => 'csgo-game',
+			'Manager' => '',
+			'Remplaçant' => ''
 		);
 		
 		foreach($list as $data=>$reference)
 		{
 	        $ranking = new Role();
 	        $ranking->setName($data);
-        	$ranking->setGame($this->getReference($reference));
+			if($reference !='')
+			{
+        		$ranking->setGame($this->getReference($reference));
+			}
 	        $manager->persist($ranking);
 	        $manager->flush();
 		}

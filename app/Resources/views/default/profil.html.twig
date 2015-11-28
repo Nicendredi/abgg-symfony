@@ -120,7 +120,7 @@
 		
 		<div class="col-xs-3">
 		{%if game%}
-			{% if experience %}
+			{% if app.user.experience %}
 				    <h3>In-Game</h3>
 				
 				    <table class="table table-hover">
@@ -129,10 +129,12 @@
 				                <th>Pseudo In-Game</th>
 				                <td>{{ experience.username }}</td>
 				            <tr>
+				            {%if ranking%}
 				            </tr>
 				                <th>Classement</th>
 				                <td>{{ ranking.name }}</td>
 				            </tr>
+				            {%endif%}
 				            {% if underRanking %}
 					            <tr>
 					                <th>Sous-Classement</th>
@@ -145,7 +147,7 @@
 					                <td>{{ experience.steam }}</td>
 					            </tr>
 				            {%endif%}
-				            {%if app.user.tournament.systName == 'lol'%}
+				            {%if app.user.tournament.systName == 'lol' and app.user.experience.postes %}
 				            	<tr>
 				            		<th>Top Lane</th>
 				            		<td>{{app.user.experience.postes.top}}</td>
@@ -167,19 +169,39 @@
 				            		<td>{{app.user.experience.postes.jungle}}</td>
 				            	</tr>
 				            {%endif%}
+				            {%if app.user.manager%}
+				            	<tr>
+				            		<th>Poste</th>
+				            		<td>Manager</td>
+				            	</tr>
+				            {%endif%}
 				        </tbody>
 					    </table>
 				    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
 				    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 				        Modifier
 				    </a>
+				{%elseif app.user.experience == null%}
+					<br>
+				    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
+				    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				        Ajouter Experience
+				    </a>
+				    <br>
+				    	<center><h2>Si vous êtes manager et avez oublié de le préciser, cliquez ici : </h2>
+				        <a class="btn btn-default" href="{{ path('player_edit', {'id':user.id} ) }}">
+				            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+				            Modifier
+				        </a>
+				        </center>
+					<br>
 				{%else%}
-						<br>
-					    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
-					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-					        Modifier Ranking
-					    </a>
-						<br>
+					<br>
+				    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': app.user.experience.id }) }}">
+				    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+				        Modifier Ranking
+				    </a>
+					<br>
 				{%endif%}
 			{%else%}
 					<br>

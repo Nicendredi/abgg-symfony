@@ -31,6 +31,7 @@ class CheckRoleTeamApplication
 		    WHERE u.team = :id'
 		)->setParameter('id', $teamId);
 		$roles = $query->getResult();
+		$gameId=$roles[0]->getGame()->getId();
 		
 		if($roles[0]!=null)
 		{
@@ -38,22 +39,17 @@ class CheckRoleTeamApplication
 			$phrase='';
 			foreach($roles as $role)
 			{
-				if($phrase=='')
-				{
-					$roleId[$i]= $role->getId();
-					$phrase ='WHERE r.id != '.$roleId[$i];
-				}
-				else 
-				{
-					$roleId[$i]= $role->getId();
-					$phrase = $phrase.' and r.id != '.$roleId[$i];
-				}
+				$roleId[$i]= $role->getId();
+				$phrase = $phrase.' and r.id != '.$roleId[$i];
 				$i++;
 			}
 			
 	        $query = $this->em->createQuery(
 			    'SELECT r
-			    FROM AppBundle:Role r '.$phrase
+			    FROM AppBundle:Role r 
+			    where r.game='.$gameId.$phrase.
+			    'or r.game is null 
+			    and r.name != \'Manager\''.$phrase
 			);
 			$postes = $query->getResult();
 			
@@ -96,5 +92,44 @@ class CheckRoleTeamApplication
 		$form = $formBuilder->getForm();
 		
 		return ($form->createView());
+	}
+	public function getManagerAvailable($teamId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT u
+		    FROM AppBundle:User u
+		    INNER JOIN AppBundle:Role r
+		    WITH u.role=r.id
+		    WHERE u.team = :id
+		    and u.manager = 1'
+		)->setParameter('id', $teamId);
+		$roles = $query->getResult();
+		
+		if (empty($roles))
+		{
+	        $query = $this->em->createQuery(
+			    'SELECT r
+			    FROM AppBundle:Role r
+			    WHERE r.name = \'Manager\''
+			);
+			$role = $query->getResult();
+			
+		    $formBuilder = $this->container->get('form.factory')->createBuilder()
+				->add('role','choice', array(
+					'label'    => 'Poste disponible',
+		            'choices'  => array(($role[0]->getId()) => ($role[0]->getName())),
+		            'expanded' => true,
+		            'multiple' => true,
+		            'required' => false,
+					))
+				->add('teamId','hidden', array('data'=> $teamId))
+	            ->add('save', 'submit', array('label' => 'Postuler'));
+			$form = $formBuilder->getForm();
+		
+			return ($form->createView());
+		}
+		else {
+			return;
+		}
 	}
 }
