@@ -44,11 +44,11 @@ class TeamType extends AbstractType
 		
 		$builder
 		->add('application', 'collection', array(
-		'type'  => new ApplicationType($gameId,$game,null, null, null/*$team,$user,$origin*/),
-        'allow_add'   => true,
-        'allow_delete'=> true,
-        'required' => false,
-        'label' => false));
+    		'type'  => new ApplicationType($gameId,$game,null, null, null/*$team,$user,$origin*/),
+            'allow_add'   => true,
+            'allow_delete'=> true,
+            'required' => false,
+            'label' => false));
     }
 	
     /**

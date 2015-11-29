@@ -182,27 +182,4 @@ class Application
     {
         return $this->email;
     }
-
-    /**
-     * Set invitationToken
-     *
-     * @param string $invitationToken
-     * @return Application
-     */
-    public function setInvitationToken($invitationToken)
-    {
-        $this->invitationToken = $invitationToken;
-
-        return $this;
-    }
-
-    /**
-     * Get invitationToken
-     *
-     * @return string 
-     */
-    public function getInvitationToken()
-    {
-        return $this->invitationToken;
-    }
 }

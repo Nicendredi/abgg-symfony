@@ -57,10 +57,10 @@ services:
     traductionDataSearchService:
         class: AppBundle\Services\TraductionDataSearchService
         arguments: [ @doctrine.orm.entity_manager ]
-        
+
     app.registration_email_processor:
         class: AppBundle\Services\EmailRegisterProcessor
-        arguments: [@mailer]
+        arguments: [@service_container]
     app.registration_email_listener:
         class: AppBundle\Services\EmailRegistrationConfirmListener
         arguments: [@app.registration_email_processor]
@@ -68,9 +68,9 @@ services:
             - { name: kernel.event_listener, event: appBundle.services.registrationEmail, method: onRegistrationComplete }
     invitation_services:
         class: AppBundle\Services\invitationServices
-        arguments: [ @doctrine.orm.entity_manager ]
-        
-        
+        arguments: [ @doctrine.orm.entity_manager, @app.registration_email_processor]
+
+
     application_listener: #update order status if item status are same
         class: AppBundle\Listener\ApplicationListener
         arguments: [ @service_container ] # We use container directly in order to avoid a CircularReferenceException

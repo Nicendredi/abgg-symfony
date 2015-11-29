@@ -162,6 +162,10 @@ class TeamController extends Controller
      */
     public function createTeamAction(Request $request)
     {
+        $check = $request->request->all();
+        $team = $check['team'];
+        $application = $team['application'];
+        var_dump($application); exit;
         $entity = new Team();
         $form = $this->createFormTeam($entity);
         $form->handleRequest($request);
@@ -192,6 +196,18 @@ class TeamController extends Controller
 				}
 			}
 
+            $application = $data->getApplication();
+            foreach ($application as $appli) {
+                $appli->setTeam($entity);
+                $appli->setOrigin("team");
+
+                $em->persist($appli);
+                $em->flush();
+                $mailer = $this->container->get('invitation_services');
+                $mailer->sendInvitation($appli, $user);
+
+            }
+
             $em->persist($entity);
             $em->flush();
 			
@@ -212,17 +228,16 @@ class TeamController extends Controller
         elseif ((($data->getName())!=null) 
         && ($data->getCaptain()->getRole()) != null ){
 
-            $em = $this->getDoctrine()->getManager();
 
             $entity = new Team();
             $entity->setName($data->getName());
+            
+            $em = $this->getDoctrine()->getManager();
             $game = $this->getUser()->getTournament();
             
             $user = $this->getUser();
             
-            $game = $this->getUser()->getTournament();
             $id = $game->getId();
-            $em = $this->getDoctrine()->getManager();
             $gameId = $em->getRepository('AppBundle:Game')->find($id);
             if ($game -> getSystName() == 'lol')
             {
@@ -241,22 +256,17 @@ class TeamController extends Controller
             
             $this->get('fos_user.user_manager')->updateUser($user, false);
             
-            //$application = new Application();
             $application = $data->getApplication();
-            // var_dump($application); exit();
             foreach ($application as $appli) {
                 $appli->setTeam($entity);
-                $appli->setUser($user);
                 $appli->setOrigin("team");
 
-                $mailer = $this->container->get('invitation_services');
-                $mailer->sendInvitation($appli);
-
-                var_dump($appli); exit();    
                 $em->persist($appli);
+                $em->flush();
+                $mailer = $this->container->get('invitation_services');
+                $mailer->sendInvitation($appli, $user);
 
             }
-
 
 			$entity->setCaptain($user);
 			$entity->setTournament($game);
