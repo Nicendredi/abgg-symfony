@@ -213,4 +213,30 @@ class DefaultController extends Controller
       return $response;
     }
 
+    /**
+     * @Route("/search/player", name="search_player")
+     */
+    public function searchPlayerAction($game)
+    {
+	    $response = $this->forward('AppBundle:User:search_player', array(
+	        'game'  => $game
+	        
+	    ));
+	
+	    return $response;
+    }
+
+    /**
+     * @Route("/search/team", name="search_team")
+     */
+    public function searchTeamAction($game)
+    {
+	    $response = $this->forward('AppBundle:Team:search_team', array(
+	        'game'  => $game
+	        
+	    ));
+	
+	    return $response;
+    }
+
 }

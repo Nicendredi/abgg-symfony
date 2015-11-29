@@ -69,3 +69,11 @@ services:
     invitation_services:
         class: AppBundle\Services\invitationServices
         arguments: [ @doctrine.orm.entity_manager ]
+        
+        
+    application_listener: #update order status if item status are same
+        class: AppBundle\Listener\ApplicationListener
+        arguments: [ @service_container ] # We use container directly in order to avoid a CircularReferenceException
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }

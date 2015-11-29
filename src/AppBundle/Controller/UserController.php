@@ -83,7 +83,7 @@ class UserController extends Controller
 	
 	    $form = $formBuilder->getForm();
 	    
-	    if (($this->getUser()->getTeam()) != null)
+	    if (($this->getUser())&&($this->getUser()->getTeam()) != null)
 		{
 			$teamId = $this->getUser()->getTeam()->getId();
 	        $query = $em->createQuery(

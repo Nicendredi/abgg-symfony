@@ -56,6 +56,7 @@ class CountCandidats
 		    AND p.origin = \'team\''
 		)->setParameter('id', $teamId);
 		$users = $query->getResult();
+		
 		return $users;
 	}
 	

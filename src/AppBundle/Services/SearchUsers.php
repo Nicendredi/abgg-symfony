@@ -24,4 +24,19 @@ class SearchUsers
 		$users = count($query->getResult());
 		return $users;
 	}
+	
+	public function getSearchingUsersSystName($game)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:User p
+		    inner join AppBundle:Game g
+		    with p.tournament=g.id
+		    WHERE g.systName = :id
+		    AND p.team is null
+		    AND p.player is null'
+		)->setParameter('id', $game);
+		$users = count($query->getResult());
+		return $users;
+	}
 }
