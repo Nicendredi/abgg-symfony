@@ -121,9 +121,29 @@
 				      {%endif%}
 				  </ul>
             </li>
-            <li><a href="#">Animations</a></li>
+            <li>
+            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+            		FAQ  <span class="caret"></span>
+            	</a>
+            	<ul class="dropdown-menu">
+            		<li>
+            			<a href="{{ path('faq', {'game': 'lol'}) }}">
+            				<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+            				League of Legends
+            			</a>
+            		</li>
+            		<li>
+            			<a href="{{ path('faq', {'game': 'csgo'}) }}">
+            				<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+            				Counter Strike : Global Offensive
+            			</a>
+            		</li>
+				  </ul>
+            </li>
+            {#<li><a href="#">Animations</a></li>
             <li><a href="#">Editions précédentes</a></li>
-			{# <li><a href="{{path('blog')}}">Blog</a></li> #}
+			 <li><a href="{{path('blog')}}">Blog</a></li> #}
           </ul>
           <ul class="nav navbar-nav navbar-right">
 	          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}

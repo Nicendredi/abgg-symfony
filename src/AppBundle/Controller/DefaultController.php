@@ -239,4 +239,14 @@ class DefaultController extends Controller
 	    return $response;
     }
 
+    /**
+    * @Route("/faq/{game}", name="faq")
+    */
+    public function faqAction($game)
+    {
+      return $this->render('AppBundle:FAQ:faq.html.twig', array(
+          'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
+      ));
+    }
+
 }
