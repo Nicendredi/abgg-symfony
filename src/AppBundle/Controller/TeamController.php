@@ -80,7 +80,9 @@ class TeamController extends Controller
 	        $query = $em->createQuery(
 			    'SELECT p
 			    FROM AppBundle:Application p
-			    WHERE p.user = :id'
+			    WHERE p.user = :id
+			    and p.origin = \'player\'
+			    and p.blocked is null'
 			)->setParameter('id', $userId);
 			$userApp = $query->getResult();
 			
@@ -165,7 +167,6 @@ class TeamController extends Controller
         $check = $request->request->all();
         $team = $check['team'];
         $application = $team['application'];
-        var_dump($application); exit;
         $entity = new Team();
         $form = $this->createFormTeam($entity);
         $form->handleRequest($request);
@@ -481,7 +482,6 @@ class TeamController extends Controller
 		    WHERE p.team = :id'
 		)->setParameter('id', $id);
 		$players = $query->getResult();
-		var_dump($players);exit;
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Team entity.');

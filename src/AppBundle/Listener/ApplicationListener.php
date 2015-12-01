@@ -119,8 +119,12 @@ class ApplicationListener
 						}
 						$this->em->persist($player);
 						
-						var_dump($player->getUser());exit;
+						$user = $player->getUser();
+						$user->setPlayer($player);
+						$user->setTeam($player->getTeam());
+						$user->setRole($player->getRole());
 						
+            			$this->container->get('fos_user.user_manager')->updateUser($user, false);
 						
 						$this->em->flush();
 						return;

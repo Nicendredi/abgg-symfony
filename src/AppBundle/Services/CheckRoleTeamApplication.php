@@ -62,11 +62,28 @@ class CheckRoleTeamApplication
 			);
 			$postes = $query->getResult();
 			
+			$query = $this->em->createQuery(
+				'Select r
+				From AppBundle:Role r
+				inner join AppBundle:Application a
+				with r.id = a.role
+				where a.team = '.$teamId.' 
+				and a.user = '.$userId.' 
+				and a.origin = \'player\''
+			);
+			$appUsers = $query->getResult();
 			
 			foreach($postes as $poste)
 			{
-				$choice[$poste->getId()]=$poste->getName();
+				foreach($appUsers as $appUser)
+				{
+					if($poste != $appUser)
+					{
+						$choice[$poste->getId()]=$poste->getName();
+					}
+				}
 			}
+			
 
 		    $formBuilder = $this->container->get('form.factory')->createBuilder()
 				->add('role','choice', array(

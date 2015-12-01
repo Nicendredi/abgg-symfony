@@ -61,12 +61,12 @@
 	      			{%set test=1%}
 	      		{%endif%}
 	      	{%endfor%}
-	      	{%if (test != 1) and (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
+	      	{%if (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
 	      		{%if app.user.tournament.systName == 'csgo'%}
 	      			<td><a class="btn btn-default" href="{{ path('team_application', {'id':entity.id}) }}">Postuler</a></td>
 	      		{%else%}
-					{% form_theme checkRoleService.getRoleAvailable(entity.id) 'bootstrap_3_layout.html.twig' %}
-	      			<td>{{form(checkRoleService.getRoleAvailable(entity.id))}}</td>
+					{% form_theme checkRoleService.getRoleAvailable(entity.id, app.user.id) 'bootstrap_3_layout.html.twig' %}
+	      			<td>{{form(checkRoleService.getRoleAvailable(entity.id, app.user.id))}}</td>
 	      		{%endif%}
 	      	{%elseif (app.user.tournament != entity.tournament)%}
 	      		<td></td>
