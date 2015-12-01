@@ -18,7 +18,8 @@ class CountCandidats
 		    'SELECT p
 		    FROM AppBundle:Application p
 		    WHERE p.team = :id
-		    AND p.origin = \'player\''
+		    AND p.origin = \'player\'
+		    and p.blocked is null'
 		)->setParameter('id', $teamId);
 		$users = count($query->getResult());
 		return $users;
@@ -29,7 +30,8 @@ class CountCandidats
 		    'SELECT p
 		    FROM AppBundle:Application p
 		    WHERE p.team = :id
-		    AND p.origin = \'player\''
+		    AND p.origin = \'player\'
+		    and p.blocked is null'
 		)->setParameter('id', $teamId);
 		$users = $query->getResult();
 		return $users;
@@ -41,7 +43,8 @@ class CountCandidats
 		    'SELECT p
 		    FROM AppBundle:Application p
 		    WHERE p.team = :id
-		    AND p.origin = \'team\''
+		    AND p.origin = \'team\'
+		    and p.blocked is null'
 		)->setParameter('id', $teamId);
 		$users = count($query->getResult());
 		return $users;
@@ -53,7 +56,8 @@ class CountCandidats
 		    'SELECT p
 		    FROM AppBundle:Application p
 		    WHERE p.team = :id
-		    AND p.origin = \'team\''
+		    AND p.origin = \'team\'
+		    and p.blocked is null'
 		)->setParameter('id', $teamId);
 		$users = $query->getResult();
 		
@@ -66,7 +70,8 @@ class CountCandidats
 		    'SELECT p
 		    FROM AppBundle:Application p
 		    WHERE p.user = :id
-		    AND p.origin = \'team\''
+		    AND p.origin = \'team\'
+		    and p.blocked is null'
 		)->setParameter('id', $user);
 		$users = count($query->getResult());
 		return $users;

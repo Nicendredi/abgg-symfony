@@ -66,6 +66,13 @@ class Application
     private $email;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="blocked", type="boolean", nullable=true)
+     */
+    private $blocked;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -174,5 +181,28 @@ class Application
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set blocked
+     *
+     * @param boolean $blocked
+     * @return Application
+     */
+    public function setBlocked($blocked)
+    {
+        $this->blocked = $blocked;
+
+        return $this;
+    }
+
+    /**
+     * Get blocked
+     *
+     * @return boolean
+     */
+    public function getBlocked()
+    {
+        return $this->blocked;
     }
 }

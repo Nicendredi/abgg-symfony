@@ -55,7 +55,7 @@
 				      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") )
 				      and (app.user.capitain != true) 
 				      and (app.user.team == null) 
-				      and (checkGame == games.name)
+				      and (app.user.tournament == 'lol')
 				      and (app.user.tournament!=null) %}
 				      	<li>
 					        <a href="{{ path('team_new' )}}">
@@ -63,7 +63,7 @@
 						        	Inscrire une équipe
 					        </a>
 					    </li>
-				      {%elseif (is_granted("IS_AUTHENTICATED_REMEMBERED") and (checkGame != games.name))
+				      {%elseif (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament != 'lol'))
 				       or (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament !=null)) %}
 				      {%else%}
 				      	<li>
@@ -101,7 +101,7 @@
 				      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") )
 				      and (app.user.capitain != true) 
 				      and (app.user.team == null) 
-				      and (checkGame == games.name)
+				      and (app.user.tournament == 'csgo')
 				      and (app.user.tournament!=null) %}
 				      	<li>
 					        <a href="{{ path('team_new' )}}">
@@ -109,7 +109,7 @@
 						        	Inscrire une équipe
 					        </a>
 					    </li>
-				      {%elseif (is_granted("IS_AUTHENTICATED_REMEMBERED") and (checkGame != games.name))
+				      {%elseif (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament != 'csgo'))
 				       or (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament !=null)) %}
 				      {%else%}
 				      	<li>

@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Role;
 use AppBundle\Entity\Experience;
+use AppBundle\Entity\Player;
 use AppBundle\Entity\Application;
 use AppBundle\Form\RegistrationType;
 use AppBundle\Form\SearchType;
@@ -308,7 +309,8 @@ class UserController extends Controller
 		    'SELECT p
 		    FROM AppBundle:Application p
 		    WHERE p.user = :id
-		    and p.origin = \'player\''
+		    and p.origin = \'player\'
+		    and p.blocked is null'
 		)->setParameter('id', $id);
 		$applications = $query->getResult();
 		
@@ -317,7 +319,8 @@ class UserController extends Controller
 		    'SELECT p
 		    FROM AppBundle:Application p
 		    WHERE p.user = :id
-		    and p.origin = \'team\''
+		    and p.origin = \'team\'
+		    and p.blocked is null'
 		)->setParameter('id', $id);
 		$propositions = $query->getResult();
 		
@@ -492,5 +495,104 @@ class UserController extends Controller
 		
 		return $this->redirect($this->generateUrl('player_show', array('id' => $this->getUser()->getId())));
 	 }
+	 
+	
+    /**
+     * Finds and displays a User entity.
+     *
+     * @Route("/delete/application/{candidats}", name="delete_application")
+     * @Method("GET")
+     */
+    public function deleteApplicationAction($candidats)
+    {
+        $em = $this->getDoctrine()->getManager();
+		$entity = $this->getDoctrine()->getRepository('AppBundle:Application')->find($candidats);
+        $em->remove($entity);
+        $em->flush();
+		return $this->redirect($this->generateUrl('player_show', array('id' => $this->getUser()->getId())));
+    }
+	
+    /**
+     * Finds and displays a User entity.
+     *
+     * @Route("/validate/application/{candidats}", name="validate_application")
+     * @Method("GET")
+     */
+    public function validateApplicationAction($candidats)
+    {
+        $em = $this->getDoctrine()->getManager();
+		$entity = $this->getDoctrine()->getRepository('AppBundle:Application')->find($candidats);
+		
+		$userId=$entity->getUser()->getId();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:User p
+		    WHERE p.id = :id'
+		)->setParameter('id', $userId);
+		$user = $query->getResult();
+		
+		$teamId=$entity->getTeam()->getId();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    WHERE p.id = :id'
+		)->setParameter('id', $teamId);
+		$team = $query->getResult();
+			
+		if ($entity->getRole() != null)
+		{
+			$roleId=$entity->getRole()->getId();
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Role p
+			    WHERE p.id = :id'
+			)->setParameter('id', $roleId);
+			$role = $query->getResult();
+		}
+		
+		$player = new Player;
+		$player->setUser($user[0]);
+		$player->setTeam($team[0]);	
+		
+		if ($entity->getRole() != null)
+		{
+			$player->setRole($role[0]);
+		}
+		
+		$em->persist($player);
+		$users=$user[0];
+        $users->setTeam($team[0]);
+        $users->setPlayer($player);
+		if ($entity->getRole() != null)
+		{
+			$users->setRole($role[0]);
+		}
+        $this->get('fos_user.user_manager')->updateUser($users, false);
+		
+
+	    if($entity->getRole() != null)
+	    {
+	    	$phrase=' or p.team='.$teamId.' and p.role = '.$roleId ;
+		}
+		else
+		{
+			$phrase='';
+		}
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    where p.user= '.$userId.$phrase 
+		);
+		$applications = $query->getResult();
+		
+		foreach ($applications as $application) 
+		{
+			$application->setBlocked(true);
+        	$em->persist($application);
+		}
+		
+        $em->flush();
+		return $this->redirect($this->generateUrl('player_show', array('id' => $this->getUser()->getId())));
+    }
 	
 }

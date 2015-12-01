@@ -523,6 +523,7 @@ class TeamController extends Controller
         $em->flush();
 		return $this->redirect($this->generateUrl('search_team', array('game'=> $gameName )));
     }
+	
     /**
      * Finds and displays a User entity.
      *
@@ -589,34 +590,15 @@ class TeamController extends Controller
 		$users=$user[0];
         $users->setTeam($team[0]);
         $users->setPlayer($player);
+		
 		if ($entity->getRole() != null)
 		{
 			$users->setRole($role[0]);
 		}
+		
         $this->get('fos_user.user_manager')->updateUser($users, false);
+		$em->flush();
 		
-
-	    if($entity->getRole() != null)
-	    {
-	    	$phrase=' or p.team='.$teamId.' and p.role = '.$roleId ;
-		}
-		else
-		{
-			$phrase='';
-		}
-        $query = $em->createQuery(
-		    'SELECT p
-		    FROM AppBundle:Application p
-		    where p.user= '.$userId.$phrase 
-		);
-		$applications = $query->getResult();
-		
-		foreach ($applications as $application) 
-		{
-        	$em->remove($application);
-		}
-		
-        $em->flush();
 		return $this->redirect($this->generateUrl('team_show', array('id'=> ($this->getUser()->getTeam()->getId()) )));
     }
 	

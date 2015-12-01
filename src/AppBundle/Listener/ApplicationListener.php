@@ -49,6 +49,10 @@ class ApplicationListener
         {
             $this->checkMultipleApplication($entity);
         }
+		elseif ($entity instanceof Player) 
+		{
+			$this->blockApplication($entity);
+		}
     }
 
     public function postUpdate(LifecycleEventArgs $args)
@@ -79,7 +83,8 @@ class ApplicationListener
 		    WHERE p.team = '.$team.
 		    'and p.user = '.$user.
 		    'and p.role = '.$role.
-		    'and p.origin=\'team\''
+		    'and p.origin=\'team\'
+		    and p.blocked is null'
 		);
 		$appTeams = $query->getResult();
 		
@@ -89,9 +94,11 @@ class ApplicationListener
 		    WHERE p.team = '.$team.
 		    'and p.user = '.$user.
 		    'and p.role = '.$role.
-		    'and p.origin=\'player\''
+		    'and p.origin=\'player\'
+		    and p.blocked is null'
 		);
 		$appPlayers = $query->getResult();
+		
 		
 		if($appTeams && $appPlayers)
 		{
@@ -99,7 +106,9 @@ class ApplicationListener
 			{
 				foreach($appPlayers as $appPlayer)
 				{
-					if($appTeam==$appPlayer)
+					if(($appTeam->getTeam()==$appPlayer->getTeam())
+					&& ($appTeam->getUser()==$appPlayer->getUser())
+					&& ($appTeam->getRole()==$appPlayer->getRole()))
 					{
 						$player = new Player();
 						$player->setTeam($appTeam->getTeam());
@@ -109,7 +118,59 @@ class ApplicationListener
 							$player->setRole($appTeam->getRole());
 						}
 						$this->em->persist($player);
+						$this->em->flush();
+						return;
 					}
+				}
+			}
+		}
+	}
+
+	public function blockApplication(Player $player)
+	{
+		
+		$team = $player->getTeam()->getId();
+		$user = $player->getUser()->getId();
+		
+		if($player->getRole())
+		{
+			$role = $player->getRole()->getId();
+		}
+		
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    WHERE p.user = '.$user.'
+		    and p.blocked is null'
+		);
+		$appUsers = $query->getResult();
+		
+		foreach($appUsers as $appUser)
+		{
+			if($appUser->getBlocked()==0)
+			{
+				$appUser->setBlocked(1);
+				$this->em->persist($appUser);
+			}
+		}
+		
+		if($player->getRole())
+		{
+	        $query = $this->em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Application p
+			    WHERE p.team = '.$team.
+			    'and p.role = '.$role.'
+		    	and p.blocked is null'
+			);
+			$appTeams = $query->getResult();
+			
+			foreach($appTeams as $appTeam)
+			{
+				if($appTeam->getBlocked()==0)
+				{
+					$appTeam->setBlocked(1);
+					$this->em->persist($appTeam);
 				}
 			}
 		}
