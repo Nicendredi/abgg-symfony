@@ -5,6 +5,8 @@ namespace AppBundle\Services;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Player;
+use AppBundle\Entity\Application;
+use AppBundle\Services\EmailRegisterRegistrator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
@@ -12,23 +14,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class invitationServices
 {
 
-	public function __construct(\Doctrine\ORM\EntityManager $em)
+	public function __construct(\Doctrine\ORM\EntityManager $em, EmailRegisterProcessor $mailer)
 	{
 	  $this->em = $em;
+	  $this->mailer = $mailer;
 	}
 
 	public function closeInvitation(User $user, $invitation)
 	{
 		$em = $this->em;
-		$invit = $em->getRepository('AppBundle:Player')->findOneBy(array('invitation'=>$invitation));
+		$invit = $em->getRepository('AppBundle:Application')->findOneBy(array('invitationToken'=>$invitation));
 		dump($invit);
 
 		if (!$invit) {
-			throw $this->createNotFoundException('Unable to find Player entity.');
+			throw $this->createNotFoundException('Unable to find Application entity.');
 		}
 
 		$invit->setUser($user);
-		$invit->setInvitation(null);
+		$invit->setInvitationToken(null);
 
 		$user->setTeam($invit->getTeam());
 		$user->setRole($invit->getRole());		
@@ -39,29 +42,22 @@ class invitationServices
 
 	}
 
-
-	public function sendInvitation($teamId, $roleId, $user)
+	private function createInvitToken(Application $application)
 	{
-		$id = setInvitation($teamId, $roleId);
+		$invitationToken = rtrim(base64_encode(md5(microtime())),"=");;
 
-		sendEmail(2, $id, $user);
-	}
+		$application->setInvitationToken($invitationToken);
 
-
-	private function setInvitation($teamId, $roleId)
-	{
-		$invitationId = openssl_random_pseudo_bytes(10);
-
-		$entity = new Player();
-		$entity->setTeam($teamId);
-		$entity->setTeam($roleId);
-		$entity->setInvitation($invitationId);
-
-		$em = $this->getDoctrine()->getManager();
-		$em->persist($entity);
+		$em = $this->em;
+		$em->persist($application);
 		$em->flush();
 
-		return $invitationId;
+		return $invitationToken;
 	}
 
+	public function sendInvitation(Application $application, User $user)
+	{
+		$token = $this->createInvitToken($application);
+		$this->mailer->sendEmail(2, array(/*'token' =>*/ $token, /*'user' =>*/ $user, $application->getEmail()));
+	}
 }

@@ -66,11 +66,19 @@ class Application
     private $email;
 
     /**
+<<<<<<< HEAD
      * @var boolean
      *
      * @ORM\Column(name="blocked", type="boolean", nullable=true)
      */
     private $blocked;
+
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="invitationToken", type="string", length=255, nullable=true)
+     */
+    private $invitationToken;
 
     /**
      * Get id
@@ -192,10 +200,8 @@ class Application
     public function setBlocked($blocked)
     {
         $this->blocked = $blocked;
-
-        return $this;
-    }
-
+	}
+	
     /**
      * Get blocked
      *
@@ -204,5 +210,28 @@ class Application
     public function getBlocked()
     {
         return $this->blocked;
+	}
+
+	/**
+     * Set invitationToken
+     *
+     * @param string $invitationToken
+     * @return Application
+     */
+    public function setInvitationToken($invitationToken)
+    {
+        $this->invitationToken = $invitationToken;
+
+        return $this;
+    }
+		
+	/**
+     * Get invitationToken
+     *
+     * @return string 
+     */
+    public function getInvitationToken()
+    {
+        return $this->invitationToken;
     }
 }

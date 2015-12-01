@@ -118,6 +118,10 @@ class ApplicationListener
 							$player->setRole($appTeam->getRole());
 						}
 						$this->em->persist($player);
+						
+						var_dump($player->getUser());exit;
+						
+						
 						$this->em->flush();
 						return;
 					}

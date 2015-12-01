@@ -26,7 +26,7 @@
 						$('#invitPlayerBtn').on('click', function(e) {
 							e.preventDefault();
 							var container = $('#team_application');
-							var newForm = container.data('prototype').replace(/__name__label__/g, ' ');
+							var newForm = container.data('prototype').replace(/__name__/g, 'Joueur '+i);
 							var newFormLi = $('' +
 								'<div id="'+ i++ +'"> ' +
 								'<hr>' +
