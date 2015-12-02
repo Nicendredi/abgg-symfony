@@ -67,11 +67,17 @@ class ApplicationListener
 	public function checkMultipleApplication(Application $application)
 	{
 		$team = $application->getTeam()->getId();
-		$user = $application->getUser()->getId();
+		if($application->getUser())
+		{
+			$user = ' and p.user = '.($application->getUser()->getId());
+		}
+		else {
+			$user='';
+		}
 		
 		if($application->getRole())
 		{
-			$role = $application->getRole()->getId();
+			$role = 'and p.role = '.($application->getRole()->getId());
 		}
 		else {
 			$role='';
@@ -80,9 +86,7 @@ class ApplicationListener
         $query = $this->em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Application p
-		    WHERE p.team = '.$team.
-		    'and p.user = '.$user.
-		    'and p.role = '.$role.
+		    WHERE p.team = '.$team.$user.$role.
 		    'and p.origin=\'team\'
 		    and p.blocked is null'
 		);
@@ -91,9 +95,7 @@ class ApplicationListener
         $query = $this->em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Application p
-		    WHERE p.team = '.$team.
-		    'and p.user = '.$user.
-		    'and p.role = '.$role.
+		    WHERE p.team = '.$team.$user.$role.
 		    'and p.origin=\'player\'
 		    and p.blocked is null'
 		);

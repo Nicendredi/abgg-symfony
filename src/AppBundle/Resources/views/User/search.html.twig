@@ -26,7 +26,6 @@
         </thead>
         <tbody>
         {% for entity in entities %}
-    	{%set test=0%}
             <tr>
                 <td>{{ entity.username }}</td>
 		        {%if game =='lol'%}
@@ -81,12 +80,10 @@
 	            {%endif%}
 	            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 	            	{%if app.user.capitain and entity.team == null%}
-		            	{%for user in appTeam%}
-				      		{%if user == entity%}
-				      			{%set test=1%}
-				      		{%endif%}
-				      	{%endfor%}
-				      	{%if (test != 1) and (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
+				      	{%if ((checkRoleService.getRoleAvailable(app.user.team.id,entity.id))!=null)
+				      	 and (app.user.tournament == entity.tournament) 
+				      	 and (app.user.experience !=null)
+				      	 and (entity.manager == null)%}
 			            	{%if entity.tournament.systName == 'csgo'%}
 				      			<td><a class="btn btn-default" href="{{ path('team_application', {'id':entity.id}) }}">Postuler</a></td>
 				      		{%else%}
@@ -95,6 +92,12 @@
 					      			{{form(checkRoleService.getRoleAvailable(app.user.team.id,entity.id))}}
 				      			</td>
 				      		{%endif%}
+				      	{%elseif entity.manager != null 
+				      	and ((checkRoleService.getManagerAvailable(app.user.team.id,entity.id))!=null)%}
+			      			<td>
+								{% form_theme checkRoleService.getManagerAvailable(app.user.team.id,entity.id) 'bootstrap_3_layout.html.twig' %}
+				      			{{form(checkRoleService.getManagerAvailable(app.user.team.id,entity.id))}}
+			      			</td>
 				      	{%elseif (app.user.tournament != entity.tournament)%}
 				      		<td></td>
 				      	{%else%}

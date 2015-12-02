@@ -35,6 +35,7 @@
                 {%if players%}
                 	<td></td>
                 {%endif%}
+				<td></td>
             </tr>
             <tr>
                 <th>Capitaine d'équipe</th>
@@ -76,10 +77,11 @@
 	<br><br><br>
 	
 	{%if team.validation == null %}
-	    <h2>Candidatures déposées par les joueurs
-	    	<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
-	    </h2>
-	    
+		{%if  (countCandidatsService.getAllSearchingCandidats(app.user.team.id))!= null %}
+		    <h2>Candidatures déposées par les joueurs
+		    	<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
+		    </h2>
+		    
 	    	<table class="table table-hover">
 		        <tbody>
 		            <tr>
@@ -94,6 +96,9 @@
 				    {%for candidats in (countCandidatsService.getAllSearchingCandidats(app.user.team.id)) %}
 				    <tr>
 				    	<td>{{candidats.user.username}}</td>
+				    		<td> </td>
+				    		<td> </td>
+				    		<td> </td>
 				    	{%if candidats.user.manager %}
 				    		<td></td>
 				    		<td></td>
@@ -128,14 +133,16 @@
 				    {%endfor%}
 				</tbody>
 			</table>
+		{%endif%}
 	
 		<br><br><br>
 	    
-	    
-	    <h2>Recrutement par le chef d'équipe en attente de réponse
-	    	<span class="badge">{{ countCandidatsService.getApplicationFromTeam(app.user.team.id) }}</span>
-	    </h2>
-	    <table class="table table-hover">
+	    {%if (countCandidatsService.getAllApplicationFromTeam(app.user.team.id)) != null%}
+		    <h2>Recrutement par le chef d'équipe en attente de réponse
+		    	<span class="badge">{{ countCandidatsService.getApplicationFromTeam(app.user.team.id) }}</span>
+		    </h2>
+		    
+		    <table class="table table-hover">
 		        <tbody>
 		            <tr>
 		                <th>Pseudo joueur</th>
@@ -148,23 +155,32 @@
 		            </tr>
 				    {%for candidats in (countCandidatsService.getAllApplicationFromTeam(app.user.team.id)) %}
 				    <tr>
-				    	<td>{{candidats.user.username}}</td>
-				    	{%if candidats.user.manager %}
-				    		<td></td>
-				    		<td></td>
+				    	{%if candidats.user == null%}
+				    		<td>{{candidats.email}}</td>
+				    		<td> </td>
+				    		<td> </td>
+				    		<td> </td>
 				    	{%else%}
-					    	<td>{{candidats.user.experience.ranking.name}}</td>
-			                {%if app.user.tournament.systName == 'lol' 
-			                and candidats.user.manager == null 
-			                and candidats.user.experience.ranking.name != 'Pas classé'%}
-					    		<td>{{candidats.user.experience.underRanking.name}}</td>
-			                {%else%}
-			                	<td></td>
-		                	{%endif%}
-		                {%endif%}
-				    	{%if app.user.tournament.systName == 'lol' %}
-				    		<td>{{candidats.role}}</td>
-		                {%endif%}
+				    		<td>{{candidats.user.username}}</td>
+					    	{%if candidats.user.manager %}
+					    		<td></td>
+					    		<td></td>
+					    	{%elseif candidats.user%}
+						    	<td>{{candidats.user.experience.ranking.name}}</td>
+				                {%if app.user.tournament.systName == 'lol' 
+				                and candidats.user.manager == null 
+				                and candidats.user.experience.ranking.name != 'Pas classé'%}
+						    		<td>{{candidats.user.experience.underRanking.name}}</td>
+				                {%else%}
+				                	<td></td>
+			                	{%endif%}
+					    	{%else%}
+				                <td></td>
+			                {%endif%}
+					    	{%if app.user.tournament.systName == 'lol' %}
+					    		<td>{{candidats.role}}</td>
+			                {%endif%}
+				    	{%endif%}
 		                {%if app.user.capitain%}
 			                <td>
 			                	<a class="btn btn-default"  href="{{ path('delete_application_recrutement', {'id':candidats.id} ) }}">
@@ -180,7 +196,7 @@
 				    {%endfor%}
 				</tbody>
 			</table>
-	    
+	    {%endif%}
 	    
 	{%else%}
 		

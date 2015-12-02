@@ -8,18 +8,17 @@
     <tr>
         <th>Equipe</th>
         <th>Capitaine d'équipe</th>
-		<th>Joueur 1</th>
 		<th>Joueur 2</th>
 		<th>Joueur 3</th>
 		<th>Joueur 4</th>
 		<th>Joueur 5</th>
 		<th>Joueur 6</th>
+		<th>Joueur 7</th>
 		<th>Postuler</th>
     </tr>
   </thead>
   <tbody>
     {% for entity in entities %}
-    {%set test=0%}
     <tr>
       <td>{{ entity.name }}</td>
       <td>
@@ -54,14 +53,11 @@
       		<td></td>
       	{%endfor%}
       {%endif%}
-      {%if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+      {%if is_granted("IS_AUTHENTICATED_REMEMBERED") and (entity.validation == null) %}
 	      {% if (app.user.team is null) and (app.user.manager == null) %}
-	      	{%for team in appTeam%}
-	      		{%if team == entity%}
-	      			{%set test=1%}
-	      		{%endif%}
-	      	{%endfor%}
-	      	{%if (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
+	      	{%if ((checkRoleService.getRoleAvailable(entity.id, app.user.id))!=null)
+	      	and (app.user.tournament == entity.tournament) 
+	      	and (app.user.experience !=null)%}
 	      		{%if app.user.tournament.systName == 'csgo'%}
 	      			<td><a class="btn btn-default" href="{{ path('team_application', {'id':entity.id}) }}">Postuler</a></td>
 	      		{%else%}
@@ -80,12 +76,7 @@
 	      		<td><p>En attente d'une réponse</p></td>
 	      	{%endif%}
 	      {%elseif (app.user.manager)%}
-	      	{%for team in appTeam%}
-	      		{%if team == entity%}
-	      			{%set test=1%}
-	      		{%endif%}
-	      	{%endfor%}
-	      	{%if (test != 1) and (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
+	      	{%if (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
 		      	{%if (checkRoleService.getManagerAvailable(entity.id)) == false%}
 		      	<td>
 		      		En attente d'une réponse

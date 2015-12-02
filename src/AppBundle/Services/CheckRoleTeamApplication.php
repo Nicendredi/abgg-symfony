@@ -32,9 +32,30 @@ class CheckRoleTeamApplication
 		)->setParameter('id', $teamId);
 		$roles = $query->getResult();
 		
+		$query = $this->em->createQuery(
+			'Select r
+			From AppBundle:Role r
+			inner join AppBundle:Application a
+			with r.id = a.role
+			where a.team = '.$teamId.' 
+			and a.user = '.$userId.' 
+			and a.origin = \'player\''
+		);
+		$appUsers = $query->getResult();
+		
+		foreach($appUsers as $appUser)
+		{
+			$i = count($roles);
+			$roles[$i] = $appUser;
+		}
+		
+		if(count($roles)==7)
+		{
+			return;
+		}
+		
 		if($roles[0]!=null)
 		{
-			
 			$i=0;
 			$phrase='';
 			foreach($roles as $role)
@@ -62,26 +83,14 @@ class CheckRoleTeamApplication
 			);
 			$postes = $query->getResult();
 			
-			$query = $this->em->createQuery(
-				'Select r
-				From AppBundle:Role r
-				inner join AppBundle:Application a
-				with r.id = a.role
-				where a.team = '.$teamId.' 
-				and a.user = '.$userId.' 
-				and a.origin = \'player\''
-			);
-			$appUsers = $query->getResult();
+			if ($postes == null)
+			{
+				return;
+			}
 			
 			foreach($postes as $poste)
 			{
-				foreach($appUsers as $appUser)
-				{
-					if($poste != $appUser)
-					{
-						$choice[$poste->getId()]=$poste->getName();
-					}
-				}
+				$choice[$poste->getId()]=$poste->getName();
 			}
 			
 
@@ -128,7 +137,7 @@ class CheckRoleTeamApplication
 	}
 
 
-	public function getManagerAvailable($teamId)
+	public function getManagerAvailable($teamId, $userId)
 	{
         $query = $this->em->createQuery(
 		    'SELECT u
@@ -140,7 +149,17 @@ class CheckRoleTeamApplication
 		)->setParameter('id', $teamId);
 		$roles = $query->getResult();
 		
-		if (empty($roles))
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p 
+		    WHERE p.user = '.$userId.
+		    ' and p.team = '.$teamId.
+		    ' and p.origin = \'team\''
+		);
+		$application = $query->getResult();
+		
+		
+		if (empty($roles) && empty($application))
 		{
 	        $query = $this->em->createQuery(
 			    'SELECT r
@@ -159,8 +178,14 @@ class CheckRoleTeamApplication
 					))
 				->add('teamId','hidden', array('data'=> $teamId))
 	            ->add('save', 'submit', array('label' => 'Postuler'));
-			$form = $formBuilder->getForm();
 		
+			if($userId != null)
+			{
+				$formBuilder ->add('userId','hidden', array('data'=> $userId));
+			}
+			
+			$form = $formBuilder->getForm();
+				
 			return ($form->createView());
 		}
 		else {

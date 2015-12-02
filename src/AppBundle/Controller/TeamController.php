@@ -166,7 +166,10 @@ class TeamController extends Controller
     {
         $check = $request->request->all();
         $team = $check['team'];
-        $application = $team['application'];
+		if(array_key_exists('application', $team))
+		{
+        	$application = $team['application'];
+		}
         $entity = new Team();
         $form = $this->createFormTeam($entity);
         $form->handleRequest($request);
@@ -360,11 +363,24 @@ class TeamController extends Controller
             throw $this->createNotFoundException('Unable to find Team entity.');
         }
 		
-		if((count($player)>=4) && ($team[0]->getValidation()==null))
+		$roles = $player;
+		$roles[count($roles)] = $team[0]->getCaptain();
+		
+		$game = $this->getUser() -> getTournament()-> getSystName();
+		
+		if($team[0]->getValidation() == null)
 		{
-			$validation = true;
+			if ($game == 'lol')
+			{
+				$validation = $checkData -> checkLolValidation($roles);
+			}
+			else 
+			{
+				$validation = $checkData -> checkCsgoValidation($roles);
+			}
 		}
-		else {
+		else
+		{
 			$validation = false;
 		}
 		

@@ -52,4 +52,80 @@ class CheckDataServices
 		return $array;
 	}
 	
+	public function checkLolValidation($players)
+	{
+		$i=0;
+		
+		foreach($players as $player)
+		{
+			$roleId = $player->getRole()->getId();
+			
+	        $query = $this->em->createQuery(
+			    'SELECT r
+			    FROM AppBundle:Role r
+			    WHERE r.id = '.$roleId
+			);
+			 $data = $query->getResult();
+			 $roles[$i] = $data[0]->getName();
+			$i++;
+		}
+		
+		if ((in_array("Top Lane", $roles)) 
+		&& (in_array("Middle Lane", $roles))
+		&& (in_array("Bottom Carry", $roles))
+		&& (in_array("Support ", $roles))
+		&& (in_array("Jungle", $roles)))
+		{
+			$validation = true;
+		}
+		else
+		{
+			$validation = false;
+		}
+		
+		return $validation;		
+	}
+	public function checkCsgoValidation($players)
+	{
+		$i=0;
+		
+		foreach($players as $player)
+		{
+			$roleId = $player->getRole()->getId();
+			
+	        $query = $this->em->createQuery(
+			    'SELECT r
+			    FROM AppBundle:Role r
+			    WHERE r.id = '.$roleId
+			);
+			 $data = $query->getResult();
+			 $roles[$i] = $data[0]->getName();
+			$i++;
+		}
+		
+		if ((in_array("Manager", $roles)))
+		{
+			if((count($roles))>=6)
+			{
+				$validation = true;
+			}
+			else 
+			{
+				$validation = false;
+			}
+		}
+		else
+		{
+			if((count($roles))>=5)
+			{
+				$validation = true;
+			}
+			else 
+			{
+				$validation = false;
+			}
+		}
+		
+		return $validation;
+	}
 }
