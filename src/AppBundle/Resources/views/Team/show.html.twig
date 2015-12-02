@@ -117,9 +117,6 @@
 		                {%endif%}
 		                {%if app.user.capitain%}
 			                <td>
-			                	<a class="btn btn-default"  href="{{ path('validate_application', {'candidats':candidats.id} ) }}">
-			                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			                	</a>
 			                	<a class="btn btn-default"  href="{{ path('delete_application', {'candidats':candidats.id} ) }}">
 			                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 			                	</a>

@@ -516,13 +516,13 @@ class UserController extends Controller
     /**
      * Finds and displays a User entity.
      *
-     * @Route("/validate/application/{candidats}", name="validate_application")
+     * @Route("/validate/application/{proposition}", name="validate_application")
      * @Method("GET")
      */
-    public function validateApplicationAction($candidats)
+    public function validateApplicationAction($proposition)
     {
         $em = $this->getDoctrine()->getManager();
-		$entity = $this->getDoctrine()->getRepository('AppBundle:Application')->find($candidats);
+		$entity = $this->getDoctrine()->getRepository('AppBundle:Application')->find($proposition);
 		
 		$userId=$entity->getUser()->getId();
         $query = $em->createQuery(
