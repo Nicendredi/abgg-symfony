@@ -80,7 +80,7 @@
 	            {%endif%}
 	            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 	            	{%if app.user.capitain and entity.team == null%}
-				      	{%if ((checkRoleService.getRoleAvailable(app.user.team.id,entity.id))!=null)
+				      	{%if ((checkRoleService.getRoleAvailable(app.user.team.id,entity.id, 'team'))!=null)
 				      	 and (app.user.tournament == entity.tournament) 
 				      	 and (app.user.experience !=null)
 				      	 and (entity.manager == null)%}
@@ -88,8 +88,8 @@
 				      			<td><a class="btn btn-default" href="{{ path('team_application', {'id':entity.id}) }}">Postuler</a></td>
 				      		{%else%}
 				      			<td>
-									{% form_theme checkRoleService.getRoleAvailable(app.user.team.id,entity.id) 'bootstrap_3_layout.html.twig' %}
-					      			{{form(checkRoleService.getRoleAvailable(app.user.team.id,entity.id))}}
+									{% form_theme checkRoleService.getRoleAvailable(app.user.team.id,entity.id, 'team') 'bootstrap_3_layout.html.twig' %}
+					      			{{form(checkRoleService.getRoleAvailable(app.user.team.id,entity.id, 'team'))}}
 				      			</td>
 				      		{%endif%}
 				      	{%elseif entity.manager != null 

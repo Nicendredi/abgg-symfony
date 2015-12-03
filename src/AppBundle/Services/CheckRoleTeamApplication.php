@@ -21,8 +21,8 @@ class CheckRoleTeamApplication
 	  $this->container = $container;
 	}
 	
-	public function getRoleAvailable($teamId, $userId = null)
-	{
+	public function getRoleAvailable($teamId, $userId = null, $origin)
+	{	
         $query = $this->em->createQuery(
 		    'SELECT r
 		    FROM AppBundle:Role r
@@ -39,7 +39,7 @@ class CheckRoleTeamApplication
 			with r.id = a.role
 			where a.team = '.$teamId.' 
 			and a.user = '.$userId.' 
-			and a.origin = \'player\''
+			and a.origin = \''.$origin.'\''
 		);
 		$appUsers = $query->getResult();
 		

@@ -153,7 +153,7 @@
 			          	{% if app.user.team == null%}
 			          		<span class="badge">{{ countCandidatsService.getCandidatureFromTeam(app.user.id) }}</span>
 			          	{%else%}
-			          		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			          		<span style="color:#00FF00" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 			          	{%endif%}
 		          </a></li>
 			          {% if app.user.team != null%}
@@ -162,7 +162,7 @@
 			          	{% if app.user.team.validation == null and app.user.capitain%}
 			          		<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
 			          	{%elseif app.user.team.validation != null%}
-			          		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			          		<span  style="color:#00FF00" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 			          	{%else%}
 			          	{%endif%}
 			          </a></li>

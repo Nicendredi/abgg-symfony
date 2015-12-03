@@ -568,7 +568,7 @@ class TeamController extends Controller
     /**
      * Finds and displays a User entity.
      *
-     * @Route("/validate/application/{candidats}", name="validate_application")
+     * @Route("/validate/application/{candidats}", name="validate_application_team")
      * @Method("GET")
      */
     public function validateApplicationAction($candidats)
@@ -676,4 +676,45 @@ class TeamController extends Controller
 		
 		return $this->redirect($this->generateUrl('team_show', array('id' => $id)));
 	 }
+	
+    /**
+     * @Route("/quit/{playerId}", name="quit_team")
+     * @Method("GET")
+     */
+    public function quitTeamAction($playerId)
+    {
+        $em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.id= '.$playerId
+		);
+		$player = $query->getResult();
+		
+		$teamId = $player[0]->getTeam()->getId();
+		$userId = $player[0]->getUser()->getId();
+		if($player[0]->getRole())
+		{
+			 $roleId = $player[0]->getRole()->getId();
+		}
+		
+		$query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    where p.user= '.$userId
+		);
+		$blockedAppUser = $query->getResult();
+		
+		foreach ($blockedAppUser as $appliUser)
+		{
+			$appliUser->setBlocked(null);
+			$em->persist($appliUser);
+		}
+		
+    	var_dump($blockedAppUser);exit;
+		
+		$em->remove($player);
+		$em->flush();
+		return $this->redirect($this->generateUrl('team_show', array('id' => $id)));
+	}
 }

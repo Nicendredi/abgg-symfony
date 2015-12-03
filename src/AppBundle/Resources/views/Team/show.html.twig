@@ -43,10 +43,17 @@
                 <td>{{ team.captain.experience.ranking.name }}</td>
                 {%if team.captain.tournament.systName == 'lol' and  team.captain.experience.ranking.name!='Pas classé'%}
                 	<td>{{ team.captain.experience.underRanking.name }}</td>
+                {%elseif team.captain.experience.underRanking == null %}
+                	<td></td>
                 {%endif%}
                 {%if team.captain.role%}
                 	<td>{{ team.captain.role.name }}</td>
                 {%endif%}
+	            {%if app.user == team.captain%}
+	            	<td>THIS IS A TEST</td>
+	            {%else%}
+	            	<td></td>
+	            {%endif%}
             </tr>
             {%for player in players%}
 				<tr>
@@ -62,9 +69,20 @@
 		                {%if team.captain.tournament.systName == 'lol' 
 		                and  player.user.experience.ranking.name!='Pas classé'%}
 		                	<td>{{ player.user.experience.underRanking.name }}</td>
+		                {%elseif player.user.experience.underRanking == null %}
+		                	<td></td>
 		                {%endif%}
                 	{%endif%}
 					<td>{{player.role.name}}</td>
+		            {%if app.user == player.user%}
+		            	<td>
+		                	<a class="btn btn-default"  href="{{ path('quit_team', {'playerId':player.id} ) }}">
+		                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+		                	</a>
+		            	</td>
+		            {%else%}
+		            	<td></td>
+		            {%endif%}
 				</tr>
 			{%endfor%}
         </tbody>
@@ -96,9 +114,6 @@
 				    {%for candidats in (countCandidatsService.getAllSearchingCandidats(app.user.team.id)) %}
 				    <tr>
 				    	<td>{{candidats.user.username}}</td>
-				    		<td> </td>
-				    		<td> </td>
-				    		<td> </td>
 				    	{%if candidats.user.manager %}
 				    		<td></td>
 				    		<td></td>
@@ -117,6 +132,9 @@
 		                {%endif%}
 		                {%if app.user.capitain%}
 			                <td>
+			                	<a class="btn btn-default"  href="{{ path('validate_application_team', {'candidats':candidats.id} ) }}">
+			                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			                	</a>
 			                	<a class="btn btn-default"  href="{{ path('delete_application', {'candidats':candidats.id} ) }}">
 			                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 			                	</a>
