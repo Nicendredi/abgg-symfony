@@ -72,16 +72,19 @@ class User extends BaseUser
     private $experience;
 
     /**
-     * @var player
+     * @var Player $player
      *
-     * @ORM\OneToOne(targetEntity="Player", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Player", inversedBy="player", cascade={"persist", "merge", "remove"})
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="player_id", referencedColumnName="id")
+     * })
      */
     private $player;
 
     /**
      * @var Team $team
      *
-     * @ORM\ManyToOne(targetEntity="Team", inversedBy="user", cascade={"persist", "merge"})
+     * @ORM\ManyToOne(targetEntity="Team", inversedBy="user", cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *  @ORM\JoinColumn(name="team_id", referencedColumnName="id")
      * })
@@ -91,7 +94,7 @@ class User extends BaseUser
     /**
      * @var Role $role
      *
-     * @ORM\ManyToOne(targetEntity="Role", inversedBy="user", cascade={"persist", "merge"})
+     * @ORM\ManyToOne(targetEntity="Role", inversedBy="user", cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *  @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      * })
@@ -241,13 +244,11 @@ class User extends BaseUser
         return $this->experience;
     }
 
+
     /**
-     * Set player
-     *
-     * @param \AppBundle\Entity\Player $player
-     * @return User
+     * @param Player $player
      */
-    public function setPlayer(Player $player =null)
+    public function setPlayer(Player $player=null)
     {
         $this->player = $player;
 
@@ -255,9 +256,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get player
-     *
-     * @return \AppBundle\Entity\Player
+     * @return \AppBundle\Entity\Player $player
      */
     public function getPlayer()
     {
@@ -290,7 +289,7 @@ class User extends BaseUser
     /**
      * @param Team $team
      */
-    public function setTeam(Team $team)
+    public function setTeam(Team $team=null)
     {
         $this->team = $team;
 
@@ -308,7 +307,7 @@ class User extends BaseUser
     /**
      * @param Role $role
      */
-    public function setRole(Role $role)
+    public function setRole(Role $role=null)
     {
         $this->role = $role;
 

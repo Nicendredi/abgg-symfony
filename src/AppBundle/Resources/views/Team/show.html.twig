@@ -18,7 +18,10 @@
 	    		Valider l'équipe
 	    	</a>
 		</div>
-		
+	{%endif%}
+	
+	{%if team.validation == null%}
+		Validation null<br>
 	{%endif%}
 
 	<br>
@@ -75,6 +78,12 @@
                 	{%endif%}
 					<td>{{player.role.name}}</td>
 		            {%if app.user == player.user%}
+		            	<td>
+		                	<a class="btn btn-default"  href="{{ path('quit_team', {'playerId':player.id} ) }}">
+		                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+		                	</a>
+		            	</td>
+		            {%elseif app.user.capitain == true%}
 		            	<td>
 		                	<a class="btn btn-default"  href="{{ path('quit_team', {'playerId':player.id} ) }}">
 		                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>

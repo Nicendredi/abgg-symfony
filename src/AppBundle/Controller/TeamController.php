@@ -691,6 +691,12 @@ class TeamController extends Controller
 		);
 		$player = $query->getResult();
 		
+		$user = $player[0]->getUser();
+		$user->setPlayer(null);
+		$user->setRole(null);
+		$user->setTeam(null);
+		$em->persist($user);
+		
 		$teamId = $player[0]->getTeam()->getId();
 		$userId = $player[0]->getUser()->getId();
 		if($player[0]->getRole())
@@ -701,7 +707,8 @@ class TeamController extends Controller
 		$query = $em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Application p
-		    where p.user= '.$userId
+		    where p.user= '.$userId.
+		    ' and p.team!='.$teamId
 		);
 		$blockedAppUser = $query->getResult();
 		
@@ -711,10 +718,50 @@ class TeamController extends Controller
 			$em->persist($appliUser);
 		}
 		
-    	var_dump($blockedAppUser);exit;
+		$query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    where p.user= '.$userId.
+		    ' and p.team='.$teamId
+		);
+		$deleteAppUser = $query->getResult();
 		
-		$em->remove($player);
+		foreach ($deleteAppUser as $delAppliUser)
+		{
+			$em->remove($delAppliUser);
+		}
+		
+		$query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.team= '.$teamId
+		);
+		$playerTeam = $query->getResult();
+		
+		$phraseFilter='';
+		
+		foreach ($playerTeam as $teamPlayer) 
+		{
+			$userId=$teamPlayer->getUser()->getId();
+			$phraseFilter=$phraseFilter.' and p.user!='.$userId;
+		}
+		
+		$query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    where p.team= '.$teamId.
+		    ' and p.role='.$roleId.$phraseFilter
+		);
+		$blockedAppTeam = $query->getResult();
+		
+		foreach ($blockedAppTeam as $appliTeam)
+		{
+			$appliTeam->setBlocked(null);
+			$em->persist($appliTeam);
+		}
+		
+		$em->remove($player[0]);
 		$em->flush();
-		return $this->redirect($this->generateUrl('team_show', array('id' => $id)));
+		return $this->redirect($this->generateUrl('homepage'));
 	}
 }

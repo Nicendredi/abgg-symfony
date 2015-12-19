@@ -77,12 +77,12 @@
 	      	{%endif%}
 	      {%elseif (app.user.manager)%}
 	      	{%if (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
-		      	{%if (checkRoleService.getManagerAvailable(entity.id)) == false%}
+		      	{%if (checkRoleService.getManagerAvailable(entity.id, app.user.id)) == false%}
 		      	<td>
 		      		En attente d'une réponse
 		      	</td>
 		      	{%else%}
-		      		<td>{{form(checkRoleService.getManagerAvailable(entity.id))}}</td>
+		      		<td>{{form(checkRoleService.getManagerAvailable(entity.id, app.user.id))}}</td>
 		      	{%endif%}
 		     {%endif%}
 	      {%else%}

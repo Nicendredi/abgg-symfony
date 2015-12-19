@@ -101,7 +101,6 @@ class ApplicationListener
 		);
 		$appPlayers = $query->getResult();
 		
-		
 		if($appTeams && $appPlayers)
 		{
 			foreach ($appTeams as $appTeam) 

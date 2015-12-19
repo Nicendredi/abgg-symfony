@@ -32,9 +32,12 @@ class Player
     private $team;
 
     /**
-     * @var user
+     * @var User $user
      *
-     * @ORM\OneToOne(targetEntity="User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="user", cascade={"persist", "merge"})
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * })
      */
     private $user;
 
@@ -104,10 +107,7 @@ class Player
     }
 
     /**
-     * Set user
-     *
-     * @param \AppBundle\Entity\User $user
-     * @return Player
+     * @param User $user
      */
     public function setUser(User $user=null)
     {
@@ -119,7 +119,7 @@ class Player
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User
+     * @return \AppBundle\Entity\User $user
      */
     public function getUser()
     {
