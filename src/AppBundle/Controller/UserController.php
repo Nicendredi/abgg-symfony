@@ -421,6 +421,8 @@ class UserController extends Controller
 				$user->getExperience()->setUsername($user->getUsername());
 	        	$this->get('fos_user.user_manager')->updateUser($user, false);
 			}
+			var_dump($editForm);exit;
+			
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();

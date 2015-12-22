@@ -10,19 +10,27 @@ use Symfony\Component\Form\FormEvents;
 use AppBundle\Entity\RoleRepository;
 use AppBundle\Entity\UserRepository;
 use AppBundle\Entity\User;
+use AppBundle\Services\CheckRoleTeamApplication;
+use AppBundle\Form\ContainerAwareType;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CaptainType extends AbstractType
 {
 	protected $gameId;
 	protected $game;
 	protected $telephone;
-
-	public function __construct ($gameId,$game,$telephone)
+	protected $captain;
+	
+	public function __construct ($gameId,$game,$telephone,$captain=null, $container=null)
 	{
 	    $this->gameId = $gameId;
 	    $this->game = $game;
 	    $this->telephone = $telephone;
+	    $this->captain = $captain;
+	    $this->container = $container;
 	}
+	
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -32,20 +40,42 @@ class CaptainType extends AbstractType
 		$gameId=$this->gameId;
 		$game=$this->game;
 		$telephone=$this->telephone;
-
+		$captain = $this->captain;
+		$container = $this->container;
+		
+		if($container!=null)
+		{
+			$checkRole = $container -> get('checkRoleService');
+			$rolesAvailable = $checkRole -> getFormRoleAvailable($captain->getTeam()->getId(), $captain->getId());
+		}
+		
 		if ($game == 'League of Legends')
 		{
-			$builder
-			->add('telephone', 'hidden',array('data'=> $telephone))
-			->add('role','entity', array(
-					'required' => true,
-				    'class' => 'AppBundle:Role',
-				    'query_builder' => function (RoleRepository $er) use ($gameId)
-				    {
-				        return $er->getGameId($gameId);
-				    },
-				    'choice_label' => 'name',
-				));
+			if ($captain == null)
+			{
+				$builder
+				->add('telephone', 'hidden',array('data'=> $telephone))
+				->add('role','entity', array(
+						'required' => true,
+					    'class' => 'AppBundle:Role',
+					    'query_builder' => function (RoleRepository $er) use ($gameId)
+					    {
+					        return $er->getGameId($gameId);
+					    },
+					    'choice_label' => 'name',
+					));
+			}
+			else 
+			{
+				$builder
+				->add('telephone', 'hidden',array('data'=> $telephone))
+				->add('role','entity', array(
+						'required' => true,
+					    'class' => 'AppBundle:Role',
+					    'choices'=> $rolesAvailable,
+					    'choice_label' => 'name',
+					));
+			}
 		}
     }
 	

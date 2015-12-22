@@ -21,7 +21,7 @@ class CheckRoleTeamApplication
 	  $this->container = $container;
 	}
 	
-	public function getRoleAvailable($teamId, $userId = null, $origin)
+	public function getRoleAvailable($teamId, $userId = null, $origin=null)
 	{	
         $query = $this->em->createQuery(
 		    'SELECT r
@@ -32,14 +32,22 @@ class CheckRoleTeamApplication
 		)->setParameter('id', $teamId);
 		$roles = $query->getResult();
 		
+		if($origin!=null)
+		{
+			$origin = ' and a.origin = \''.$origin.'\'';
+		}
+		else 
+		{
+			$origin='';
+		}
+		
 		$query = $this->em->createQuery(
 			'Select r
 			From AppBundle:Role r
 			inner join AppBundle:Application a
 			with r.id = a.role
 			where a.team = '.$teamId.' 
-			and a.user = '.$userId.' 
-			and a.origin = \''.$origin.'\''
+			and a.user = '.$userId.$origin
 		);
 		$appUsers = $query->getResult();
 		
@@ -191,5 +199,63 @@ class CheckRoleTeamApplication
 		else {
 			return;
 		}
+	}
+	
+	public function getFormRoleAvailable($teamId, $userId = null)
+	{
+		$query = $this->em->createQuery(
+			'Select u
+			From AppBundle:User u
+			where u.team = '.$teamId
+		);
+		$players = $query->getResult();
+		
+		$i=0;
+		foreach($players as $player)
+		{
+			$users[$i]=$player;
+			$i++;
+		}
+		
+		$i=0;
+		foreach($users as $user)
+		{
+			$roles[$i] = $user->getRole();
+			$i++;
+		}
+		
+		if(count($roles)==7)
+		{
+			return;
+		}
+		
+		$i=0;
+		$phrase='';
+		foreach($roles as $role)
+		{
+			$roleId[$i]= $role->getId();
+			$phrase = $phrase.' and r.id != '.$roleId[$i];
+			$i++;
+		}
+		
+		if($roles[0]->getGame())
+		{
+			$gameId=$roles[0]->getGame()->getId();
+			$game='r.game='.$gameId.$phrase.' or ';
+		}
+		else
+		{
+			$game='';
+		}
+		
+        $query = $this->em->createQuery(
+		    'SELECT r
+		    FROM AppBundle:Role r 
+		    where '.$game.' r.game is null 
+		    and r.name != \'Manager\''.$phrase
+		);
+		$postes = $query->getResult();
+		
+		return $postes;
 	}
 }

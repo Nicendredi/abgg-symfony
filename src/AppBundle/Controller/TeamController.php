@@ -15,6 +15,7 @@ use AppBundle\Entity\Player;
 use AppBundle\Entity\Application;
 use AppBundle\Form\TeamType;
 use AppBundle\Form\PlayerType;
+use AppBundle\Form\CaptainType;
 use AppBundle\Services\CheckDataServices;
 use AppBundle\Validator\Constraints\HasDifferentPlayers;
 use Symfony\Component\Validator\Constraints\DateTime;
@@ -352,8 +353,8 @@ class TeamController extends Controller
         $query = $em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Team p
-		    WHERE p.id = :id'
-		)->setParameter('id', $id);
+		    WHERE p.id = '.$id
+		);
 		$team = $query->getResult();
 		$checkData = $this -> container -> get('checkDataServices');
 
@@ -394,27 +395,75 @@ class TeamController extends Controller
     /**
      * Deletes a Team entity.
      *
-     * @Route("/{id}", name="team_delete")
-     * @Method("DELETE")
+     * @Route("/delete/team/{id}", name="team_delete")
+     * @Method("GET")
+     * @Template()
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+    	$gameName = $this->getUser()->getTournament()->getSystName();
+		
+        $em = $this->getDoctrine()->getManager();
+        $entity = $this->getUser()->getTeam();
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AppBundle:Team')->find($id);
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    WHERE p.id = '.$id
+		);
+		$team = $query->getResult();
+		
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:User p
+		    WHERE p.team = '.$id
+		);
+		$users = $query->getResult();
+		
+		foreach ($users as $user)
+		{
+			$user->setRole(null);
+			$user->setTeam(null);
+			
+			if($user->getCapitain()!=null)
+			{
+				$user->setCapitain(null);
+			}
+			if($user->getPlayer()!=null)
+			{
+				$user->setPlayer(null);
+			}
+			
+			$em->persist($user);
+		}
+		
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    WHERE p.team = '.$id
+		);
+		$players = $query->getResult();
+		
+		foreach ($players as $player)
+		{
+			$em->remove($player);
+		}
+		
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    WHERE p.team = '.$id
+		);
+		$applications = $query->getResult();
+		
+		foreach ($applications as $application)
+		{
+			$em->remove($application);
+		}
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Team entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('team'));
+        $em->remove($entity);
+        $em->flush();
+		return $this->redirect($this->generateUrl('search_team', array('game'=> $gameName )));
     }
 
     /**
@@ -762,6 +811,125 @@ class TeamController extends Controller
 		
 		$em->remove($player[0]);
 		$em->flush();
-		return $this->redirect($this->generateUrl('homepage'));
+
+		if($this->getUser()->getCapitain() != null)
+		{
+			return $this->redirect($this->generateUrl('team_show', array('id' => $teamId)));
+		}
+		else 
+		{
+			return $this->redirect($this->generateUrl('search_team', array('game' => $this->getUser()->getTournament()->getSystName())));
+		}
+	}
+
+    /**
+    * Creates a form to edit a User entity.
+    *
+    * @param User $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditRoleForm(User $entity)
+    {
+    	$gameId = $entity->getTournament()->getId();
+		
+        $em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Game p
+		    where p.id= '.$gameId
+		);
+		$game = $query->getResult();
+		$gameName = $game[0]->getName();
+		
+        $form = $this->createForm(new CaptainType(
+        $gameId,  $gameName, $this->getUser()->getTelephone(),$entity, $this->container
+		), $entity, array(
+            'action' => $this->generateUrl('player_update_role_team', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
+    }
+	
+    /**
+     * @Route("/edit/capitain/role/{id}", name="edit_capitain_role_team")
+     * @Method("GET")
+     * @Template("AppBundle:Team:editRole.html.twig")
+     */
+    public function editCapitainRoleTeamAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppBundle:User')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+
+        $editForm = $this->createEditRoleForm($entity);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+        );
+	}
+	
+    /**
+     * @Route("/player/update/role/{id}", name="player_update_role_team")
+     * @Method("PUT")
+     */
+    public function putCaptainRoleTeamAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppBundle:User')->find($id);
+		$firstRole = $entity->getRole()->getId();
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+		
+        $editForm = $this->createEditRoleForm($entity);
+        $editForm->handleRequest($request);
+		
+        if ($editForm->isValid()) {
+        	$data = $editForm->getData();
+			$roleId = $data->getRole()->getId();
+			$teamId = $data->getTeam()->getId();
+			
+			$query = $em->createQuery(
+			    'SELECT a
+			    FROM AppBundle:Application a
+			    where a.role= '.$roleId.
+			    'and a.team= '.$teamId
+			);
+			$applicationsBlock = $query->getResult();
+			
+			foreach ($applicationsBlock as $application)
+			{
+				$application->setBlocked(true);
+				$em->persist($application);
+			}
+			
+			$query = $em->createQuery(
+			    'SELECT a
+			    FROM AppBundle:Application a
+			    where a.role= '.$firstRole.
+			    'and a.team= '.$teamId
+			);
+			$applicationsUnblock = $query->getResult();
+			
+			foreach ($applicationsUnblock as $application)
+			{
+				$application->setBlocked(null);
+				$em->persist($application);
+			}
+
+            $em->flush();
+			return $this->redirect($this->generateUrl('team_show', array('id' => $this->getUser()->getTeam()->getId())));
+        }
 	}
 }

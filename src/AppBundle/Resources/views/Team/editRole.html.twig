@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+<div class="row">
+  <div class="col-xs-4"></div>
+  <div class="col-xs-4">
+  	<div class="form-group">
+		
+		<br>
+		<center><h1>Role edit</h1></center>
+		<br>
+		<br>
+		<br>
+		<br>
+	    
+		{% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+	
+	    	{{ form(edit_form) }}
+	
+	        <a class="btn btn-default" href="{{ path('team_show', {'id':app.user.team.id}) }}">
+	            Back to the list
+	        </a>
+		</div>
+	<div class="col-xs-4"></div>
+	</div>
+</div>
+{% endblock %}
