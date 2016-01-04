@@ -414,14 +414,26 @@ class UserController extends Controller
 
         if ($editForm->isValid()) {
             $user = $this->getUser();
-			if(($user->getManager())&&(($user->getExperience())==null))
+			
+			if((($user->getExperience()->getRanking())!=null)&&($user->getManager()!=null))
 			{
+				$firstExperience = $user->getExperience();
+				$em->remove($firstExperience);
 				$experience = new Experience;
 				$user->setExperience($experience);
 				$user->getExperience()->setUsername($user->getUsername());
 	        	$this->get('fos_user.user_manager')->updateUser($user, false);
+            	$em->persist($experience);
 			}
-			var_dump($editForm);exit;
+			elseif((($user->getExperience()->getRanking())==null)&&($user->getManager()==null))
+			{
+				
+	        	$this->get('fos_user.user_manager')->updateUser($user, false);
+	            $em = $this->getDoctrine()->getManager();
+	            $em->persist($user);
+	            $em->flush();
+				return $this->forward('AppBundle:Experience:newUser');
+			}
 			
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);

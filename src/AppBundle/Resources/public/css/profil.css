@@ -55,3 +55,10 @@
 	margin-top:6%;
 	margin-bottom:6%;
 }
+
+abbr[title]
+{
+  border-bottom: none !important;
+  cursor: inherit !important;
+  text-decoration: none !important;
+}

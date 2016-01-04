@@ -209,7 +209,6 @@ class TraductionDataSearchService
 		    with p.tournament=g.id '.$innerJoin.' 
 		    where g.systName=\''.$game.'\' '.$mainRole.$ranking.$joueurs
 		);
-		var_dump($query);exit;
 		$users = $query->getResult();
 		
 		return $users;

@@ -11,14 +11,15 @@
         <thead>
             <tr>
                 <th>Username</th>
+                <th>Team</th>
                 <th>Ranking</th>
 	            {%if game =='lol'%}
-                <th>UnderRanking</th>
-                <th>Top</th>
-                <th>Mid</th>
-                <th>Bot</th>
-                <th>Support</th>
-                <th>Jungle</th>
+	                <th>UnderRanking</th>
+	                <th>Top</th>
+	                <th>Mid</th>
+	                <th>Bot</th>
+	                <th>Support</th>
+	                <th>Jungle</th>
                 {%endif%}
                 <th>Manager</th>
 				<th>Recruter</th>
@@ -28,10 +29,18 @@
         {% for entity in entities %}
             <tr>
                 <td>{{ entity.username }}</td>
+                {%if entity.team!=null%}
+                	<td>{{ entity.team.name }}</td>
+                {%else%}
+                	<td></td>
+                {%endif%}
 		        {%if game =='lol'%}
 	                {%if entity.experience%}
 		                {%if entity.experience.ranking%}
-			                <td>{{ entity.experience.ranking.name }}</td>
+			                <td>
+						  		<img width="15%" src="{{ asset('bundles/app/images/'~entity.tournament.systName~'/'~entity.experience.ranking.name~'.png') }}" />
+						  		{{ entity.experience.ranking.name }}
+						  	</td>
 			            {%else%}
 			            	<td></td>
 			            {%endif%}
@@ -63,12 +72,11 @@
 		            	<td></td>
 		            {%endif%}
 		        {%else%}
-	                {%if entity.experience%}
-		                {%if entity.experience.ranking%}
-			                <td>{{ entity.experience.ranking.name }}</td>
-			            {%else%}
-			            	<td></td>
-			            {%endif%}
+	                {%if entity.experience and entity.experience.ranking%}
+		                <td>
+		                	<img width="10%" src="{{ asset('bundles/app/images/'~entity.tournament.systName~'/'~entity.experience.ranking.name~'.png') }}" />
+		                	{{ entity.experience.ranking.name }}
+		                </td>
 		            {%else%}
 		            	<td></td>
 			        {%endif%}
@@ -79,19 +87,27 @@
 	            	<td></td>
 	            {%endif%}
 	            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-	            	{%if app.user.capitain and entity.team == null%}
-				      	{%if ((checkRoleService.getRoleAvailable(app.user.team.id,entity.id, 'team'))!=null)
+	            	{%if ((app.user.tournament.systName == 'csgo')
+				      	 and (app.user.experience !=null)
+				      	 and (app.user.capitain != null)
+				      	 and (entity.team==null))%}
+				      	 {%if (checkRoleService.checkApplication(app.user.team.id,entity.id,'team')==false)%}
+			      			<td>
+			      				<a class="btn btn-default" href="{{ path('user_recruit', {'teamId':app.user.team.id,'userId':entity.id, 'origin':'team'}) }}">Recruter</a>
+			      			</td>
+			      		{%else%}
+			      			<td><p>En attente d'une réponse</p></td>
+			      		{%endif%}
+	            	{%elseif app.user.capitain and entity.team == null%}
+				      	{%if ((app.user.tournament=='lol')
+				      	 and (checkRoleService.getRoleAvailable(app.user.team.id,entity.id, 'team'))!=null)
 				      	 and (app.user.tournament == entity.tournament) 
 				      	 and (app.user.experience !=null)
 				      	 and (entity.manager == null)%}
-			            	{%if entity.tournament.systName == 'csgo'%}
-				      			<td><a class="btn btn-default" href="{{ path('team_application', {'id':entity.id}) }}">Postuler</a></td>
-				      		{%else%}
 				      			<td>
 									{% form_theme checkRoleService.getRoleAvailable(app.user.team.id,entity.id, 'team') 'bootstrap_3_layout.html.twig' %}
 					      			{{form(checkRoleService.getRoleAvailable(app.user.team.id,entity.id, 'team'))}}
 				      			</td>
-				      		{%endif%}
 				      	{%elseif entity.manager != null 
 				      	and ((checkRoleService.getManagerAvailable(app.user.team.id,entity.id))!=null)%}
 			      			<td>

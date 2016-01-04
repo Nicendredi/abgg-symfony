@@ -1,97 +1,116 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-<h1>Liste des équipes</h1>
 
-<table  class="table table-hover">
-  <thead>
-    <tr>
-        <th>Equipe</th>
-        <th>Capitaine d'équipe</th>
-		<th>Joueur 2</th>
-		<th>Joueur 3</th>
-		<th>Joueur 4</th>
-		<th>Joueur 5</th>
-		<th>Joueur 6</th>
-		<th>Joueur 7</th>
-		<th>Postuler</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for entity in entities %}
-    <tr>
-      <td>{{ entity.name }}</td>
-      <td>
-      	{{ entity.captain }}
-      	{%if entity.captain.tournament.systName == 'lol' %}
-      		- {{entity.captain.role.name}}
-      	{%endif%}
-      	<br>
-      	{{entity.captain.experience.ranking.name}}
-      	{%if entity.captain.tournament.systName == 'lol' and entity.captain.experience.ranking.name != 'Pas classé'%}
-      		{{entity.captain.experience.underRanking.name}}
-      	{%endif%}
-      </td>
-      {%if entity.player%}
-      	{%for player in entity.player%}
-      		<td>
-      			{{player.user.experience.username}}
-		      	{%if player.user.tournament.systName == 'lol' %}
-		      		- {{player.role.name}}
-		      	{%endif%}
-		      	<br>
-		      	{%if player.user.manager%}
-		      	{%else%}
-			      	{{player.user.experience.ranking.name}}
-			      	{%if entity.captain.tournament.systName == 'lol' and player.user.experience.ranking.name != 'Pas classé'%}
-			      		{{player.user.experience.underRanking.name}}
-			      	{%endif%}
-			    {%endif%}
-      		</td>
-      	{%endfor%}
-      	{%for i in (entity.player|length)..5%}
-      		<td></td>
-      	{%endfor%}
-      {%endif%}
-      {%if is_granted("IS_AUTHENTICATED_REMEMBERED") and (entity.validation == null) %}
-	      {% if (app.user.team is null) and (app.user.manager == null) %}
-	      	{%if ((checkRoleService.getRoleAvailable(entity.id, app.user.id, 'player'))!=null)
-	      	and (app.user.tournament == entity.tournament) 
-	      	and (app.user.experience !=null)%}
-	      		{%if app.user.tournament.systName == 'csgo'%}
-	      			<td><a class="btn btn-default" href="{{ path('team_application', {'id':entity.id}) }}">Postuler</a></td>
-	      		{%else%}
-					{% form_theme checkRoleService.getRoleAvailable(entity.id, app.user.id, 'player') 'bootstrap_3_layout.html.twig' %}
-	      			<td>{{form(checkRoleService.getRoleAvailable(entity.id, app.user.id, 'player'))}}</td>
-	      		{%endif%}
-	      	{%elseif (app.user.tournament != entity.tournament)%}
-	      		<td></td>
-	      	{%elseif (app.user.experience == null)%}
-	      		<td>
-		      		<div class="alert alert-warning">
-					  <strong>Warning!</strong> Finissez votre inscription afin de postuler à une équipe
-					</div>
-				</td>
-	      	{%else%}
-	      		<td><p>En attente d'une réponse</p></td>
+{%if entities == null%}
+	<br><center><h1>Aucune équipe n'a étée créée actuellement</h1></center>
+	<center><img width="25%"  src="{{ asset('bundles/app/images/forever-alone.jpg') }}" /></center>
+{%else%}
+<h1>Liste des équipes</h1>
+	<table  class="table table-hover">
+	  <thead>
+	    <tr>
+	        <th>Equipe</th>
+	        <th>Capitaine d'équipe</th>
+			<th>Joueur 2</th>
+			<th>Joueur 3</th>
+			<th>Joueur 4</th>
+			<th>Joueur 5</th>
+			<th>Joueur 6</th>
+			<th>Joueur 7</th>
+			<th>Postuler</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {% for entity in entities %}
+	    <tr>
+	      <td>{{ entity.name }}</td>
+	      <td>
+	      	{{ entity.captain }}
+	      	{%if entity.captain.tournament.systName == 'lol' %}
+	      		- {{entity.captain.role.name}}
 	      	{%endif%}
-	      {%elseif (app.user.manager)%}
-	      	{%if (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
-		      	{%if (checkRoleService.getManagerAvailable(entity.id, app.user.id)) == false%}
-		      	<td>
-		      		En attente d'une réponse
-		      	</td>
-		      	{%else%}
-		      		<td>{{form(checkRoleService.getManagerAvailable(entity.id, app.user.id))}}</td>
-		      	{%endif%}
-		     {%endif%}
-	      {%else%}
-	      	<td></td>
+	      	<br>
+	      	{{entity.captain.experience.ranking.name}}
+	      	{%if entity.captain.tournament.systName == 'lol' and entity.captain.experience.ranking.name != 'Pas classé'%}
+	      		{{entity.captain.experience.underRanking.name}}
+	      	{%endif%}
+	      </td>
+	      {%if entity.player%}
+	      	{%for player in entity.player%}
+	      		<td>
+	      			{{player.user.experience.username}}
+			      	{%if player.user.tournament.systName == 'lol' %}
+			      		- {{player.role.name}}
+			      	{%endif%}
+			      	<br>
+			      	{%if player.user.manager%}
+			      	{%else%}
+				      	{{player.user.experience.ranking.name}}
+				      	{%if entity.captain.tournament.systName == 'lol' and player.user.experience.ranking.name != 'Pas classé'%}
+				      		{{player.user.experience.underRanking.name}}
+				      	{%endif%}
+				    {%endif%}
+	      		</td>
+	      	{%endfor%}
+	      	{%for i in (entity.player|length)..5%}
+	      		<td></td>
+	      	{%endfor%}
 	      {%endif%}
-	      	<td></td>
-	  {%endif%}
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+	      {%if is_granted("IS_AUTHENTICATED_REMEMBERED") and (entity.validation == null) %}
+		      {% if (app.user.team is null) and (app.user.manager == null) %}
+		      	{%if (entity.tournament.systName=='csgo')%}
+		      		{%if (checkRoleService.checkApplication(entity.id,app.user.id,'player')==false)%}
+		      			<td><a class="btn btn-default" href="{{ path('team_application', {'id':entity.id}) }}">Postuler</a></td>
+		      		{%else%}
+		      			<td><p>En attente d'une réponse</p></td>
+		      		{%endif%}
+		      	{%elseif ((checkRoleService.getRoleAvailable(entity.id, app.user.id, 'player'))!=null)
+		      	and (app.user.tournament == entity.tournament) 
+		      	and (app.user.experience !=null)
+		      	and (entity.tournament.systName=='lol')%}
+						{% form_theme checkRoleService.getRoleAvailable(entity.id, app.user.id, 'player') 'bootstrap_3_layout.html.twig' %}
+		      			<td>{{form(checkRoleService.getRoleAvailable(entity.id, app.user.id, 'player'))}}</td>
+		      	{%elseif (app.user.tournament != entity.tournament)%}
+		      		<td></td>
+		      	{%elseif (app.user.experience == null)%}
+		      		<td>
+			      		<div class="alert alert-warning">
+						  <strong>Warning!</strong> Finissez votre inscription afin de postuler à une équipe
+						</div>
+					</td>
+		      	{%else%}
+		      		<td><p>En attente d'une réponse</p></td>
+		      	{%endif%}
+		      {%elseif (app.user.manager)%}
+		      	{%if (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
+		      		{%if (entity.tournament.systName=='csgo')%}
+				      	{%if (checkRoleService.checkApplication(entity.id,app.user.id,'player')==false)
+				      	and (app.user.team==null)%}
+			      			<td>
+			      				<a class="btn btn-default" href="{{ path('user_recruit', {'teamId':entity.id,'userId':app.user.id, 'origin':'player'}) }}">Postuler</a>
+			      			</td>
+			      		{%else%}
+			      			<td><p>En attente d'une réponse</p></td>
+			      		{%endif%}
+		      		{%elseif (entity.tournament.systName=='lol')%}
+				      	{%if (checkRoleService.getManagerAvailable(entity.id, app.user.id)) == false%}
+					      	<td>
+					      		En attente d'une réponse
+					      	</td>
+				      	{%else%}
+				      		<td>{{form(checkRoleService.getManagerAvailable(entity.id, app.user.id))}}</td>
+				      	{%endif%}
+				    {%endif%}
+			     {%endif%}
+		      {%else%}
+		      	<td></td>
+		      {%endif%}
+		      	<td></td>
+		  {%endif%}
+	    </tr>
+	    {% endfor %}
+	  </tbody>
+	</table>
+{%endif%}
 {% endblock %}

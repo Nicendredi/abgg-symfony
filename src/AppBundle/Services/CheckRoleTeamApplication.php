@@ -258,4 +258,25 @@ class CheckRoleTeamApplication
 		
 		return $postes;
 	}
+	
+	public function checkApplication($teamId,$userId,$origin)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT a
+		    FROM AppBundle:Application a
+		    where a.team='.$teamId. 
+		    ' and a.user = '.$userId.
+		    ' and a.origin = \''.$origin.'\''
+		);
+		$applications = $query->getResult();
+		
+		if($applications!=null)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
 }

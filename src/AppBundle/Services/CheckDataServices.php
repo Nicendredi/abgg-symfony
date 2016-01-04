@@ -88,24 +88,17 @@ class CheckDataServices
 	public function checkCsgoValidation($players)
 	{
 		$i=0;
+		$team=count($players);
 		
-		foreach($players as $player)
+		for($i=0;$i<$team-1; $i++)
 		{
-			$roleId = $player->getRole()->getId();
-			
-	        $query = $this->em->createQuery(
-			    'SELECT r
-			    FROM AppBundle:Role r
-			    WHERE r.id = '.$roleId
-			);
-			 $data = $query->getResult();
-			 $roles[$i] = $data[0]->getName();
-			$i++;
+			$manager = $players[$i]->getUser()->getManager();
+			$managers[$i]=$manager;
 		}
-		
-		if ((in_array("Manager", $roles)))
+
+		if ((in_array(true, $managers)))
 		{
-			if((count($roles))>=6)
+			if($team>=6)
 			{
 				$validation = true;
 			}
@@ -116,7 +109,7 @@ class CheckDataServices
 		}
 		else
 		{
-			if((count($roles))>=5)
+			if($team>=5)
 			{
 				$validation = true;
 			}

@@ -65,9 +65,12 @@ class User extends BaseUser
     private $tournament;
 
     /**
-     * @var experience
+     * @var Experience $experience
      *
-     * @ORM\OneToOne(targetEntity="Experience", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Experience", inversedBy="experience", cascade={"persist", "merge", "remove"})
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="experience_id", referencedColumnName="id")
+     * })
      */
     private $experience;
 
@@ -221,13 +224,11 @@ class User extends BaseUser
         return $this->birth;
     }
 
+
     /**
-     * Set experience
-     *
-     * @param \AppBundle\Entity\Experience $experience
-     * @return User
+     * @param Experience $experience
      */
-    public function setExperience(Experience $experience)
+    public function setExperience(Experience $experience=null)
     {
         $this->experience = $experience;
 
@@ -235,9 +236,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get experience
-     *
-     * @return \AppBundle\Entity\Experience
+     * @return \AppBundle\Entity\Experience $experience
      */
     public function getExperience()
     {

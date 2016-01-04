@@ -285,20 +285,25 @@
 		<div class="row">
 			<div class="col-xs-1"></div>
 			<div class="col-xs-10">
+			
 			<h2>Propositions de poste</h2>
 			<br>
 			<table class="table table-hover">
 		        <tbody>
 		            <tr>
 		            	<th>Nom équipe</th>
-		            	<th>Pour poste</th>
+		            	{%if app.user.tournament.systName=='lol'%}
+		            		<th>Pour poste</th>
+		            	{%endif%}
 		            	<th>Accepter Offre</th>
 		            	<th>Supprimer Offre</th>
 		            </tr>
 					{%for proposition in propositions%}
 						<tr>
 							<td>{{proposition.team.name}}</td>
-							<td>{{proposition.role.name}}</td>
+			            	{%if app.user.tournament.systName=='lol'%}
+								<td>{{proposition.role.name}}</td>
+			            	{%endif%}
 							<td>
 			                	<a class="btn btn-default"  href="{{ path('validate_application', {'proposition':proposition.id} ) }}">
 			                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
@@ -326,13 +331,17 @@
 		        <tbody>
 		            <tr>
 		            	<th>Nom équipe</th>
-		            	<th>Pour poste</th>
+						{%if app.user.tournament.systName =='lol'%}
+		            		<th>Pour poste</th>
+		            	{%endif%}
 		            	<th>Supprimer candidature</th>
 		            </tr>
 					{%for application in applications%}
 						<tr>
 							<td>{{application.team.name}}</td>
-							<td>{{application.role.name}}</td>
+							{%if app.user.tournament.systName =='lol'%}
+								<td>{{application.role.name}}</td>
+							{%endif%}
 							<td>
 							    <a class="btn btn-default" href="{{ path('delete_application_player', { 'id': application.id }) }}">
 							    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>

@@ -364,20 +364,27 @@ class TeamController extends Controller
             throw $this->createNotFoundException('Unable to find Team entity.');
         }
 		
-		$roles = $player;
-		$roles[count($roles)] = $team[0]->getCaptain();
-		
-		$game = $this->getUser() -> getTournament()-> getSystName();
-		
-		if($team[0]->getValidation() == null)
+		if($player!=null)
 		{
-			if ($game == 'lol')
+			$roles = $player;
+			$roles[count($roles)] = $team[0]->getCaptain();
+		
+			$game = $this->getUser() -> getTournament()-> getSystName();
+			
+			if($team[0]->getValidation() == null)
 			{
-				$validation = $checkData -> checkLolValidation($roles);
+				if ($game == 'lol')
+				{
+					$validation = $checkData -> checkLolValidation($roles);
+				}
+				else 
+				{
+					$validation = $checkData -> checkCsgoValidation($roles);
+				}
 			}
-			else 
+			else
 			{
-				$validation = $checkData -> checkCsgoValidation($roles);
+				$validation = false;
 			}
 		}
 		else
@@ -587,6 +594,7 @@ class TeamController extends Controller
 		    WHERE p.id = :id'
 		)->setParameter('id', $id);
 		$teams = $query->getResult();
+
 		$team = $teams[0];
 		$gameName = $team->getTournament()->getSystName();
 		
@@ -597,6 +605,50 @@ class TeamController extends Controller
         $em->persist($entity);
         $em->flush();
 		return $this->redirect($this->generateUrl('search_team', array('game'=> $gameName )));
+    }
+	
+    /**
+     * Finds and displays a User entity.
+     *
+     * @Route("/application/{teamId}/{userId}/{origin}", name="user_recruit")
+     * @Method("GET")
+     */
+    public function userRecruitAction($teamId,$userId,$origin)
+    {
+        $entity = new Application();
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    WHERE p.id = '.$teamId
+		);
+		$team = $query->getResult();
+		
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:User p
+		    WHERE p.id = '.$userId
+		);
+		$user = $query->getResult();
+		
+		$gameName = $team[0]->getTournament()->getSystName();
+		
+		$entity->setTeam($team[0]);
+		$entity->setUser($user[0]);
+		$entity->setOrigin($origin);
+
+        $em->persist($entity);
+        $em->flush();
+		
+		if($origin=='player')
+		{
+			return $this->redirect($this->generateUrl('search_team', array('game'=> $gameName )));
+		}
+		elseif ($origin=='team') 
+		{
+			return $this->redirect($this->generateUrl('search_player', array('game'=> $gameName )));
+		}
     }
 	
     /**
