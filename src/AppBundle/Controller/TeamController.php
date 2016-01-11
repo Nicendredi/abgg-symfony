@@ -105,8 +105,19 @@ class TeamController extends Controller
 			$userAppTeams=0;
 		}
 		
+		$formArray = $this->get('searchFormService')->createFormTeam();
+		
+	    $formBuilder = $this->createFormBuilder($formArray);
+	
+	    foreach($formArray as $field) {
+	        $formBuilder->add($field['name'], $field['type'],$field['array']);
+	    }        
+	
+	    $form = $formBuilder->getForm();
+		
         return array(
             'entities' => $teams,
+            'form'     => $form->createView(),
             'appTeam'  => $userAppTeams,
         );
     }
@@ -122,6 +133,90 @@ class TeamController extends Controller
      {
      	$data=$request->request->all();
 		$forms =$data['form'];
+		
+		if(in_array(0, $forms))
+		{
+			$choiceTeams = $forms['full'];
+			
+			if(count($choiceTeams)==2)
+			{
+				$phrase = '';
+			}
+			elseif($choiceTeams[0]=='full')
+			{
+				$phrase = ' and t.validation is not null';
+			}
+			else 
+			{
+				$phrase = ' and t.validation is null';
+			}
+			
+	        $em = $this->getDoctrine()->getManager();
+	        $query = $em->createQuery(
+			    'SELECT t
+			    FROM AppBundle:Team t
+			    inner join AppBundle:Game g
+			    with g.id=t.tournament 
+			    where g.systName=\''.$request->attributes->get('game').'\' 
+			    '.$phrase
+			);
+			$teams = $query->getResult();
+			
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Game p
+			    WHERE p.systName = :name'
+			)->setParameter('name', $request->attributes->get('game'));
+			$gaming = $query->getResult();
+			$gameId = $gaming[0]->getId();
+			
+			if (($this->getUser()) != null)
+			{
+				$userId = $this->getUser()->getId();
+		        $query = $em->createQuery(
+				    'SELECT p
+				    FROM AppBundle:Application p
+				    WHERE p.user = :id
+				    and p.origin = \'player\'
+				    and p.blocked is null'
+				)->setParameter('id', $userId);
+				$userApp = $query->getResult();
+				
+				$i=0;
+				if ($userApp!=null)
+				{
+					foreach ($userApp as $user)
+					{
+						$userAppTeams[$i] = $user->getTeam();
+						$i++;
+					}
+				}
+				else
+				{
+					$userAppTeams=0;
+				}
+			}
+			else {
+				$userAppTeams=0;
+			}
+			
+			$formArray = $this->get('searchFormService')->createFormTeam();
+			
+		    $formBuilder = $this->createFormBuilder($formArray);
+		
+		    foreach($formArray as $field) {
+		        $formBuilder->add($field['name'], $field['type'],$field['array']);
+		    }        
+		
+		    $form = $formBuilder->getForm();
+		
+			return $this->render('AppBundle:Team:search.html.twig', array(
+				'entities' => $teams ,
+            	'form'     => $form->createView(),
+            	'appTeam'  => $userAppTeams,
+			));
+		}
+		
 		$teamId = $forms['teamId'];
 		$form = $forms['role'];
 		

@@ -46,10 +46,10 @@ class TraductionDataSearchService
 						return $form;
 				        break;
 					case (in_array("asc", $ranking)):
-						$ranking='ORDER BY e.ranking ASC ,e.underRanking ASC';
+						$ranking=' ORDER BY e.ranking ASC ,e.underRanking ASC';
 				        break;
 					case (in_array("desc", $ranking)):
-						$ranking='ORDER BY e.ranking DESC ,e.underRanking DESC';
+						$ranking=' ORDER BY e.ranking DESC ,e.underRanking DESC';
 				        break;
 					default:
 						$ranking='';
@@ -64,11 +64,11 @@ class TraductionDataSearchService
 						$form='error';
 						return $form;
 				        break;
-					case (in_array("asc", $ranking)):
-						$ranking='ORDER BY e.ranking ASC';
+					case ("asc"):
+						$ranking=' ORDER BY e.ranking ASC';
 				        break;
-					case (in_array("desc", $ranking)):
-						$ranking='ORDER BY e.ranking DESC';
+					case ("desc"):
+						$ranking=' ORDER BY e.ranking DESC';
 				        break;
 					default:
 						$ranking='';
@@ -181,15 +181,18 @@ class TraductionDataSearchService
 					$joueurs='';
 			        break;
 				case (in_array("inscrit", $players)):
-					$joueurs=' and p.team is not null';
+					$joueurs=' and p.team is not null ';
 			        break;
 				case (in_array("noninscrit", $players)):
-					$joueurs=' and p.team is null';
+					$joueurs=' and p.team is null ';
 			        break;
 				default:
 					$joueurs='';
 			        break;
 			}
+		}
+		else {
+			$joueurs='';
 		}
 
 		if($mainRole !='')
@@ -207,7 +210,7 @@ class TraductionDataSearchService
 		    with p.experience=e.id 
 		    inner join AppBundle:Game g
 		    with p.tournament=g.id '.$innerJoin.' 
-		    where g.systName=\''.$game.'\' '.$mainRole.$ranking.$joueurs
+		    where g.systName=\''.$game.'\' '.$mainRole.$joueurs.$ranking
 		);
 		$users = $query->getResult();
 		

@@ -18,8 +18,7 @@
 
 <body>
     {% block header %}
-    <div class="navbar">
-	    <div class="navbar-inverse">
+    <div class="navbar navbar-inverse navbar-fixed-top">
 	      <div class="container-fluid">
 	        <div class="navbar-header">
 	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -240,14 +239,16 @@
 			          Connexion</a></li>
 		          {% endif %}
 	          </ul>
-	        </div>
-	      </div>
-	    </div>
+        	</div>
+        </div>
+      </div>
     {% endblock %}
-    {% block body %}
-    {% endblock %}
-  </div>
-  <div id="footer">2016 AB2G | All Right Reserved</div>
+	<div id="rest">
+	    {% block body %}
+	    {% endblock %}
+	</div>
+    <div id="footer">2016 AB2G | All Right Reserved</div>
+    </div>
 
 
 {% block javascripts %}{% endblock %}

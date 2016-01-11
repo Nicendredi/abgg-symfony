@@ -30,7 +30,7 @@ class SearchFormService
 			    'choices'  => array('desc' => '+ au - élevé', 'asc' => '- au + élevé'),
 			    'required' => false,
 			    'expanded' => true,
-			    'multiple' => true
+			    'multiple' => false
 				)
             ),
         1 => array(
@@ -74,8 +74,8 @@ class SearchFormService
             'array' => $array =  array(
             	'label'    => 'Par Role',
 			    'choices'  => array(
-				    'inscrit' => 'Inscrits',
-				    'noninscrit' => 'Non Inscrit',
+				    'inscrit' => 'Inscrits dans une équipe',
+				    'noninscrit' => 'Non Inscrit dans une équipe',
 				    ),
 			    'required' => false,
 			    'expanded' => true,
@@ -104,7 +104,7 @@ class SearchFormService
 			    'choices'  => array('desc' => '+ au - élevé', 'asc' => '- au + élevé'),
 			    'required' => false,
 			    'expanded' => true,
-			    'multiple' => true
+			    'multiple' => false,
 				)
             ),
         1 => array(
@@ -132,8 +132,8 @@ class SearchFormService
             'array' => $array =  array(
             	'label'    => 'Inscrits dans une équipe',
 			    'choices'  => array(
-				    'inscrit' => 'Inscrits',
-				    'noninscrit' => 'Non Inscrit',
+				    'inscrit' => 'Inscrits dans une équipe',
+				    'noninscrit' => 'Non Inscrit dans une équipe',
 				    ),
 			    'required' => false,
 			    'expanded' => true,
@@ -150,4 +150,33 @@ class SearchFormService
         ); 
 		return $formArray;
 	}
+
+	public function createFormTeam()
+	{
+    	$formArray = array(
+        0 => array(
+            'name' => 'full', 
+            'type' =>'choice',
+            'array' => $array =  array(
+            	'label'    => 'Par Role',
+			    'choices'  => array(
+				    'full' => 'Equipes validées',
+				    'notfull' => 'Equipes non validées',
+				    ),
+			    'required' => false,
+			    'expanded' => true,
+			    'multiple' => true
+            	)
+            ),
+        1 => array(
+            'name' => 'save', 
+            'type' =>'submit',
+            'array' => $array = array(
+            	'label' => 'Rechercher'
+			    )
+            ),
+        ); 
+		return $formArray;
+	}
+	
 }

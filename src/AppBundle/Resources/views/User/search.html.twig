@@ -1,11 +1,69 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+	<div class="row">
+		{% form_theme form 'bootstrap_3_layout.html.twig' %}
+		{{ form_start(form) }}
+	    	
+    	<br><br><br><br>
+    	<div class="col-md-2">
+    	</div>
+    	
+    	<div class="col-md-8" id="search_form">
+	    	<div class="col-md-3">
+		    	{{ form_label(form.ranking) }}
+		    	{{ form_errors(form.ranking) }}
+		    	{{ form_widget(form.ranking) }}
+	    	</div>
+		    	
+		    <div class="col-md-3">
+		    	{{ form_label(form.manager) }}
+		    	{{ form_errors(form.manager) }}
+		    	{{ form_widget(form.manager) }}
+		    	
+		        {%if game =='lol'%}
+			    	{{ form_label(form.main) }}
+			    	{{ form_errors(form.main) }}
+			    	{{ form_widget(form.main) }}
+			    {%endif%}
+	    	</div>
+	    	
+	    	<div class="col-md-3">
+		    	{{ form_label(form.players) }}
+		    	{{ form_errors(form.players) }}
+		    	{{ form_widget(form.players) }}
+			</div>
+	    	
+	    	<div class="col-md-3">
+		    	{{ form_label(form.pseudo) }}
+		    	{{ form_errors(form.pseudo) }}
+		    	{{ form_widget(form.pseudo) }}
+	    	</div>
+		
+	    	<div class="col-md-12">
+					{{ form_end(form) }}
+	    	</div>
+		    </div>
+	    </div>
+		
+    	<div class="col-md-1">
+    	</div>
+    	
+	</div>
+	<br>
+    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/csgo') %}
+    	<img class="img-thumbnail" width="15%" src="{{ asset('bundles/app/images/csgo.png') }}" />
+    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/lol') %}
+    	<img class="img-thumbnail" width="15%" src="{{ asset('bundles/app/images/lol.png') }}" />
+    {%endif%}
 	
-	
-		{{ form(form) }}
 
-    <h1>User list</h1>
+    <h1>Liste de Joueurs pour le tournoi 
+    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/csgo') %}
+    	Counter Strike : Global Offensive
+    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/lol') %}
+    	League of Legends
+    {%endif%}</h1>
 
     <table class="table table-hover">
         <thead>
@@ -22,7 +80,11 @@
 	                <th>Jungle</th>
                 {%endif%}
                 <th>Manager</th>
-				<th>Recruter</th>
+	            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
+	            and game==app.user.tournament.systName
+	            and app.user.capitain%}
+					<th>Recruter</th>
+				{%endif%}
             </tr>
         </thead>
         <tbody>
@@ -86,7 +148,9 @@
 	            {%else%}
 	            	<td></td>
 	            {%endif%}
-	            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+	            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
+	            and entity.tournament==app.user.tournament
+	            and app.user.capitain%}
 	            	{%if ((app.user.tournament.systName == 'csgo')
 				      	 and (app.user.experience !=null)
 				      	 and (app.user.capitain != null)
@@ -98,26 +162,28 @@
 			      		{%else%}
 			      			<td><p>En attente d'une réponse</p></td>
 			      		{%endif%}
-	            	{%elseif app.user.capitain and entity.team == null%}
-				      	{%if ((app.user.tournament=='lol')
-				      	 and (checkRoleService.getRoleAvailable(app.user.team.id,entity.id, 'team'))!=null)
-				      	 and (app.user.tournament == entity.tournament) 
+	            	{%elseif  (app.user.tournament.systName=='lol')
+				      	 and (app.user.capitain != null)
 				      	 and (app.user.experience !=null)
-				      	 and (entity.manager == null)%}
+				      	 and (entity.team==null)%}
+	            		{%if ((entity.manager == null)
+				      	 and (checkRoleService.getRoleAvailable(app.user.team.id,entity.id, 'team')!=null)
+				      	 and (app.user.tournament == entity.tournament) 
+				      	 and (app.user.experience !=null))%}
 				      			<td>
 									{% form_theme checkRoleService.getRoleAvailable(app.user.team.id,entity.id, 'team') 'bootstrap_3_layout.html.twig' %}
 					      			{{form(checkRoleService.getRoleAvailable(app.user.team.id,entity.id, 'team'))}}
 				      			</td>
-				      	{%elseif entity.manager != null 
+				      	{%elseif (entity.manager != null )
 				      	and ((checkRoleService.getManagerAvailable(app.user.team.id,entity.id))!=null)%}
 			      			<td>
 								{% form_theme checkRoleService.getManagerAvailable(app.user.team.id,entity.id) 'bootstrap_3_layout.html.twig' %}
 				      			{{form(checkRoleService.getManagerAvailable(app.user.team.id,entity.id))}}
 			      			</td>
-				      	{%elseif (app.user.tournament != entity.tournament)%}
-				      		<td></td>
 				      	{%else%}
-				      		<td><p>En attente d'une réponse</p></td>
+				      		<td>
+				      			<p>En attente d'une réponse</p>
+				      		</td>
 				      	{%endif%}
 	            	{%else%}
 	            		<td></td>
@@ -129,5 +195,7 @@
         {% endfor %}
         </tbody>
     </table>
+    
+    <br><br>
 
     {% endblock %}

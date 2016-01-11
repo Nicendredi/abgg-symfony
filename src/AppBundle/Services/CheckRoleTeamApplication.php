@@ -22,7 +22,7 @@ class CheckRoleTeamApplication
 	}
 	
 	public function getRoleAvailable($teamId, $userId = null, $origin=null)
-	{	
+	{
         $query = $this->em->createQuery(
 		    'SELECT r
 		    FROM AppBundle:Role r
@@ -110,8 +110,9 @@ class CheckRoleTeamApplication
 		            'multiple' => true,
 		            'required' => false,
 					))
+				->add('text','text')
 				->add('teamId','hidden', array('data'=> $teamId))
-	            ->add('save', 'submit', array('label' => 'Postuler'));
+	            ->add('save', 'submit', array('label' => 'Recruter'));
 				
 			if($userId != null)
 			{
@@ -138,6 +139,7 @@ class CheckRoleTeamApplication
 			->add('role','choice', array(
 	            'choices' => $choice
 				))
+			->add('text','text')
             ->add('save', 'submit', array('label' => 'Postuler'));
 		$form = $formBuilder->getForm();
 		
@@ -185,7 +187,7 @@ class CheckRoleTeamApplication
 		            'required' => false,
 					))
 				->add('teamId','hidden', array('data'=> $teamId))
-	            ->add('save', 'submit', array('label' => 'Postuler'));
+	            ->add('save', 'submit', array('label' => 'Recruter'));
 		
 			if($userId != null)
 			{

@@ -19,21 +19,27 @@
 		        		Tournois Bordeaux Geek Festival 2016
 		        	</span>
 		        </div>
+		        
 		        <div class="row text-center">
+				  <div class="col-md-4  col-sm-4">
+				  	<a href="{{ path('fos_user_registration_register') }}" >
+				        <span class="glyphicon glyphicon-pencil fa-vertical animated icon-round bk-color-grey" aria-hidden="true"></span>
+				    </a>
+				      	</i>
+				        <h4>Vous inscrire </h4>
+				        <p>Vous pouvez vous inscrire aux différents tournois e-sport du Bordeaux Geek Festival.</p>
+				  </div>
+			      
 			      <div class="col-md-4  col-sm-4">
-			        <span class="glyphicon glyphicon-pencil fa-vertical animated icon-round bk-color-grey" aria-hidden="true"></span>
-			      	</i>
-			        <h4>Vous inscrire </h4>
-			        <p>Vous pouvez vous inscrire aux différents tournois e-sport du Bordeaux Geek Festival.</p>
-			      </div>
-			      <div class="col-md-4  col-sm-4">
-			        <p class="glyphicon glyphicon-plus fa-vertical animated icon-round bk-color-grey" aria-hidden="true"></span>
+				  	<a href="{{ path('fos_user_registration_register') }}" >
+			        	<span class="glyphicon glyphicon-plus fa-vertical animated icon-round bk-color-grey" aria-hidden="true"></span>
+			      	</a>
 			      	</i>
 			        <h4>Créer ou rejoindre une équipe</h4>
-			        <p>Ici, vous pourrez consulter, recruter, postuler les diverses équipes inscrites aux différents tournois.</p>
+			        <p>Une fois inscrits, vous pourrez consulter, recruter, postuler les diverses équipes inscrites aux différents tournois.</p>
 			      </div>
 			      <div class="col-md-4  col-sm-4">
-			        <p class="glyphicon glyphicon-search fa-vertical animated icon-round bk-color-grey" aria-hidden="true"></span>
+			        <span class="glyphicon glyphicon-search fa-vertical animated icon-round bk-color-grey" aria-hidden="true"></span>
 			      	</i>
 			        <h4>Rechercher</h4>
 			        <p>Recherchez les joueurs/les équipes cherchant à s'inscrire aux competitions lors du Bordeaux Geek Festival 2016</p>
@@ -87,10 +93,10 @@
 				  	<p>Entrez les données correspondant au jeu :</p>
 				  	<table  class="table table-bordered">
 				  		<tr>
-				  			<td>
+				  			<td class="col-md-6">
 				  				<img width="100%" src="{{ asset('bundles/app/images/lol.png') }}" />
 				  			</td>
-				  			<td>
+				  			<td class="col-md-6">
 				  				<img width="100%" src="{{ asset('bundles/app/images/csgo.png') }}" />
 				  			</td>
 				  		</tr>

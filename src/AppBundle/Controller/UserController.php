@@ -115,8 +115,8 @@ class UserController extends Controller
 
         return array(
             'entities' => $users,
-            'game' => $games,
-            'form'   => $form->createView(),
+            'game'     => $games,
+            'form'     => $form->createView(),
             'appTeam'  => $userAppTeams,
         );
     }
@@ -159,11 +159,11 @@ class UserController extends Controller
 			$formArray = $this->get('searchFormService')->$function();
 			
 		    $formBuilder = $this->createFormBuilder($formArray);
-		
+
 		    foreach($formArray as $field) {
 		        $formBuilder->add($field['name'], $field['type'],$field['array']);
 		    }        
-		
+
 		    $form = $formBuilder->getForm();
 			
 	        return array(

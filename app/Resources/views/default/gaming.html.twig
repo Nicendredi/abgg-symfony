@@ -1,41 +1,60 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <br><br><br>
+    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') %}
+    	<img class="img-thumbnail" width="15%" src="{{ asset('bundles/app/images/csgo.png') }}" />
+    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') %}
+    	<img class="img-thumbnail" width="15%" src="{{ asset('bundles/app/images/lol.png') }}" />
+    {%endif%}
+    <h1>Liste des équipes Validées pour le tournoi 
+    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') %}
+    	Counter Strike : Global Offensive
+    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') %}
+    	League of Legends
+    {%endif%}
+    </h1>
+	<br>
 {%if entities%}
 	<div class="row">
-		<table class="table table-hover">
-			<tr>
-				<th>Nom Equipe</th>
-				<th>Capitaine</th>
-				<th>Joueur 1</th>
-				<th>Joueur 2</th>
-				<th>Joueur 3</th>
-				<th>Joueur 4</th>
-				<th>Joueur 5</th>
-				<th>Joueur 6</th>
-			</tr>
-		{%for entity in entities%}
-			{%if entity.validation != null%}
+    	<div class="col-md-12">
+			<table class="table table-hover">
 				<tr>
-					<td>{{entity.name}}</td>
-					<td>{{entity.captain}} 
-						{%if entity.captain.tournament.systName == 'lol'%}
-							- {{entity.captain.role.name}}
-						{%endif%}
-					</td>
-					{%for player in entity.player%}
-						<td>{{player.user.experience.username}}
-						{%if entity.captain.tournament.systName == 'lol'%}
-							 - {{player.role.name}}</td>
-						{%endif%}
-					{%endfor%}
+					<th>Nom Equipe</th>
+					<th>Capitaine</th>
+					<th>Joueur 1</th>
+					<th>Joueur 2</th>
+					<th>Joueur 3</th>
+					<th>Joueur 4</th>
+					<th>Joueur 5</th>
+					<th>Joueur 6</th>
 				</tr>
-			{%endif%}
-		{%endfor%}
-		</table>
+			{%for entity in entities%}
+				{%if entity.validation != null%}
+					<tr>
+						<td>{{entity.name}}</td>
+						<td>{{entity.captain}} 
+							{%if entity.captain.tournament.systName == 'lol'%}
+								- {{entity.captain.role.name}}
+							{%endif%}
+						</td>
+						{%for player in entity.player%}
+							<td>{{player.user.experience.username}}
+							{%if entity.captain.tournament.systName == 'lol' and player.user.manager ==null%}
+								 - {{player.role.name}}
+							{%elseif player.user.manager !=null%}
+							 - Manager
+							{%endif%}
+							</td>
+						{%endfor%}
+					</tr>
+				{%endif%}
+			{%endfor%}
+			</table>
+		</div>
 	</div>
 {%else%}
-	<br><center><h1>Aucune équipe n'est actuellement valide/complète</h1></center>
+	<center><h2>Aucune équipe n'est actuellement valide/complète</h2></center>
 	<center><img width="25%"  src="{{ asset('bundles/app/images/forever-alone.jpg') }}" /></center>
 {%endif%}
 {% endblock %}

@@ -66,7 +66,6 @@ class Application
     private $email;
 
     /**
-<<<<<<< HEAD
      * @var boolean
      *
      * @ORM\Column(name="blocked", type="boolean", nullable=true)
@@ -79,6 +78,13 @@ class Application
      * @ORM\Column(name="invitationToken", type="string", length=255, nullable=true)
      */
     private $invitationToken;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="text", type="string", length=255, nullable=true)
+     */
+    private $text;
 
     /**
      * Get id
@@ -233,5 +239,28 @@ class Application
     public function getInvitationToken()
     {
         return $this->invitationToken;
+    }
+
+    /**
+     * Set text
+     *
+     * @param string $text
+     * @return Application
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+
+        return $this;
+    }
+
+    /**
+     * Get text
+     *
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
     }
 }
