@@ -14,6 +14,8 @@ use AppBundle\Entity\Player;
 use AppBundle\Entity\Application;
 use AppBundle\Form\RegistrationType;
 use AppBundle\Form\SearchType;
+use AppBundle\Form\ImageType;
+use AppBundle\Form\TextType;
 use AppBundle\Services\CheckDataServices;
 use AppBundle\Services\SearchFormService;
 
@@ -120,6 +122,7 @@ class UserController extends Controller
             'appTeam'  => $userAppTeams,
         );
     }
+
     /**
      * Creates a new User entity.
      *
@@ -182,6 +185,7 @@ class UserController extends Controller
 			$teamId = $forms['teamId'];
 			$userId = $forms['userId'];
 			$form = $forms['role'];
+			$text = $forms['text'];
 			
 	        $em = $this->getDoctrine()->getManager();
 	        $query = $em->createQuery(
@@ -214,6 +218,7 @@ class UserController extends Controller
 				$entity->setTeam($team[0]);
 				$entity->setRole($roleArray[0]);
 				$entity->setOrigin('team');
+				$entity->setText($text);
 		        $em->persist($entity);
 			}
 		    $em->flush();
@@ -391,6 +396,7 @@ class UserController extends Controller
 
         return $form;
     }
+	
     /**
      * Edits an existing User entity.
      *
@@ -610,4 +616,170 @@ class UserController extends Controller
 		return $this->redirect($this->generateUrl('player_show', array('id' => $this->getUser()->getId())));
     }
 	
+    /**
+     * @Route("/edit/text/application/{id}", name="edit_text_application")
+     * @Method("GET")
+     * @Template("AppBundle:User:editText.html.twig")
+     */
+    public function editTextApplicationAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppBundle:Application')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Application entity.');
+        }
+
+        $editForm = $this->createEditTextForm($entity);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+        );
+	}
+
+    /**
+    * Creates a form to edit a User entity.
+    *
+    * @param User $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditTextForm(Application $entity)
+    {
+        $form = $this->createForm(new TextType(), $entity, array(
+            'action' => $this->generateUrl('update_text_application', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
+    }
+	
+    /**
+     * @Route("/application/update/text/{id}", name="update_text_application")
+     * @Method("PUT")
+     */
+    public function putTextApplicationAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppBundle:Application')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+		
+        $editForm = $this->createEditTextForm($entity);
+        $editForm->handleRequest($request);
+		
+        if ($editForm->isValid()) {
+        	$data = $editForm->getData();
+			$text = $data->getText();
+			
+			$entity->setText($text);
+			$em->persist($entity);
+
+            $em->flush();
+            return $this->redirect($this->generateUrl('player_show', array('id' => $entity->getId())));
+        }
+	}
+
+    /**
+     * Finds and displays a User entity.
+     *
+     * @Route("/user/{id}", name="user_show")
+     * @Method("GET")
+     * @Template("AppBundle:User:show.html.twig")
+     */
+    public function showUserAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+		
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:User p
+		    where p.id= '.$id
+		);
+		$users = $query->getResult();
+		$user=$users[0];
+		
+		if($users[0]->getTournament())
+		{
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Game p
+			    where p.id= '.$users[0]->getTournament()->getId()
+			);
+			$games = $query->getResult();
+			$game=$games[0];
+		}else{$game=null;}
+		
+		if($users[0]->getExperience())
+		{
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Experience p
+			    where p.id= '.$users[0]->getExperience()->getId()
+			);
+			$experiences = $query->getResult();
+			$experience=$experiences[0];
+		
+			if($experiences[0]->getRanking())
+			{
+		        $query = $em->createQuery(
+				    'SELECT p
+				    FROM AppBundle:Ranking p
+				    where p.id= '.$experiences[0]->getRanking()->getId()
+				);
+				$rankings = $query->getResult();
+				$ranking=$rankings[0];
+			}else{$ranking=null;}
+			
+			if($experiences[0]->getUnderRanking())
+			{
+		        $query = $em->createQuery(
+				    'SELECT p
+				    FROM AppBundle:UnderRanking p
+				    where p.id= '.$experiences[0]->getUnderRanking()->getId()
+				);
+				$underRankings = $query->getResult();
+				$underRanking=$underRankings[0];
+			}else{$underRanking=null;}
+		}else{$experience=null;}
+		
+		if($users[0]->getTeam())
+		{
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Team p
+			    where p.id= '.$users[0]->getTeam()->getId()
+			);
+			$teams = $query->getResult();
+			$team=$teams[0];
+		}else{$team=null;}
+			
+		if($users[0]->getRole())
+		{
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Role p
+			    where p.id= '.$users[0]->getRole()->getId()
+			);
+			$roles = $query->getResult();
+			$role=$roles[0];
+		}else{$role=null;}
+
+        return array(
+            'user'         => $user,
+            'game'         => $game,
+            'experience'   => $experience,
+            'ranking'      => $ranking,
+            'underRanking' => $underRanking,
+            'team'         => $team,
+            'role'         => $role,
+        );
+    }
 }

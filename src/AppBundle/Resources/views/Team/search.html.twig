@@ -57,13 +57,26 @@
 		  <tbody>
 		    {% for entity in entities %}
 		    <tr>
-		      <td>{{ entity.name }}</td>
+		        <td>
+                	{%if entity.image%}
+                		<img height="50px" width="50px" src="{{ asset('uploads/images/'~entity.image.name) }}" />
+                	{%endif%}
+			        <a class="btn btn-link" href="{{ path('team_show_all', {'id':entity.id} ) }}">
+			      		{{ entity.name }}
+			        </a>
+		        </td>
 		      <td>
-		      	{{ entity.captain }}
+            	{%if entity.captain.image%}
+            		<img height="50px" width="50px" src="{{ asset('uploads/images/'~entity.captain.image.name) }}" />
+            	{%endif%}
+		      	<a class="btn btn-link" href="{{ path('user_show', {'id':entity.captain.id} ) }}">
+		      		{{ entity.captain }}
+		      	</a>
 		      	{%if entity.captain.tournament.systName == 'lol' %}
 		      		- {{entity.captain.role.name}}
 		      	{%endif%}
 		      	<br>
+		      	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~entity.captain.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
 		      	{{entity.captain.experience.ranking.name}}
 		      	{%if entity.captain.tournament.systName == 'lol' and entity.captain.experience.ranking.name != 'Pas classé'%}
 		      		{{entity.captain.experience.underRanking.name}}
@@ -72,13 +85,19 @@
 		      {%if entity.player%}
 		      	{%for player in entity.player%}
 		      		<td>
-		      			{{player.user.experience.username}}
+	                	{%if player.user.image%}
+	                		<img height="50px" width="50px" src="{{ asset('uploads/images/'~player.user.image.name) }}" />
+	                	{%endif%}
+		      			<a class="btn btn-link" href="{{ path('user_show', {'id':player.user.id} ) }}">
+		      				{{player.user.experience.username}}
+		      			</a>
 				      	{%if player.user.tournament.systName == 'lol' %}
 				      		- {{player.role.name}}
 				      	{%endif%}
 				      	<br>
 				      	{%if player.user.manager%}
 				      	{%else%}
+	                		<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
 					      	{{player.user.experience.ranking.name}}
 					      	{%if entity.captain.tournament.systName == 'lol' and player.user.experience.ranking.name != 'Pas classé'%}
 					      		{{player.user.experience.underRanking.name}}

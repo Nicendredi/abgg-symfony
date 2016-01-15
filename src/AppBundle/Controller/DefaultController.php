@@ -2,13 +2,16 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Entity\Team;
 use AppBundle\Entity\TeamRepository;
 use AppBundle\Entity\Game;
+use AppBundle\Services\EmailRegisterProcessor;
 
 class DefaultController extends Controller
 {
@@ -249,4 +252,123 @@ class DefaultController extends Controller
       ));
     }
 
+    /**
+     * @Route("/mail", name="mail")
+     * @Method("GET")
+     * @Template("AppBundle:FAQ:mailAdmin.html.twig")
+     */
+    public function mailAdminAction(Request $request)
+    {
+    	$formArray = array(
+	    		0=>array('tournament', 'choice', $array = array(
+	            	'label'    => 'A quel propos voulez vous envoyer ce mail?',
+				    'choices'  => array(
+				    	'lol' => 'League of Legends', 
+				    	'csgo' => 'Counter Strike Global Offensive',
+						'else' => 'Autre'),
+				    'required' => true,
+				    'expanded' => true,
+				    'multiple' => false
+					)),
+				1=>array(
+					'name'=>'email',
+					'type'=>'email',
+					'array' => $array = array('label'=>'Votre adresse mail')
+				),
+				2=>array(
+					'name'=>'object',
+					'type'=>'text'
+				),
+				3=>array(
+					'name'=>'mail',
+					'type'=>'textarea'
+				),
+				4=> array(
+		            'name' => 'save', 
+		            'type' =>'submit',
+		            'array' => $array = array(
+		            	'label' => 'Envoyer'
+					    )
+		            ),
+		        );
+    				
+	    $formBuilder = $this->createFormBuilder($formArray)
+	    	->add('tournament', 'choice', $array = array(
+            	'label'    => 'A quel propos voulez vous envoyer ce mail?',
+			    'choices'  => array(
+			    	'lol'  => 'League of Legends', 
+			    	'csgo' => 'Counter Strike Global Offensive',
+					'else' => 'Autre'),
+			    'required' => true,
+			    'expanded' => true,
+			    'multiple' => false
+			))
+			->add('email','email',array('label'=>'Votre adresse mail'))
+			->add('object','text')
+			->add('mail','textarea')
+			->add('save','submit',array(
+            	'label'  => 'Envoyer'
+			));
+			
+	    $form = $formBuilder->getForm();
+        $form->handleRequest($request);
+			
+      return $this->render('AppBundle:FAQ:mailAdmin.html.twig', array(
+            'form'     => $form->createView(),));
+    }
+
+    /**
+     * @Route("/mail", name="mail_post")
+     * @Method("POST")
+     * @Template("AppBundle:FAQ:mailAdmin.html.twig")
+     */
+    public function mailAdminPostAction(Request $request)
+    {
+    				
+	    $formBuilder = $this->createFormBuilder()
+	    	->add('tournament', 'choice', $array = array(
+            	'label'    => 'A quel propos voulez vous envoyer ce mail?',
+			    'choices'  => array(
+			    	'lol'  => 'League of Legends', 
+			    	'csgo' => 'Counter Strike Global Offensive',
+					'else' => 'Autre'),
+			    'required' => true,
+			    'expanded' => true,
+			    'multiple' => false
+			))
+			->add('email','email',array('label'=>'Votre adresse mail'))
+			->add('object','text')
+			->add('mail','textarea')
+			->add('save','submit',array(
+            	'label'  => 'Envoyer'
+			));
+			
+	    $form = $formBuilder->getForm();
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+        	$form=$form->getData();
+			$tournament = $form['tournament'];
+			$email = $form['email'];
+			$object = $form['object'];
+			$mail = $form['mail'];
+			
+			if($tournament=='lol')
+			{
+				$responsable = 'liard.au@gmail.com';
+			}
+			else 
+			{
+				$responsable = 'sch.laurine@gmail.com';
+			}
+			
+        	$em = $this->getDoctrine()->getManager();
+			$mailer = $this->container->get('app.registration_email_processor');
+			$sendMail = $mailer -> sendMail($responsable,$email,$object,$mail);
+			
+      		return $this->redirect($this->generateUrl('mail'));
+		}
+			
+      return $this->render('AppBundle:FAQ:mailAdmin.html.twig', array(
+            'form'     => $form->createView(),));
+    }
 }

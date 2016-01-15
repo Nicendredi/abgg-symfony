@@ -70,6 +70,16 @@ class Team
     private $validation;
 
     /**
+     * @var Image $image
+     *
+     * @ORM\ManyToOne(targetEntity="Image", inversedBy="image", cascade={"persist", "merge", "remove"})
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="image_id", referencedColumnName="id")
+     * })
+     */
+    private $image;
+
+    /**
      * Get id
      *
      * @return integer
@@ -252,5 +262,23 @@ class Team
     public function getGame()
     {
         return $this->game;
+    }
+
+    /**
+     * @param Image $image
+     */
+    public function setImage(Image $image=null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return \AppBundle\Entity\Image $image
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

@@ -1,0 +1,23 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+<div class="row">
+  <div class="col-xs-4"></div>
+  <div class="col-xs-4">
+  	<div class="form-group">
+		
+		<br>
+		<center><h1>Envoyer un mail aux responsables tournois</h1></center>
+		<br>
+		<br>
+		<br>
+		<br>
+	    
+		{% form_theme form 'bootstrap_3_layout.html.twig' %}
+	
+	    	{{ form(form) }}
+		</div>
+	<div class="col-xs-4"></div>
+	</div>
+</div>
+{%endblock%}

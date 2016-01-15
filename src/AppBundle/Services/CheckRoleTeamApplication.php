@@ -110,7 +110,9 @@ class CheckRoleTeamApplication
 		            'multiple' => true,
 		            'required' => false,
 					))
-				->add('text','text')
+				->add('text','text', array(
+					'label'=>'Laisser un commentaire au chef d\'équipe',
+		            'required' => false))
 				->add('teamId','hidden', array('data'=> $teamId))
 	            ->add('save', 'submit', array('label' => 'Recruter'));
 				
@@ -139,7 +141,9 @@ class CheckRoleTeamApplication
 			->add('role','choice', array(
 	            'choices' => $choice
 				))
-			->add('text','text')
+			->add('text','text', array(
+				'label'=>'Laisser un commentaire au joueur',
+				'required' => false,))
             ->add('save', 'submit', array('label' => 'Postuler'));
 		$form = $formBuilder->getForm();
 		

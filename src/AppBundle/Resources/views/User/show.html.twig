@@ -1,36 +1,207 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-
-
-	{%block user%}
-	    <h1>User</h1>
+{% block body %}
+    <br><br><br><br>
+	<div id="baniere">
+		<div class="row">
+		  <div class="col-xs-3">
+			{% if game %}
+			    <img width="100%" src="{{ asset('bundles/app/images/'~game.systName~'.png') }}" />
+			{%endif%}
+		  </div>
+		  <div class="col-xs-6">
+		  {% if experience %}
+			  <br>
+			  	<center><hp>{{ experience.username }}</hp></center>
+			  <br>
+			  <br>
+			  <br>
+			  {%if team and game%}
+			  	{%if game.systName == 'lol'%}
+				  	<div class="row">
+				  		<div class="col-xs-6">
+				  			<center><h1>{{user.role.name}}</h1></center>
+				  		</div>
+				  		<div class="col-xs-6">
+				  			<center><h1>{{user.team.name}}</h1></center>
+				  		</div>
+				  	</div>
+				 {%else%}
+				 	<center><h2>{{team.name}}</h2></center>
+				 {%endif%}
+			  {%endif%}
+		  {%else%}
+			  <br>
+			  <br>
+			  	<center><hp>{{ user.username }}</hp></center>
+		  {%endif%}
+		  <br>
+		  </div>
+		  <div class="col-xs-1">
+			{%if game%}
+			  {%if experience%}
+			  	{% if ranking %}
+			  		<img src="{{ asset('bundles/app/images/'~game.systName~'/'~ranking.name~'.png') }}" />
+					<br>
+			  	{%endif%}
+			  {%endif%}
+		  	{%endif%}
+		  </div>
+		</div>
+	</div>
 	
-	    <table>
-	        <tbody>
-	            <tr>
-	                <th>Firstname</th>
-	                <td>{{ user.firstName }}</td>
-	            </tr>
-	            <tr>
-	                <th>Lastname</th>
-	                <td>{{ user.lastName }}</td>
-	            </tr>
-	            <tr>
-	                <th>Telephone</th>
-	                <td>{{ user.telephone }}</td>
-	            </tr>
-	            <tr>
-	                <th>Date de Naissance</th>
-	                <td>{{ user.birth|date('Y-m-d') }}</td>
-	            </tr>
-	        </tbody>
-	    </table>
+	<div class="row">
+		<div class="col-xs-3">
+		    <h3>Données Persos</h3>
 	
-        <button>
-	        <a href="{{ path('player_edit', {'id':user.id} ) }}">
-	        	Modifier
-	        </a>
-        </button>
-	{% endblock %}
-{% endblock %}
+		    <table class="table table-hover">
+		        <tbody>
+		            <tr>
+		                <th>Firstname</th>
+		                <td>{{ user.firstName }}</td>
+		            </tr>
+		            <tr>
+		                <th>Lastname</th>
+		                <td>{{ user.lastName }}</td>
+		            </tr>
+		            <tr>
+		                <th>Email</th>
+		                <td>{{ user.email }}</td>
+		            </tr>
+		            <tr>
+		                <th>Date de Naissance</th>
+		                <td>{{ user.birth|date('Y-m-d') }}</td>
+		            </tr>
+		        </tbody>
+		    </table>
+		</div>
+	
+		<div class="col-xs-1"></div>
+		
+		<div class="col-xs-3">
+		{%if game%}
+			{% if user.experience %}
+				    <h3>In-Game</h3>
+				
+				    <table class="table table-hover">
+				        <tbody>
+				            <tr>
+				                <th>Pseudo In-Game</th>
+				                <td>{{ experience.username }}</td>
+				            <tr>
+				            {%if ranking%}
+				            </tr>
+				                <th>Classement</th>
+				                <td>{{ ranking.name }}</td>
+				            </tr>
+				            {%endif%}
+				            {% if underRanking %}
+					            <tr>
+					                <th>Sous-Classement</th>
+					                <td>{{ underRanking.name }}</td>
+					            </tr>
+				            {%endif%}
+				            {% if experience.steam %}
+					            <tr>
+					                <th>Pseudo Steam</th>
+					                <td>{{ experience.steam }}</td>
+					            </tr>
+				            {%endif%}
+				            {%if user.tournament.systName == 'lol' and user.experience.postes %}
+				            	<tr>
+				            		<th>Top Lane</th>
+				            		<td>{{user.experience.postes.top}}</td>
+				            	</tr>
+				            	<tr>
+				            		<th>Middle Lane</th>
+				            		<td>{{user.experience.postes.mid}}</td>
+				            	</tr>
+				            	<tr>
+				            		<th>Bottom Carry</th>
+				            		<td>{{user.experience.postes.bot}}</td>
+				            	</tr>
+				            	<tr>
+				            		<th>Support </th>
+				            		<td>{{user.experience.postes.sup}}</td>
+				            	</tr>
+				            	<tr>
+				            		<th>Jungle</th>
+				            		<td>{{user.experience.postes.jungle}}</td>
+				            	</tr>
+				            {%endif%}
+				            {%if user.manager%}
+				            	<tr>
+				            		<th>Poste</th>
+				            		<td>Manager</td>
+				            	</tr>
+				            {%endif%}
+				        </tbody>
+					    </table>
+					<br>
+				{%endif%}
+			{%endif%}
+		</div>
+		
+		<div class="col-xs-1"></div>
+		
+		<div class="col-xs-4">
+		{%if game and experience%}
+			{% if team %}
+				    <h3>Votre Equipe</h3>
+				
+				    <table class="table table-hover">
+				        <tbody>
+				            <tr>
+				                <th>Nom de l'équipe</th>
+				                <td>
+				                	<a class="btn btn-link" href="{{ path('team_show_all', {'id':team.id} ) }}">
+				                		{{ team.name }}
+				                	</a>
+				                </td>
+						        <td></td>
+				            </tr>
+				            <tr>
+				            	<th>Pseudo capitaine d'équipe</th>
+				            	<td>
+				            		<a class="btn btn-link" href="{{ path('user_show', {'id':team.captain.id} ) }}">
+				            			{{team.captain.experience.username}}
+				            		</a>
+				            	</td>
+						        <td></td>
+				            </tr>
+				            {%if role%}
+					            <tr>
+					                <th>Role de {{user.experience.username}}</th>
+						            <td></td>
+					                <td>{{ role.name }}</td>
+					            </tr>
+					            {%if user.capitain==null%}
+						            <tr>
+						            	<th>Role capitaine d'équipe</th>
+						            	<td></td>
+						            	<td>{{team.captain.role}}</td>
+						            </tr>
+					            {%endif%}
+				            {%endif%}
+				            {% if user.team.player %}
+				            	{%for player in user.team.player%}
+						            <tr>
+						            	<th>Joueur</th>
+						            	<td>
+						            		<a class="btn btn-link" href="{{ path('user_show', {'id':player.user.id} ) }}">
+						            			{{player.user.experience.username}}
+						            		</a>
+						            	</td>
+				            			{%if role%}
+						            		<td>{{player.role.name}}</td>
+						            	{%endif%}
+						            </tr>
+						         {%endfor%}
+				            {%endif%}
+				        </tbody>
+				    </table>
+			{%endif%}
+		{%endif%}
+		</div>
+	</div>
+{%endblock%}

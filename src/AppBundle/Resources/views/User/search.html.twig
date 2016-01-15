@@ -69,6 +69,7 @@
         <thead>
             <tr>
                 <th>Username</th>
+                <th>Logo joueur</th>
                 <th>Team</th>
                 <th>Ranking</th>
 	            {%if game =='lol'%}
@@ -90,9 +91,22 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td>{{ entity.username }}</td>
+                <td>
+                	<a class="btn btn-link" href="{{ path('user_show', {'id':entity.id} ) }}">
+                		{{ entity.username }}
+                	</a>
+                </td>
+                <td>
+                	{%if entity.image%}
+                		<img height="50px" width="50px" src="{{ asset('uploads/images/'~entity.image.name) }}" />
+                	{%endif%}
+                </td>
                 {%if entity.team!=null%}
-                	<td>{{ entity.team.name }}</td>
+                	<td>
+                		<a class="btn btn-link" href="{{ path('team_show_all', {'id':entity.team.id} ) }}">
+                			{{ entity.team.name }}
+                		</a>
+                	</td>
                 {%else%}
                 	<td></td>
                 {%endif%}

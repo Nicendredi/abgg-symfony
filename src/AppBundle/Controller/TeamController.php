@@ -16,6 +16,7 @@ use AppBundle\Entity\Application;
 use AppBundle\Form\TeamType;
 use AppBundle\Form\PlayerType;
 use AppBundle\Form\CaptainType;
+use AppBundle\Form\TextType;
 use AppBundle\Services\CheckDataServices;
 use AppBundle\Validator\Constraints\HasDifferentPlayers;
 use Symfony\Component\Validator\Constraints\DateTime;
@@ -134,7 +135,7 @@ class TeamController extends Controller
      	$data=$request->request->all();
 		$forms =$data['form'];
 		
-		if(in_array(0, $forms))
+		if(array_key_exists("full",$forms))
 		{
 			$choiceTeams = $forms['full'];
 			
@@ -1000,6 +1001,25 @@ class TeamController extends Controller
 
         return $form;
     }
+
+    /**
+    * Creates a form to edit a User entity.
+    *
+    * @param User $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditTextForm(Application $entity)
+    {
+        $form = $this->createForm(new TextType(), $entity, array(
+            'action' => $this->generateUrl('update_text_application', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
+    }
 	
     /**
      * @Route("/edit/capitain/role/{id}", name="edit_capitain_role_team")
@@ -1017,6 +1037,29 @@ class TeamController extends Controller
         }
 
         $editForm = $this->createEditRoleForm($entity);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+        );
+	}
+	
+    /**
+     * @Route("/edit/text/application/{id}", name="edit_text_application")
+     * @Method("GET")
+     * @Template("AppBundle:Team:editText.html.twig")
+     */
+    public function editTextApplicationAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppBundle:Application')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+
+        $editForm = $this->createEditTextForm($entity);
 
         return array(
             'entity'      => $entity,
@@ -1079,4 +1122,66 @@ class TeamController extends Controller
 			return $this->redirect($this->generateUrl('team_show', array('id' => $this->getUser()->getTeam()->getId())));
         }
 	}
+	
+    /**
+     * @Route("/application/update/text/{id}", name="update_text_application")
+     * @Method("PUT")
+     */
+    public function putTextApplicationAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppBundle:Application')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+		
+        $editForm = $this->createEditTextForm($entity);
+        $editForm->handleRequest($request);
+		
+        if ($editForm->isValid()) {
+        	$data = $editForm->getData();
+			$text = $data->getText();
+			
+			$entity->setText($text);
+			$em->persist($entity);
+
+            $em->flush();
+			return $this->redirect($this->generateUrl('team_show', array('id' => $this->getUser()->getTeam()->getId())));
+        }
+	}
+
+    /**
+     * Finds and displays a User entity.
+     *
+     * @Route("/team/show/{id}", name="team_show_all")
+     * @Method("GET")
+     * @Template("AppBundle:Team:shows.html.twig")
+     */
+    public function showTeamAllAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+		
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    where p.id= '.$id
+		);
+		$teams = $query->getResult();
+		$team=$teams[0];
+		
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.team= '.$id
+		);
+		$players = $query->getResult();
+		
+
+        return array(
+            'team'         => $team,
+            'players'      => $players,
+        );
+    }
 }

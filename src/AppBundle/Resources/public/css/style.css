@@ -29,7 +29,7 @@ h1 {
     line-height:50px;
     font-weight:900;
     font-size:40px;
-    padding:50px 20px 5px 20px;
+    padding:50px 5px 5px 5px;
     text-transform:uppercase;
     color:#B02717;
 }
@@ -322,7 +322,10 @@ border: 1px solid #e1e1e1;
 	background-color: yellow;
 }
 
-
+#rest
+{
+	margin-bottom:5%;
+}
 
 
 

@@ -126,6 +126,16 @@ class User extends BaseUser
      **/
     private $application;
 
+    /**
+     * @var Image $image
+     *
+     * @ORM\ManyToOne(targetEntity="Image", inversedBy="image", cascade={"persist", "merge", "remove"})
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="image_id", referencedColumnName="id")
+     * })
+     */
+    private $image;
+
     public function __construct()
     {
         parent::__construct();
@@ -387,5 +397,23 @@ class User extends BaseUser
     public function removeApplication(\AppBundle\Entity\Application $application)
     {
         $this->application->removeElement($application);
+    }
+
+    /**
+     * @param Image $image
+     */
+    public function setImage(Image $image=null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return \AppBundle\Entity\Image $image
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

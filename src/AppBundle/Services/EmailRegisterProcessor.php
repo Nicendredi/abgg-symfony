@@ -65,7 +65,18 @@ class EmailRegisterProcessor
 		->setSubject("Registration complete")
 		->setFrom("contact@asso-b2g.com")
 		->setTo($user->getEmail())
-		->setBody("Test test, this is a Test ! I love you my Nana. Kissous kissous calinou calinou. =D <3");
+		->setBody("Test test, this is a Test !");
+		$this->mailer->send($message);
+	}
+	
+	public function sendMail($responsable,$email,$object,$mail)
+	{
+		var_dump($responsable,$email,$object,$mail);
+		$message = \Swift_Message::newInstance()
+		->setSubject($object)
+		->setFrom($email)
+		->setTo($responsable)
+		->setBody($mail);
 		$this->mailer->send($message);
 	}
 }
