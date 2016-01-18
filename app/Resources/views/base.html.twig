@@ -14,247 +14,288 @@
 	{% endstylesheets %}
   {% block stylesheets %}<link href="{{ asset('bundles/app/css/style.css') }}" rel="stylesheet" type="text/css" />
   {% endblock %}
+	{% javascripts  'bundles/app/js/*' %}
+		<script src="{{ asset_url }}" /></script>
+	{% endjavascripts  %}
 </head>
 
 <body>
     {% block header %}
-    <div class="navbar navbar-inverse navbar-fixed-top">
-	      <div class="container-fluid">
-	        <div class="navbar-header">
-	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-	            <span class="sr-only">Activer la navigation</span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	          </button>
-	          <a class="navbar-brand" href="{{ path('homepage') }}">BGF:ES</a>
-	        </div>
-	        <!-- Collect the nav links, forms, and other content for toggling -->
-	        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	          <ul class="nav navbar-nav">
-	            <li class="dropdown">
-	            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-	            		LOL <span class="caret"></span>
-	            	</a>
-	            	<ul class="dropdown-menu">
-	            		<li>
-	            			<a href="{{ path('lol') }}" >
-	            				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-	            				Equipes validées
-				    			<abbr title="Nombres d'équipes validées">
-		      						<span class="badge">{{ searchUsersService.getSearchingTeamValidation('lol') }}</span>
-		      				  	</abbr>
-	            			</a>
-	            		</li>
-	            		<li>
-		      			  <a href="{{ path('search_player', { 'game': 'lol' }) }}">
-					      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					      		Rechercher joueurs 
-				          		<abbr title="Nombres de joueurs cherchant une équipe">
-				          			<span class="badge">{{searchUsersService.getSearchingUsersSystName('lol')}}</span>
-				          		</abbr>
-					      </a>
-					    </li>
-					    <li>
-					      <a href="{{ path('search_team',  { 'game': 'lol' }) }}">
-					      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					      		Rechercher équipes
-				    			<abbr title="Nombres d'équipes non validées">
-		      						<span class="badge">{{ searchUsersService.getSearchingTeamSystName('lol') }}</span>
-		      				  	</abbr>
-					      </a>
-					    </li>
-					      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") )
-					      and (app.user.capitain != true) 
-					      and (app.user.team == null) 
-					      and (app.user.tournament == 'lol')
-					      and (app.user.tournament!=null) %}
-					      	<li>
-						        <a href="{{ path('team_new' )}}">
-							        	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-							        	Inscrire une équipe
-						        </a>
-						    </li>
-					      {%elseif (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament != 'lol'))
-					       or (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament !=null)) %}
-					      {%else%}
-					      	<li>
-						      	<a href="{{ path('fos_user_security_login' )}}">
-						      		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-						      			S'inscrire au tournoi
-						        </a>
-						    </li>
-					      {%endif%}
-	    			</ul>
-	            </li>
-	            <li>
-	            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-	            		CSGO <span class="caret"></span>
-	            	</a>
-	            	<ul class="dropdown-menu">
-	            		<li>
-	            			<a href="{{ path('csgo') }}">
-	            				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-	            				Equipes validées
-				    			<abbr title="Nombres d'équipes validées">
-		      						<span class="badge">{{ searchUsersService.getSearchingTeamValidation('csgo') }}</span>
-		      				  	</abbr>
-	            			</a>
-	            		</li>
-	            		<li>
-		      			  <a href="{% block search_player %}{{ path('search_player', { 'game': 'csgo' }) }}{% endblock %}">
-					      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					      		Rechercher joueurs 
-				          		<abbr title="Nombres de joueurs cherchant une équipe">
-					      			<span class="badge">{{searchUsersService.getSearchingUsersSystName('csgo')}}</span>
-					      		</abbr>
-					      </a>
-					    </li>
-					    <li>
-					      <a href="{% block search_team %}{{ path('search_team',  { 'game': 'csgo' }) }}{% endblock %}">
-					      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					      		Rechercher équipes
-				    			<abbr title="Nombres d'équipes non validées">
-		      						<span class="badge">{{ searchUsersService.getSearchingTeamSystName('csgo') }}</span>
-		      				  	</abbr>
-					      </a>
-					    </li>
-					      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") )
-					      and (app.user.capitain != true) 
-					      and (app.user.team == null) 
-					      and (app.user.tournament == 'csgo')
-					      and (app.user.tournament!=null) %}
-					      	<li>
-						        <a href="{{ path('team_new' )}}">
-							        	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-							        	Inscrire une équipe
-						        </a>
-						    </li>
-					      {%elseif (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament != 'csgo'))
-					       or (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament !=null)) %}
-					      {%else%}
-					      	<li>
-						      	<a href="{{ path('fos_user_security_login' )}}">
-						      		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-						      			S'inscrire au tournoi
-						        </a>
-						    </li>
-					      {%endif%}
-					  </ul>
-	            </li>
-	            <li>
-	            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-	            		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-	            		FAQ  <span class="caret"></span>
-	            	</a>
-	            	<ul class="dropdown-menu">
-	            		<li>
-	            			<a href="{{ path('faq', {'game': 'lol'}) }}">
-	            				<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-	            				League of Legends
-	            			</a>
-	            		</li>
-	            		<li>
-	            			<a href="{{ path('faq', {'game': 'csgo'}) }}">
-	            				<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-	            				Counter Strike : Global Offensive
-	            			</a>
-	            		</li>
-					  </ul>
-	            </li>
-	            {#<li><a href="#">Animations</a></li>
-	            <li><a href="#">Editions précédentes</a></li>
-				 <li><a href="{{path('blog')}}">Blog</a></li> #}
-	          </ul>
-	          <ul class="nav navbar-nav navbar-right">
-		          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-			          <li><a href="{{ path('profil') }}">
-			          <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-			          Mon profil [{{app.user.username}}] 
-				          	{% if app.user.team == null%}
-				          		<abbr title="Nombres d'offres non approuvées">
-				          			<span class="badge">{{ countCandidatsService.getCandidatureFromTeam(app.user.id) }}</span>
-				          		</abbr>
-				          	{%else%}
-				          		<span style="color:#00FF00" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-				          	{%endif%}
-			          </a></li>
-				          {% if app.user.team != null%}
-				          <li><a href="{{ path('equipe') }}">
-				          	Mon équipe [{{app.user.team.name}}] 
-				          	{% if app.user.team.validation == null and app.user.capitain%}
-				          		<abbr title="Nombres de candidatures non approuvées">
-				          			<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
-				          		</abbr>
-				          	{%elseif app.user.team.validation != null%}
-				          		<span  style="color:#00FF00" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-				          	{%else%}
-				          	{%endif%}
-				          </a></li>
-					          {%if app.user.tournament%}
-					          	<li><a href="{{ path('search_player', { 'game': app.user.tournament.systName }) }}">
+	<div>
+	    <div class="navbar navbar-inverse navbar-fixed-top">
+		      <div class="container-fluid">
+		        <div class="navbar-header">
+		          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		            <span class="sr-only">Activer la navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		          </button>
+		          <a class="navbar-brand" href="{{ path('homepage') }}">BGF:ES</a>
+		        </div>
+		        <!-- Collect the nav links, forms, and other content for toggling -->
+		        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		          <ul class="nav navbar-nav">
+		            <li class="dropdown">
+		            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+		            		LOL <span class="caret"></span>
+		            	</a>
+		            	<ul class="dropdown-menu">
+		            		<li>
+		            			<a href="{{ path('lol') }}" >
+		            				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+		            				Equipes validées
+					    			<abbr title="Nombres d'équipes validées">
+			      						<span class="badge">{{ searchUsersService.getSearchingTeamValidation('lol') }}</span>
+			      				  	</abbr>
+		            			</a>
+		            		</li>
+		            		<li>
+			      			  <a href="{{ path('search_player', { 'game': 'lol' }) }}">
 						      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 						      		Rechercher joueurs 
-				    				<abbr title="Nombres de joueurs cherchant une équipe">
-				    					<span class="badge">{{ searchUsersService.getSearchingUsers(app.user.tournament.id) }}</span>
+					          		<abbr title="Nombres de joueurs cherchant une équipe">
+					          			<span class="badge">{{searchUsersService.getSearchingUsersSystName('lol')}}</span>
+					          		</abbr>
+						      </a>
+						    </li>
+						    <li>
+						      <a href="{{ path('search_team',  { 'game': 'lol' }) }}">
+						      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						      		Rechercher équipes
+					    			<abbr title="Nombres d'équipes non validées">
+			      						<span class="badge">{{ searchUsersService.getSearchingTeamSystName('lol') }}</span>
+			      				  	</abbr>
+						      </a>
+						    </li>
+						      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") )
+						      and (app.user.capitain != true) 
+						      and (app.user.team == null) 
+						      and (app.user.tournament == 'lol')
+						      and (app.user.tournament!=null) %}
+						      	<li>
+							        <a href="{{ path('team_new' )}}">
+								        	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+								        	Inscrire une équipe
+							        </a>
+							    </li>
+						      {%elseif (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament != 'lol'))
+						       or (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament !=null)) %}
+						      {%else%}
+						      	<li>
+							      	<a href="{{ path('fos_user_security_login' )}}">
+							      		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+							      			S'inscrire au tournoi
+							        </a>
+							    </li>
+						      {%endif%}
+		    			</ul>
+		            </li>
+		            <li>
+		            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+		            		CSGO <span class="caret"></span>
+		            	</a>
+		            	<ul class="dropdown-menu">
+		            		<li>
+		            			<a href="{{ path('csgo') }}">
+		            				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+		            				Equipes validées
+					    			<abbr title="Nombres d'équipes validées">
+			      						<span class="badge">{{ searchUsersService.getSearchingTeamValidation('csgo') }}</span>
+			      				  	</abbr>
+		            			</a>
+		            		</li>
+		            		<li>
+			      			  <a href="{% block search_player %}{{ path('search_player', { 'game': 'csgo' }) }}{% endblock %}">
+						      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						      		Rechercher joueurs 
+					          		<abbr title="Nombres de joueurs cherchant une équipe">
+						      			<span class="badge">{{searchUsersService.getSearchingUsersSystName('csgo')}}</span>
 						      		</abbr>
-						      </a></li>
-		      				  {% endif %}
-				          {%else%}
-				          	{%if app.user.manager == true or app.user.experience%}
-						      <li><a href="{{ path('team_new' )}}">
-							  	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-							  	Inscrire une équipe
-						      </a></li>
-						    {%elseif (app.user.tournament==null)%}
-							    <li><a href="{{ path('game_choose') }}">
-							    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-							        Choisir le tournoi
-							    </li></a>
-						    {%elseif (app.user.experience==null)%}
-							    <li><a href="{{ path('experience_new_user') }}">
-							    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-							        Saisir Ranking/Roles
-							    </li></a>
-						    {%endif%}
-						    {%if app.user.tournament%}
-						      <li><a href="{{ path('search_team',  { 'game': app.user.tournament.systName }) }}">
-		      					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-		      					Rechercher équipes
-				    			<abbr title="Nombres d'équipes non validées">
-		      						<span class="badge">{{ searchUsersService.getSearchingTeams(app.user.tournament.id) }}</span>
-		      				  	</abbr>
-		      				  </a></li>
-	      				  	{% endif %}
-				          {% endif %}
-			          <li><a class="btn btn-inverse" href="{{ path('fos_user_security_logout') }}">
-			          <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-			          Se déconnecter</a></li>
-		          {% else %}
-		         	  <li><a class="btn btn-inverse" href="{{ path('fos_user_registration_register') }}">
-		         	  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-		         	  Inscription</a></li>
-		         	  <li><a class="btn btn-inverse" href="{{ path('fos_user_security_login') }}">
-			          <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-			          Connexion</a></li>
-		          {% endif %}
-		          <li>
-		          	  <a class="btn btn-inverse" href="{{path('mail')}}">
-		          	  	<abbr title="Envoyez un mail aux responsables tournois">
-					      <span class="glyphicon glyphicon-question-sign"></span>
-					    </abbr>
-					  </a>
-		          </li>
-	          </ul>
-        	</div>
-        </div>
-      </div>
+						      </a>
+						    </li>
+						    <li>
+						      <a href="{% block search_team %}{{ path('search_team',  { 'game': 'csgo' }) }}{% endblock %}">
+						      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						      		Rechercher équipes
+					    			<abbr title="Nombres d'équipes non validées">
+			      						<span class="badge">{{ searchUsersService.getSearchingTeamSystName('csgo') }}</span>
+			      				  	</abbr>
+						      </a>
+						    </li>
+						      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") )
+						      and (app.user.capitain != true) 
+						      and (app.user.team == null) 
+						      and (app.user.tournament == 'csgo')
+						      and (app.user.tournament!=null) %}
+						      	<li>
+							        <a href="{{ path('team_new' )}}">
+								        	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+								        	Inscrire une équipe
+							        </a>
+							    </li>
+						      {%elseif (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament != 'csgo'))
+						       or (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament !=null)) %}
+						      {%else%}
+						      	<li>
+							      	<a href="{{ path('fos_user_security_login' )}}">
+							      		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+							      			S'inscrire au tournoi
+							        </a>
+							    </li>
+						      {%endif%}
+						  </ul>
+		            </li>
+		            <li>
+		            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+		            		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+		            		FAQ  <span class="caret"></span>
+		            	</a>
+		            	<ul class="dropdown-menu">
+		            		<li>
+		            			<a href="{{ path('faq', {'game': 'lol'}) }}">
+		            				<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+		            				League of Legends
+		            			</a>
+		            		</li>
+		            		<li>
+		            			<a href="{{ path('faq', {'game': 'csgo'}) }}">
+		            				<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+		            				Counter Strike : Global Offensive
+		            			</a>
+		            		</li>
+						  </ul>
+		            </li>
+		            {#<li><a href="#">Animations</a></li>
+		            <li><a href="#">Editions précédentes</a></li>
+					 <li><a href="{{path('blog')}}">Blog</a></li> #}
+		          </ul>
+		          <ul class="nav navbar-nav navbar-right">
+			          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+				          <li><a href="{{ path('profil') }}">
+				          <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+				          Mon profil [{{app.user.username}}] 
+					          	{% if app.user.team == null%}
+					          		<abbr title="Nombres d'offres non approuvées">
+					          			<span class="badge">{{ countCandidatsService.getCandidatureFromTeam(app.user.id) }}</span>
+					          		</abbr>
+					          	{%else%}
+					          		<span style="color:#00FF00" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					          	{%endif%}
+				          </a></li>
+					          {% if app.user.team != null%}
+					          <li><a href="{{ path('equipe') }}">
+					          	Mon équipe [{{app.user.team.name}}] 
+					          	{% if app.user.team.validation == null and app.user.capitain%}
+					          		<abbr title="Nombres de candidatures non approuvées">
+					          			<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
+					          		</abbr>
+					          	{%elseif app.user.team.validation != null%}
+					          		<span  style="color:#00FF00" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					          	{%else%}
+					          	{%endif%}
+					          </a></li>
+						          {%if app.user.tournament%}
+						          	<li><a href="{{ path('search_player', { 'game': app.user.tournament.systName }) }}">
+							      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							      		Rechercher joueurs 
+					    				<abbr title="Nombres de joueurs cherchant une équipe">
+					    					<span class="badge">{{ searchUsersService.getSearchingUsers(app.user.tournament.id) }}</span>
+							      		</abbr>
+							      </a></li>
+			      				  {% endif %}
+					          {%else%}
+					          	{%if app.user.manager == true or app.user.experience%}
+							      <li><a href="{{ path('team_new' )}}">
+								  	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+								  	Inscrire une équipe
+							      </a></li>
+							    {%elseif (app.user.tournament==null)%}
+								    <li><a href="{{ path('game_choose') }}">
+								    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+								        Choisir le tournoi
+								    </li></a>
+							    {%elseif (app.user.experience==null)%}
+								    <li><a href="{{ path('experience_new_user') }}">
+								    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+								        Saisir Ranking/Roles
+								    </li></a>
+							    {%endif%}
+							    {%if app.user.tournament%}
+							      <li><a href="{{ path('search_team',  { 'game': app.user.tournament.systName }) }}">
+			      					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+			      					Rechercher équipes
+					    			<abbr title="Nombres d'équipes non validées">
+			      						<span class="badge">{{ searchUsersService.getSearchingTeams(app.user.tournament.id) }}</span>
+			      				  	</abbr>
+			      				  </a></li>
+		      				  	{% endif %}
+					          {% endif %}
+				          <li><a class="btn btn-inverse" href="{{ path('fos_user_security_logout') }}">
+				          <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+				          Se déconnecter</a></li>
+			          {% else %}
+			         	  <li><a class="btn btn-inverse" href="{{ path('fos_user_registration_register') }}">
+			         	  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+			         	  Inscription</a></li>
+			         	  <li><a class="btn btn-inverse" href="{{ path('fos_user_security_login') }}">
+				          <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+				          Connexion</a></li>
+			          {% endif %}
+			          <li>
+			          	  <a class="btn btn-inverse" href="{{path('mail')}}">
+			          	  	<abbr title="Envoyez un mail aux responsables tournois">
+						      <span class="glyphicon glyphicon-question-sign"></span>
+						    </abbr>
+						  </a>
+			          </li>
+		          </ul>
+	        	</div>
+	        </div>
+	      </div>
+	  </div>
     {% endblock %}
 	<div id="rest">
 	    {% block body %}
 	    {% endblock %}
 	</div>
-    <div id="footer">2016 AB2G | All Right Reserved</div>
+    <div id="footer">
+        <div class="row text-center">
+			<div class="col-xs-4">
+				<div class="col-xs-6">
+				    <div class="col-xs-2">
+					  	<a href="https://www.facebook.com/bgflt/?fref=ts" >
+				    		<img width="100%" src="{{ asset('bundles/app/images/fb.png') }}"/>
+				    	</a>
+				    </div>
+				    <div class="col-xs-2">
+					  	<a href="https://twitter.com/BGFesport" >
+				    		<img width="100%" src="{{ asset('bundles/app/images/twitter.png') }}" />
+				    	</a>
+				    </div>
+				    <div class="col-xs-2">
+					  	<a href="https://plus.google.com/u/0/117337977924057660726/posts" >
+				    		<img width="100%" src="{{ asset('bundles/app/images/g+.png') }}"/>
+				    	</a>
+				    </div>
+				    <div class="col-xs-2">
+					  	<a href="https://www.instagram.com/bgf_es/" >
+				    		<img width="100%" src="{{ asset('bundles/app/images/insta.png') }}"/>
+				    	</a>
+				    </div>
+				    <div class="col-xs-2">
+					  	<a href="https://www.youtube.com/channel/UCK89jXECqJ86Ag1DFbFP3EA" >
+				    		<img width="100%" src="{{ asset('bundles/app/images/yt01.png') }}"/>
+				    	</a>
+				    </div>
+			    </div>
+			</div>
+			<div class="col-xs-3">
+			</div>
+			<div class="col-xs-3">
+    			2016 AB2G | All Right Reserved
+			</div>
+	    </div>
     </div>
 
 

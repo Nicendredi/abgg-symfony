@@ -1,412 +1,405 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <br><br><br><br>
-	<div id="baniere">
+    <br><br><br><br><br><br><br>
+    
+    <div class="container-fluid">
 		<div class="row">
-		  <div class="col-xs-3">
-			{% if game %}
-			    <img width="100%" src="{{ asset('bundles/app/images/'~game.systName~'.png') }}" />
-			    <center>
-				    <a class="btn btn-default" href="{{ path('game_choose') }}">
-				    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-				        Modifier
-				    </a>
-			    </center>
-			{%else%}
-				<br>
-			    <center>
-				    <a class="btn btn-default" href="{{ path('game_choose') }}">
-				    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-				        Choisir le tournoi
-				    </a>
-			    </center>
-				<br>
-			{%endif%}
-		  </div>
-		  <div class="col-xs-6">
-		  {% if experience %}
-			  <br>
-		  	  {% form_theme delete_form 'bootstrap_3_layout.html.twig' %}
-		  	  <center>{{form(delete_form)}}</center>
-			  	<div class="row">
-				  	<div class="col-xs-6">
-				  		{%if user.image%}
-				  			<center>
-				  				<img width="50%" src="{{ asset('uploads/images/'~user.image.name) }}" />
-							    <br>
-							    <a class="btn btn-default" href="{{ path('image_edit',  {'id': user.image.id}) }}">
-							    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-							    </a>
-							    <a class="btn btn-default" href="{{ path('image_delete',  {'id': user.image.id}) }}">
-							    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-							    </a>
-				  			</center>
-				  		{%else%}
+			<div class="col-md-8">
+				<div class="col-md-4">
+			  		{%if user.image%}
+			  			<center>
+			  				<img width="50%" src="{{ asset('uploads/images/'~user.image.name) }}" />
+						    <br>
+						    <a class="btn btn-default" href="{{ path('image_edit',  {'id': user.image.id}) }}">
+						    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+						    </a>
+						    <a class="btn btn-default" href="{{ path('image_delete',  {'id': user.image.id}) }}">
+						    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						    </a>
+			  			</center>
+			  		{%else%}
 					    <center>
 						    <a class="btn btn-default" href="{{ path('image_new',  {'origin': 'player'}) }}">
 						    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 						        	Ajouter Image de profil
 						    </a>
 					    </center>	
-				  		{%endif%}	  	
-				  	</div>
-				  	<div class="col-xs-6">
-			  			<center><hp>{{ experience.username }}</hp></center>
-			  		</div>
+			  		{%endif%}
 			  	</div>
-			  {%if app.user.team and app.user.tournament%}
-			  	{%if app.user.tournament.systName == 'lol'%}
-				  	<div class="row">
-				  		<div class="col-xs-6">
-				  			<center><h1>{{app.user.role.name}}</h1></center>
-				  		</div>
-				  		<div class="col-xs-6">
-				  			<center><h1>{{app.user.team.name}}</h1></center>
-				  		</div>
-				  	</div>
-				 {%else%}
-				 	<center><h2>{{app.user.team.name}}</h2></center>
-				 {%endif%}
-			  {%endif%}
-		  {%else%}
-			  <br>
-			  <br>
-			  	<center><hp>{{ app.user.username }}</hp></center>
-		  {%endif%}
-		  <br>
-		  </div>
-		  <div class="col-xs-1">
-			{%if game%}
-			  {%if experience%}
-			  	{% if ranking %}
-			  		<img src="{{ asset('bundles/app/images/'~game.systName~'/'~ranking.name~'.png') }}" />
-					<br>
+				<div class="col-md-1">
+			  	</div>
+				<div class="col-md-7">
+					{% if experience %}
+				  	  {% form_theme delete_form 'bootstrap_3_layout.html.twig' %}
+				  	  <center>{{form(delete_form)}}</center>
+				  		<div class="row">
+					  		<div class="col-xs-12">
+				  				<center><h1>{{ experience.username }}</h1></center>
+				  			</div>
+					  	{%if app.user.team and app.user.tournament%}
+					  		<div class="col-xs-2">
+					  			{%if game%}
+								  {%if experience%}
+								  	{% if ranking %}
+								  		<img src="{{ asset('bundles/app/images/'~game.systName~'/'~ranking.name~'.png') }}" />
+										<br>
+									    <center>
+										    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
+										    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+										        Modifier
+										    </a>
+									    </center>
+								  	{%endif%}
+								  {%endif%}
+								{%else%}
+									<br>
+								    <center>
+									    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
+									    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+									        Saisir Ranking/Roles
+									    </a>
+								    </center>
+									<br>
+							  	{%endif%}
+							 </div>
+							</div>
+						  	<div class="row">
+						  		{%if app.user.role%}
+							  		<div class="col-xs-6">
+							  			<center><h1>{{app.user.role.name}}</h1></center>
+							  		</div>
+							  		<div class="col-xs-6">
+							  			<center><h1>{{app.user.team.name}}</h1></center>
+							  		</div>
+							  	{%else%}
+							  		<div class="col-xs-12">
+							  			<center><h1>{{app.user.team.name}}</h1></center>
+							  		</div>
+							  	{%endif%}
+						  	</div>
+					  {%endif%}
+				  {%else%}
+					  <br>
+					  <br>
+					  	<center><h1>{{ app.user.username }}</h1></center>
+				  {%endif%}
+			  	</div>
+			</div>
+			</div>
+			<div class="col-md-4">
+				{% if game %}
+				    <img width="100%" src="{{ asset('bundles/app/images/'~game.systName~'.png') }}" />
 				    <center>
-					    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
+					    <a class="btn btn-default" href="{{ path('game_choose') }}">
 					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 					        Modifier
 					    </a>
 				    </center>
-			  	{%endif%}
-			  {%endif%}
-			  {%else%}
-				<br>
-			    <center>
-				    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
-				    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-				        Saisir Ranking/Roles
-				    </a>
-			    </center>
-				<br>
-		  	{%endif%}
-		  </div>
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="col-xs-3">
-		    <h3>Données Persos</h3>
-	
-		    <table class="table table-hover">
-		        <tbody>
-		            <tr>
-		                <th>Firstname</th>
-		                <td>{{ user.firstName }}</td>
-		            </tr>
-		            <tr>
-		                <th>Lastname</th>
-		                <td>{{ user.lastName }}</td>
-		            </tr>
-		            <tr>
-		                <th>Email</th>
-		                <td>{{ user.email }}</td>
-		            </tr>
-		            <tr>
-		                <th>Telephone</th>
-		                <td>{{ user.telephone }}</td>
-		            </tr>
-		            <tr>
-		                <th>Date de Naissance</th>
-		                <td>{{ user.birth|date('Y-m-d') }}</td>
-		            </tr>
-		        </tbody>
-		    </table>
-		
-	        <a class="btn btn-default" href="{{ path('player_edit', {'id':user.id} ) }}">
-	            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-	            Modifier
-	        </a>
-		</div>
-	
-		<div class="col-xs-1"></div>
-		
-		<div class="col-xs-3">
-		{%if game%}
-			{% if app.user.experience %}
-				    <h3>In-Game</h3>
-				
-				    <table class="table table-hover">
-				        <tbody>
-				            <tr>
-				                <th>Pseudo In-Game</th>
-				                <td>{{ experience.username }}</td>
-				            <tr>
-				            {%if ranking%}
-				            </tr>
-				                <th>Classement</th>
-				                <td>{{ ranking.name }}</td>
-				            </tr>
-				            {%endif%}
-				            {% if underRanking %}
-					            <tr>
-					                <th>Sous-Classement</th>
-					                <td>{{ underRanking.name }}</td>
-					            </tr>
-				            {%endif%}
-				            {% if experience.steam %}
-					            <tr>
-					                <th>Pseudo Steam</th>
-					                <td>{{ experience.steam }}</td>
-					            </tr>
-				            {%endif%}
-				            {%if app.user.tournament.systName == 'lol' and app.user.experience.postes %}
-				            	<tr>
-				            		<th>Top Lane</th>
-				            		<td>{{app.user.experience.postes.top}}</td>
-				            	</tr>
-				            	<tr>
-				            		<th>Middle Lane</th>
-				            		<td>{{app.user.experience.postes.mid}}</td>
-				            	</tr>
-				            	<tr>
-				            		<th>Bottom Carry</th>
-				            		<td>{{app.user.experience.postes.bot}}</td>
-				            	</tr>
-				            	<tr>
-				            		<th>Support </th>
-				            		<td>{{app.user.experience.postes.sup}}</td>
-				            	</tr>
-				            	<tr>
-				            		<th>Jungle</th>
-				            		<td>{{app.user.experience.postes.jungle}}</td>
-				            	</tr>
-				            {%endif%}
-				            {%if app.user.manager%}
-				            	<tr>
-				            		<th>Poste</th>
-				            		<td>Manager</td>
-				            	</tr>
-				            {%endif%}
-				        </tbody>
-					    </table>
-				    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
-				    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-				        Modifier
-				    </a>
-				{%elseif app.user.experience == null%}
-					<br>
-				    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
-				    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-				        Ajouter Experience
-				    </a>
-				    <br>
-				    	<center><h2>Si vous êtes manager et avez oublié de le préciser, cliquez ici : </h2>
-				        <a class="btn btn-default" href="{{ path('player_edit', {'id':user.id} ) }}">
-				            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-				            Modifier
-				        </a>
-				        </center>
-					<br>
 				{%else%}
 					<br>
-				    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': app.user.experience.id }) }}">
-				    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-				        Modifier Ranking
-				    </a>
+				    <center>
+					    <a class="btn btn-default" href="{{ path('game_choose') }}">
+					    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+					        Choisir le tournoi
+					    </a>
+				    </center>
 					<br>
 				{%endif%}
-			{%else%}
-					<br>
-				    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
-				    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-				        Saisir Ranking/Roles
-				    </a>
-					<br>
-			{%endif%}
+			</div>
 		</div>
-		
-		<div class="col-xs-1"></div>
-		
-		<div class="col-xs-4">
-		{%if game and experience%}
-			{% if team %}
-				    <h3>Votre Equipe</h3>
-				
+		<br><br><br>
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="nav nav-tabs">
+				  <li class="active"><a data-toggle="tab" href="#perso">Infos</a></li>
+				  <li><a data-toggle="tab" href="#ingame">In Game</a></li>
+				  <li><a data-toggle="tab" href="#equipe">Equipe</a></li>
+				  {%if app.user.team == null%}
+					  <li><a data-toggle="tab" href="#propositions">Proposition de poste</a></li>
+					  <li><a data-toggle="tab" href="#candidatures">Candidatures déposées</a></li>
+				  {%endif%}
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div id="perso" class="tab-pane fade in active">
 				    <table class="table table-hover">
 				        <tbody>
 				            <tr>
-				                <th>Nom de l'équipe</th>
-				                <td>
-					                <a class="btn btn-link" href="{{ path('team_show_all', {'id':team.id} ) }}">
-					                	{{ team.name }}
-					                </a>
-				                </td>
-						        <td></td>
+				                <th>Firstname</th>
+				                <td>{{ user.firstName }}</td>
 				            </tr>
 				            <tr>
-				            	<th>Pseudo capitaine d'équipe</th>
-				            	<td>
-				            		<a class="btn btn-link" href="{{ path('user_show', {'id':team.captain.id} ) }}">
-				            			{{team.captain.experience.username}}
-				            		</a>
-				            	</td>
-						        <td></td>
+				                <th>Lastname</th>
+				                <td>{{ user.lastName }}</td>
 				            </tr>
-				            {%if role%}
-					            <tr>
-					                <th>Votre role</th>
-						            <td></td>
-					                <td>{{ role.name }}</td>
-					            </tr>
-					            {%if app.user.capitain==null%}
-						            <tr>
-						            	<th>Role capitaine d'équipe</th>
-						            	<td></td>
-						            	<td>{{team.captain.role}}</td>
-						            </tr>
-					            {%endif%}
-				            {%endif%}
-				            {% if app.user.team.player %}
-				            	{%for player in app.user.team.player%}
-						            <tr>
-						            	<th>Joueur</th>
-						            	<td>
-							            	<a class="btn btn-link" href="{{ path('user_show', {'id':player.user.id} ) }}">
-							            		{{player.user.experience.username}}
-							            	</a>
-						            	</td>
-						            	{%if player.role%}
-						            		<td>{{player.role.name}}</td>
-						            	{%else%}
-						            		<td></td>
-						            	{%endif%}
-						            </tr>
-						         {%endfor%}
-				            {%endif%}
+				            <tr>
+				                <th>Email</th>
+				                <td>{{ user.email }}</td>
+				            </tr>
+				            <tr>
+				                <th>Telephone</th>
+				                <td>{{ user.telephone }}</td>
+				            </tr>
+				            <tr>
+				                <th>Date de Naissance</th>
+				                <td>{{ user.birth|date('Y-m-d') }}</td>
+				            </tr>
 				        </tbody>
 				    </table>
-				
-				    <a class="btn btn-default" href="{{ path('team_show', { 'id': team.id }) }}">
-				        Voir Equipe
-				    </a>
-			{%else%}
-					<br>
-				    <a class="btn btn-default" href="{{ path('team_new') }}">
-				    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-				        Créer une équipe
-				    </a>
-					<br>
-				    <a class="btn btn-default" href="{{ path('search_team', { 'game': game.systName }) }}">
-				    	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-				        Chercher une équipe
-				    </a>
-					<br>
-			{%endif%}
-		{%endif%}
+			        <a class="btn btn-default" href="{{ path('player_edit', {'id':user.id} ) }}">
+			            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+			            Modifier
+			        </a>
+				</div>
+				<div class="tab-pane fade" id="ingame">
+					{%if game%}
+						{% if app.user.experience %}
+						    <table class="table table-hover">
+						        <tbody>
+						            <tr>
+						                <th>Pseudo In-Game</th>
+						                <td>{{ experience.username }}</td>
+						            <tr>
+						            {%if ranking%}
+						            </tr>
+						                <th>Classement</th>
+						                <td>{{ ranking.name }}</td>
+						            </tr>
+						            {%endif%}
+						            {% if underRanking %}
+							            <tr>
+							                <th>Sous-Classement</th>
+							                <td>{{ underRanking.name }}</td>
+							            </tr>
+						            {%endif%}
+						            {% if experience.steam %}
+							            <tr>
+							                <th>Pseudo Steam</th>
+							                <td>{{ experience.steam }}</td>
+							            </tr>
+						            {%endif%}
+						            {%if app.user.tournament.systName == 'lol' and app.user.experience.postes %}
+						            	<tr>
+						            		<th>Top Lane</th>
+						            		<td>{{app.user.experience.postes.top}}</td>
+						            	</tr>
+						            	<tr>
+						            		<th>Middle Lane</th>
+						            		<td>{{app.user.experience.postes.mid}}</td>
+						            	</tr>
+						            	<tr>
+						            		<th>Bottom Carry</th>
+						            		<td>{{app.user.experience.postes.bot}}</td>
+						            	</tr>
+						            	<tr>
+						            		<th>Support </th>
+						            		<td>{{app.user.experience.postes.sup}}</td>
+						            	</tr>
+						            	<tr>
+						            		<th>Jungle</th>
+						            		<td>{{app.user.experience.postes.jungle}}</td>
+						            	</tr>
+						            {%endif%}
+						            {%if app.user.manager%}
+						            	<tr>
+						            		<th>Poste</th>
+						            		<td>Manager</td>
+						            	</tr>
+						            {%endif%}
+						        </tbody>
+							    </table>
+						    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
+						    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+						        Modifier
+						    </a>
+						{%elseif app.user.experience == null%}
+							<br>
+						    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
+						    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						        Ajouter Experience
+						    </a>
+						    <br>
+						    	<center><h2>Si vous êtes manager et avez oublié de le préciser, cliquez ici : </h2>
+						        <a class="btn btn-default" href="{{ path('player_edit', {'id':user.id} ) }}">
+						            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+						            Modifier
+						        </a>
+						        </center>
+							<br>
+						{%else%}
+							<br>
+						    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': app.user.experience.id }) }}">
+						    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+						        Modifier Ranking
+						    </a>
+							<br>
+						{%endif%}
+					{%else%}
+							<br>
+						    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
+						    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						        Saisir Ranking/Roles
+						    </a>
+							<br>
+					{%endif%}
+				</div>
+				<div class="tab-pane fade" id="equipe">
+					{%if game and experience%}
+						{% if team %}
+							    <table class="table table-hover">
+							        <tbody>
+							            <tr>
+							                <th>Nom de l'équipe</th>
+							                <td>
+								                <a class="btn btn-link" href="{{ path('team_show_all', {'id':team.id} ) }}">
+								                	{{ team.name }}
+								                </a>
+							                </td>
+									        <td></td>
+							            </tr>
+							            <tr>
+							            	<th>Pseudo capitaine d'équipe</th>
+							            	<td>
+							            		<a class="btn btn-link" href="{{ path('user_show', {'id':team.captain.id} ) }}">
+							            			{{team.captain.experience.username}}
+							            		</a>
+							            	</td>
+									        <td></td>
+							            </tr>
+							            {%if role%}
+								            <tr>
+								                <th>Votre role</th>
+									            <td></td>
+								                <td>{{ role.name }}</td>
+								            </tr>
+								            {%if app.user.capitain==null%}
+									            <tr>
+									            	<th>Role capitaine d'équipe</th>
+									            	<td></td>
+									            	<td>{{team.captain.role}}</td>
+									            </tr>
+								            {%endif%}
+							            {%endif%}
+							            {% if app.user.team.player %}
+							            	{%for player in app.user.team.player%}
+									            <tr>
+									            	<th>Joueur</th>
+									            	<td>
+										            	<a class="btn btn-link" href="{{ path('user_show', {'id':player.user.id} ) }}">
+										            		{{player.user.experience.username}}
+										            	</a>
+									            	</td>
+									            	{%if player.role%}
+									            		<td>{{player.role.name}}</td>
+									            	{%else%}
+									            		<td></td>
+									            	{%endif%}
+									            </tr>
+									         {%endfor%}
+							            {%endif%}
+							        </tbody>
+							    </table>
+							
+							    <a class="btn btn-default" href="{{ path('team_show', { 'id': team.id }) }}">
+							        Voir Equipe
+							    </a>
+						{%else%}
+								<br>
+							    <a class="btn btn-default" href="{{ path('team_new') }}">
+							    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+							        Créer une équipe
+							    </a>
+								<br>
+							    <a class="btn btn-default" href="{{ path('search_team', { 'game': game.systName }) }}">
+							    	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							        Chercher une équipe
+							    </a>
+								<br>
+						{%endif%}
+					{%endif%}
+				</div>
+				<div class="tab-pane fade" id="propositions">
+					{%if app.user.team == null%}
+					<table class="table table-hover">
+				        <tbody>
+				            <tr>
+				            	<th>Nom équipe</th>
+				            	{%if app.user.tournament.systName=='lol'%}
+				            		<th>Pour poste</th>
+				            	{%endif%}
+				            	<th>Message</th>
+				            	<th>Accepter Offre</th>
+				            	<th>Supprimer Offre</th>
+				            </tr>
+							{%for proposition in propositions%}
+								<tr>
+									<td>{{proposition.team.name}}</td>
+					            	{%if user.tournament.systName=='lol'%}
+										<td>{{proposition.role.name}}</td>
+					            	{%endif%}
+					            	<td>
+					            		{%if proposition.text%}
+					            			{{proposition.text}}
+					            		{%else%}
+					            			[Vide]
+					            		{%endif%}
+					            	</td>
+									<td>
+					                	<a class="btn btn-default"  href="{{ path('validate_application', {'proposition':proposition.id} ) }}">
+					                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					                	</a>
+									</td>
+									<td>
+									    <a class="btn btn-default" href="{{ path('delete_application_player', { 'id': proposition.id }) }}">
+									    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+									    </a>
+									</td>
+								</tr>
+							{%endfor%}
+						</tbody>
+					</table>
+					{%endif%}
+				</div>
+				<div class="tab-pane fade" id="candidatures">
+					<table class="table table-hover">
+			        <tbody>
+			            <tr>
+			            	<th>Nom équipe</th>
+							{%if app.user.tournament.systName =='lol'%}
+			            		<th>Pour poste</th>
+			            	{%endif%}
+			            	<th>Message</th>
+			            	<th>Supprimer candidature</th>
+			            </tr>
+						{%for application in applications%}
+							<tr>
+								<td>{{application.team.name}}</td>
+								{%if app.user.tournament.systName =='lol'%}
+									<td>{{application.role.name}}</td>
+								{%endif%}
+								<td>
+									{%if application.text%}
+										{{application.text}}
+									{%endif%}
+				                	<a class="btn btn-default"  href="{{ path('edit_text_application', {'id':application.id} ) }}">
+				                		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+				                	</a>  
+								</td>
+								<td>
+								    <a class="btn btn-default" href="{{ path('delete_application_player', { 'id': application.id }) }}">
+								    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								    </a>
+								</td>
+							</tr>
+						{%endfor%}
+					</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
-	
-	{%if app.user.team == null%}
-	
-		<div class="row">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-10">
-			
-			<h2>Propositions de poste</h2>
-			<br>
-			<table class="table table-hover">
-		        <tbody>
-		            <tr>
-		            	<th>Nom équipe</th>
-		            	{%if app.user.tournament.systName=='lol'%}
-		            		<th>Pour poste</th>
-		            	{%endif%}
-		            	<th>Message</th>
-		            	<th>Accepter Offre</th>
-		            	<th>Supprimer Offre</th>
-		            </tr>
-					{%for proposition in propositions%}
-						<tr>
-							<td>{{proposition.team.name}}</td>
-			            	{%if user.tournament.systName=='lol'%}
-								<td>{{proposition.role.name}}</td>
-			            	{%endif%}
-			            	<td>
-			            		{%if proposition.text%}
-			            			{{proposition.text}}
-			            		{%else%}
-			            			[Vide]
-			            		{%endif%}
-			            	</td>
-							<td>
-			                	<a class="btn btn-default"  href="{{ path('validate_application', {'proposition':proposition.id} ) }}">
-			                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			                	</a>
-							</td>
-							<td>
-							    <a class="btn btn-default" href="{{ path('delete_application_player', { 'id': proposition.id }) }}">
-							    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-							    </a>
-							</td>
-						</tr>
-					{%endfor%}
-				</tbody>
-			</table>
-			</div>
-			<div class="col-xs-1"></div>
-		</div>
-	
-		<div class="row">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-10">
-			<h2>Candidatures</h2>
-			<br>
-			<table class="table table-hover">
-		        <tbody>
-		            <tr>
-		            	<th>Nom équipe</th>
-						{%if app.user.tournament.systName =='lol'%}
-		            		<th>Pour poste</th>
-		            	{%endif%}
-		            	<th>Message</th>
-		            	<th>Supprimer candidature</th>
-		            </tr>
-					{%for application in applications%}
-						<tr>
-							<td>{{application.team.name}}</td>
-							{%if app.user.tournament.systName =='lol'%}
-								<td>{{application.role.name}}</td>
-							{%endif%}
-							<td>
-								{%if application.text%}
-									{{application.text}}
-								{%endif%}
-			                	<a class="btn btn-default"  href="{{ path('edit_text_application', {'id':application.id} ) }}">
-			                		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-			                	</a>  
-							</td>
-							<td>
-							    <a class="btn btn-default" href="{{ path('delete_application_player', { 'id': application.id }) }}">
-							    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-							    </a>
-							</td>
-						</tr>
-					{%endfor%}
-			</div>
-			<div class="col-xs-1"></div>
-		</div>
-	{%endif%}
+
 		
 	
 {% endblock %}

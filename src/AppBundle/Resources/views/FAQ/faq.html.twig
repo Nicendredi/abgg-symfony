@@ -2,89 +2,199 @@
 
 {% block body %}
 <br><br><br><br>
+<br><br><br><br>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-12">
-			<div class="row">
-				<div class="col-md-4">
-					<div class="panel-group" id="panel-954802">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-954802" href="#panel-element-96218">Collapsible Group Item #1</a>
-							</div>
-							<div id="panel-element-96218" class="panel-collapse collapse">
-								<div class="panel-body">
-									Anim pariatur cliche...
-								</div>
-							</div>
-						</div>
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-954802" href="#panel-element-868860">Collapsible Group Item #2</a>
-							</div>
-							<div id="panel-element-868860" class="panel-collapse collapse">
-								<div class="panel-body">
-									Anim pariatur cliche...
-								</div>
-							</div>
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-10">
+			<div class="carousel slide" id="carousel-110258">
+				<ol class="carousel-indicators">
+					<li class="active" data-slide-to="0" data-target="#carousel-110258">
+					</li>
+					<li data-slide-to="1" data-target="#carousel-110258">
+					</li>
+					<li data-slide-to="2" data-target="#carousel-110258">
+					</li>
+					<li data-slide-to="3" data-target="#carousel-110258">
+					</li>
+				</ol>
+				<div class="carousel-inner">
+					<div class="item active">
+						<img id="carousel" alt="Carousel Bootstrap First" src="{{ asset('bundles/app/images/photos/1.png') }}" />
+					</div>
+					<div class="item">
+						<img id="carousel" alt="Carousel Bootstrap Second" src="{{ asset('bundles/app/images/photos/2.png') }}" />
+					</div>
+					<div class="item">
+						<img id="carousel" alt="Carousel Bootstrap Third" src="{{ asset('bundles/app/images/photos/3.png') }}" />
+					</div>
+					<div class="item">
+						<img id="carousel" alt="Carousel Bootstrap Fourth" src="{{ asset('bundles/app/images/photos/4.png') }}" />
+					</div>
+				</div> <a class="left carousel-control" href="#carousel-110258" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-110258" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+			</div>
+			<br>
+			<h2>Inscription aux tournois </h2>
+			<br>
+			<div class="panel-group" id="accordion">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-2" href="#panel-element-2">
+						Peut-on s'inscrire sur place ? 
+					</div>
+					<div id="collapse1" class="panel-collapse collapse in">
+						<div class="panel-body">Noooooon !!!</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-group" id="panel-2">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-2" href="#panel-element-2">
+						 Y'a-t-il des tarifs préférentiels ? 
+					</div>
+					<div id="panel-element-2" class="panel-collapse collapse">
+						<div class="panel-body">
+							Non, le tarif est le même pour tous. (voir Mandora pour tarif exposant) 
 						</div>
 					</div>
 				</div>
-				<div class="col-md-8">
-					<div class="carousel slide" id="carousel-110258">
-						<ol class="carousel-indicators">
-							<li class="active" data-slide-to="0" data-target="#carousel-110258">
-							</li>
-							<li data-slide-to="1" data-target="#carousel-110258">
-							</li>
-							<li data-slide-to="2" data-target="#carousel-110258">
-							</li>
-						</ol>
-						<div class="carousel-inner">
-							<div class="item active">
-								<img alt="Carousel Bootstrap First" src="http://lorempixel.com/output/sports-q-c-1600-500-1.jpg" />
-								<div class="carousel-caption">
-									<h4>
-										First Thumbnail label
-									</h4>
-									<p>
-										Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-									</p>
-								</div>
-							</div>
-							<div class="item">
-								<img alt="Carousel Bootstrap Second" src="http://lorempixel.com/output/sports-q-c-1600-500-2.jpg" />
-								<div class="carousel-caption">
-									<h4>
-										Second Thumbnail label
-									</h4>
-									<p>
-										Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-									</p>
-								</div>
-							</div>
-							<div class="item">
-								<img alt="Carousel Bootstrap Third" src="http://lorempixel.com/output/sports-q-c-1600-500-3.jpg" />
-								<div class="carousel-caption">
-									<h4>
-										Third Thumbnail label
-									</h4>
-									<p>
-										Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-									</p>
-								</div>
-							</div>
-						</div> <a class="left carousel-control" href="#carousel-110258" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-110258" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+			</div>
+			<div class="panel-group" id="panel-3">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-3" href="#panel-element-3">
+						 Quelles pièces doit-on fournir pour s'inscrire ? 
 					</div>
-					<h2>
-						Heading
-					</h2>
-					<p>
-						Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-					</p>
-					<p>
-						<a class="btn" href="#">View details »</a>
-					</p>
+					<div id="panel-element-3" class="panel-collapse collapse">
+						<div class="panel-body">
+							Remplir tous les champs du formulaire d'inscription, décharge pour mineur, droit à l'image, pièce d'identité.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-group" id="panel-4">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-4" href="#panel-element-4">
+						 Quel est le nombre de joueurs par équipe ? 
+					</div>
+					<div id="panel-element-4" class="panel-collapse collapse">
+						<div class="panel-body">
+							Vous devez être minimum 5 joueurs par équipe pour qu'elle soit valide. Vous pouvez avoir un remplaçant et/ou un manager.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-group" id="panel-5">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-5" href="#panel-element-5">
+						 Peut-on avoir un manager et/ou un remplaçant ? 
+					</div>
+					<div id="panel-element-5" class="panel-collapse collapse">
+						<div class="panel-body">
+							Vous pouvez avoir un manager et un remplaçant par équipe.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-group" id="panel-6">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-6" href="#panel-element-6">
+						 Que fait-on si on est inscrit en liste d'attente ?
+					</div>
+					<div id="panel-element-6" class="panel-collapse collapse">
+						<div class="panel-body">
+							Si jamais votre équipe est inscrite sur la liste d'attente, vous pouvez être appelé pour jouer jusqu'à 24h avant le jour du tournoi.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-group" id="panel-7">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-7" href="#panel-element-7">
+						 Peut-on s'inscrire si on est mineur ? 
+					</div>
+					<div id="panel-element-7" class="panel-collapse collapse">
+						<div class="panel-body">
+							Oui, sous réserve de remplir la décharge pour mineur.
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<h2>Déroulement des tournois </h2>
+			<br>
+			<div class="panel-group" id="panel-8">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-8" href="#panel-element-8">
+						 Quelles sont les horaires des tournois ? 
+					</div>
+					<div id="panel-element-8" class="panel-collapse collapse">
+						<div class="panel-body">
+							Les phases de qualifications sont le samedi et le dimanche de 10h à 19h.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-group" id="panel-9">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-9" href="#panel-element-9">
+						 Peut-on manger ou boire pendant le tournoi ? 
+					</div>
+					<div id="panel-element-9" class="panel-collapse collapse">
+						<div class="panel-body">
+							Non, il est interdit de manger ou boire à côté des machines.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-group" id="panel-10">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-10" href="#panel-element-10">
+						 Peut-on changer de joueurs le jour même ?
+					</div>
+					<div id="panel-element-10" class="panel-collapse collapse">
+						<div class="panel-body">
+							Si c'est votre remplaçant oui, sinon c'est interdit.
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<h2>Autres questions</h2>
+			<br>
+			<div class="panel-group" id="panel-11">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-11" href="#panel-element-11">
+						 Que doit-on amener au BGF ? 
+					</div>
+					<div id="panel-element-11" class="panel-collapse collapse">
+						<div class="panel-body">
+							Décharge mineur, droit à l'image, papiers d'identité, souris + casque + clavier
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-group" id="panel-12">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-12" href="#panel-element-12">
+						 Que nous offre le billet du BGF ?
+					</div>
+					<div id="panel-element-12" class="panel-collapse collapse">
+						<div class="panel-body">
+							Il vous offre un pass 3 jours au BGF
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-group" id="panel-13">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-13" href="#panel-element-13">
+						 Comment se loger ? 
+					</div>
+					<div id="panel-element-13" class="panel-collapse collapse">
+						<div class="panel-body">
+							Voir lien hôtels à côté 
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
