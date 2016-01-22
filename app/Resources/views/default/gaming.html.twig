@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <br><br><br>
+    <br><br><br><br><br><br>
     {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') %}
     	<img class="img-thumbnail" width="15%" src="{{ asset('bundles/app/images/csgo.png') }}" />
     {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') %}
     	<img class="img-thumbnail" width="15%" src="{{ asset('bundles/app/images/lol.png') }}" />
     {%endif%}
-    <h1>Liste des équipes Validées pour le tournoi 
+    <h1>Equipes Validées [tournoi 
     {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') %}
-    	Counter Strike : Global Offensive
+    	Counter Strike : Global Offensive]
     {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') %}
-    	League of Legends
+    	League of Legends]
     {%endif%}
     </h1>
 	<br>
@@ -49,7 +49,14 @@
 							</a>
 							{%if entity.captain.experience%}
 								{%if entity.captain.experience.ranking%}
-									 - {{entity.captain.experience.ranking.name}}
+										 <br>
+										 {%if entity.captain.tournament.systName=='lol'%}
+										 	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~entity.captain.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
+										 {%elseif entity.captain.tournament.systName=='csgo'%}
+										 	<img height="50px" width="100px"  src="{{ asset('bundles/app/images/'~entity.captain.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
+										 {%endif%}
+										 <br>
+									 {{entity.captain.experience.ranking.name}}
 									 {%if entity.captain.experience.underRanking%}
 									 	{{entity.captain.experience.underRanking.name}}
 									 {%endif%}
@@ -69,16 +76,23 @@
 								</a>
 								{%if player.user.experience%}
 									{%if player.user.experience.ranking%}
-										 - {{player.user.experience.ranking.name}}
+										 <br>
+										 {%if player.user.tournament.systName=='lol'%}
+										 	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
+										 {%elseif player.user.tournament.systName=='csgo'%}
+										 	<img height="50px" width="100px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
+										 {%endif%}
+										 <br>
+										 {{player.user.experience.ranking.name}}
 										 {%if player.user.experience.underRanking%}
 										 	{{player.user.experience.underRanking.name}}
 										 {%endif%}
 									{%endif%}
 								{%endif%}
 								{%if entity.captain.tournament.systName == 'lol' and player.user.manager ==null%}
-									 - {{player.role.name}}
+									 <br> {{player.role.name}}
 								{%elseif player.user.manager !=null%}
-								 - Manager
+								 <br> Manager
 								{%endif%}
 							</td>
 						{%endfor%}

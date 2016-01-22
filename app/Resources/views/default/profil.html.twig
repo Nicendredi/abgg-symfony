@@ -29,52 +29,27 @@
 			  	</div>
 				<div class="col-md-1">
 			  	</div>
-				<div class="col-md-7">
+				<div class="col-md-4">
 					{% if experience %}
 				  	  {% form_theme delete_form 'bootstrap_3_layout.html.twig' %}
 				  	  <center>{{form(delete_form)}}</center>
 				  		<div class="row">
 					  		<div class="col-xs-12">
-				  				<center><h1>{{ experience.username }}</h1></center>
+				  				<center><h2>Pseudo : {{ experience.username }}</h2></center>
 				  			</div>
 					  	{%if app.user.team and app.user.tournament%}
-					  		<div class="col-xs-2">
-					  			{%if game%}
-								  {%if experience%}
-								  	{% if ranking %}
-								  		<img src="{{ asset('bundles/app/images/'~game.systName~'/'~ranking.name~'.png') }}" />
-										<br>
-									    <center>
-										    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
-										    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-										        Modifier
-										    </a>
-									    </center>
-								  	{%endif%}
-								  {%endif%}
-								{%else%}
-									<br>
-								    <center>
-									    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
-									    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-									        Saisir Ranking/Roles
-									    </a>
-								    </center>
-									<br>
-							  	{%endif%}
-							 </div>
 							</div>
 						  	<div class="row">
 						  		{%if app.user.role%}
 							  		<div class="col-xs-6">
-							  			<center><h1>{{app.user.role.name}}</h1></center>
+							  			<center><h4>Role : {{app.user.role.name}}</h4></center>
 							  		</div>
 							  		<div class="col-xs-6">
-							  			<center><h1>{{app.user.team.name}}</h1></center>
+							  			<center><h4>Nom équipe : {{app.user.team.name}}</h4></center>
 							  		</div>
 							  	{%else%}
 							  		<div class="col-xs-12">
-							  			<center><h1>{{app.user.team.name}}</h1></center>
+							  			<center><h4>Nom équipe : {{app.user.team.name}}</h4></center>
 							  		</div>
 							  	{%endif%}
 						  	</div>
@@ -85,7 +60,31 @@
 					  	<center><h1>{{ app.user.username }}</h1></center>
 				  {%endif%}
 			  	</div>
-			</div>
+				<div class="col-md-3">
+		  			{%if game%}
+					  {%if experience%}
+					  	{% if ranking %}
+					  		<img src="{{ asset('bundles/app/images/'~game.systName~'/'~ranking.name~'.png') }}" />
+							<br>
+						    <center>
+							    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
+							    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							        Modifier
+							    </a>
+						    </center>
+					  	{%endif%}
+					  {%endif%}
+					{%else%}
+						<br>
+					    <center>
+						    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
+						    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						        Saisir Ranking/Roles
+						    </a>
+					    </center>
+						<br>
+				  	{%endif%}
+			  	</div>
 			</div>
 			<div class="col-md-4">
 				{% if game %}
@@ -151,6 +150,7 @@
 			            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 			            Modifier
 			        </a>
+			        <br>
 				</div>
 				<div class="tab-pane fade" id="ingame">
 					{%if game%}
@@ -399,6 +399,7 @@
 			</div>
 		</div>
 	</div>
+	<br><br><br>
 
 		
 	

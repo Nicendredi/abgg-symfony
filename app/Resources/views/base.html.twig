@@ -147,24 +147,10 @@
 						  </ul>
 		            </li>
 		            <li>
-		            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+		            	<a href="{{ path('faq') }}">
 		            		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-		            		FAQ  <span class="caret"></span>
+		            		FAQ
 		            	</a>
-		            	<ul class="dropdown-menu">
-		            		<li>
-		            			<a href="{{ path('faq', {'game': 'lol'}) }}">
-		            				<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-		            				League of Legends
-		            			</a>
-		            		</li>
-		            		<li>
-		            			<a href="{{ path('faq', {'game': 'csgo'}) }}">
-		            				<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-		            				Counter Strike : Global Offensive
-		            			</a>
-		            		</li>
-						  </ul>
 		            </li>
 		            {#<li><a href="#">Animations</a></li>
 		            <li><a href="#">Editions précédentes</a></li>
@@ -262,32 +248,30 @@
     <div id="footer">
         <div class="row text-center">
 			<div class="col-xs-4">
-				<div class="col-xs-6">
-				    <div class="col-xs-2">
-					  	<a href="https://www.facebook.com/bgflt/?fref=ts" >
-				    		<img width="100%" src="{{ asset('bundles/app/images/fb.png') }}"/>
-				    	</a>
-				    </div>
-				    <div class="col-xs-2">
-					  	<a href="https://twitter.com/BGFesport" >
-				    		<img width="100%" src="{{ asset('bundles/app/images/twitter.png') }}" />
-				    	</a>
-				    </div>
-				    <div class="col-xs-2">
-					  	<a href="https://plus.google.com/u/0/117337977924057660726/posts" >
-				    		<img width="100%" src="{{ asset('bundles/app/images/g+.png') }}"/>
-				    	</a>
-				    </div>
-				    <div class="col-xs-2">
-					  	<a href="https://www.instagram.com/bgf_es/" >
-				    		<img width="100%" src="{{ asset('bundles/app/images/insta.png') }}"/>
-				    	</a>
-				    </div>
-				    <div class="col-xs-2">
-					  	<a href="https://www.youtube.com/channel/UCK89jXECqJ86Ag1DFbFP3EA" >
-				    		<img width="100%" src="{{ asset('bundles/app/images/yt01.png') }}"/>
-				    	</a>
-				    </div>
+			    <div class="col-xs-2">
+				  	<a href="https://www.facebook.com/bgflt/?fref=ts" >
+			    		<img width="100%" src="{{ asset('bundles/app/images/fb.png') }}"/>
+			    	</a>
+			    </div>
+			    <div class="col-xs-2">
+				  	<a href="https://twitter.com/BGFesport" >
+			    		<img width="100%" src="{{ asset('bundles/app/images/twitter.png') }}" />
+			    	</a>
+			    </div>
+			    <div class="col-xs-2">
+				  	<a href="https://plus.google.com/u/0/117337977924057660726/posts" >
+			    		<img width="100%" src="{{ asset('bundles/app/images/g+.png') }}"/>
+			    	</a>
+			    </div>
+			    <div class="col-xs-2">
+				  	<a href="https://www.instagram.com/bgf_es/" >
+			    		<img width="100%" src="{{ asset('bundles/app/images/insta.png') }}"/>
+			    	</a>
+			    </div>
+			    <div class="col-xs-2">
+				  	<a href="https://www.youtube.com/channel/UCK89jXECqJ86Ag1DFbFP3EA" >
+			    		<img width="100%" src="{{ asset('bundles/app/images/yt01.png') }}"/>
+			    	</a>
 			    </div>
 			</div>
 			<div class="col-xs-3">
