@@ -31,5 +31,5 @@ security:
         - { path: ^/team/search/csgo, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/tournament/, role: ROLE_ADMIN }
-        - { path: ^/team/, role: ROLE_USER }
         - { path: ^/team/search, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/team/team/show/, role: IS_AUTHENTICATED_ANONYMOUSLY }

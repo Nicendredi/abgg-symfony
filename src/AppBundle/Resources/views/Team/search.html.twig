@@ -5,8 +5,14 @@
 		{% form_theme form 'bootstrap_3_layout.html.twig' %}
 		{{ form_start(form) }}
 	    	
-    	<br><br><br><br>
-    	<div class="col-md-5">
+    	<div class="col-md-2">
+		    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/team/search/csgo') %}
+		    	<img width="100%" src="{{ asset('bundles/app/images/bancsgo.png') }}" />
+		    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/team/search/lol') %}
+		    	<img width="100%" src="{{ asset('bundles/app/images/banlol.png') }}" />
+		    {%endif%}
+    	</div>
+    	<div class="col-md-3">
     	</div>
     	
     	<div class="col-md-2" id="search_form">
@@ -19,13 +25,7 @@
     	<div class="col-md-5">
     	</div>
 	</div>
-	<br>
-    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/team/search/csgo') %}
-    	<img class="img-thumbnail" width="15%" src="{{ asset('bundles/app/images/csgo.png') }}" />
-    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/team/search/lol') %}
-    	<img class="img-thumbnail" width="15%" src="{{ asset('bundles/app/images/lol.png') }}" />
-    {%endif%}
-
+		    
 	{%if entities == null%}
 		<br><center><h1>Aucune équipe n'a étée créée actuellement</h1></center>
 		<center><img width="25%"  src="{{ asset('bundles/app/images/forever-alone.jpg') }}" /></center>

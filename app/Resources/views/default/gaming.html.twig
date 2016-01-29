@@ -1,21 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <br><br><br><br><br><br>
-    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') %}
-    	<img class="img-thumbnail" width="15%" src="{{ asset('bundles/app/images/csgo.png') }}" />
-    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') %}
-    	<img class="img-thumbnail" width="15%" src="{{ asset('bundles/app/images/lol.png') }}" />
-    {%endif%}
-    <h1>Equipes Validées [tournoi 
-    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') %}
-    	Counter Strike : Global Offensive]
-    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') %}
-    	League of Legends]
-    {%endif%}
-    </h1>
+	<div class="row">
+    	<div class="col-md-2">
+    	    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') %}
+				<img width="100%" src="{{ asset('bundles/app/images/bancsgo.png') }}" />
+		    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') %}
+				<img width="100%" src="{{ asset('bundles/app/images/banlol.png') }}" />
+		    {%endif%}
+    	</div>
+    	<div class="col-md-10">
+		    <h1>Equipes Validées [tournoi 
+		    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') %}
+		    	Counter Strike : Global Offensive]
+		    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') %}
+		    	League of Legends]
+		    {%endif%}
+		    </h1>
+    	</div>
+    </div>
+
 	<br>
-{%if entities%}
+	{%set validation=false%}
+	{% for entity in entities%}
+		{%if entity.validation != null%}
+			{%set validation=true%}
+		{%endif%}
+	{%endfor%}
+	
+{%if validation%}
 	<div class="row">
     	<div class="col-md-12">
 			<table class="table table-hover">

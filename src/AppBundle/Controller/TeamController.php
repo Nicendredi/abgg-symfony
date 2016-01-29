@@ -591,46 +591,47 @@ class TeamController extends Controller
      *
      * @Route("/{id}/edit", name="team_edit")
      * @Method("GET")
-     * @Template()
+     * @Template("AppBundle:Team:edit.html.twig")
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppBundle:Team')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
-        }
 		
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
+    	$formArray = array(
+        0 => array(
+            'name' => 'name', 
+            'type' =>'text',
+            'array' => $array = array(
+            	'label'    => 'Modifier nom Team',
+			    'required' => false,
+			    )
+            ),
+        1 => array(
+            'name' => 'save', 
+            'type' =>'submit',
+            'array' => $array = array(
+            	'label' => 'Modifier'
+			    )
+            ),
+        ); 
+		
+	    $formBuilder = $this->createFormBuilder($formArray, array(
+            'action' => $this->generateUrl('team_update', array('id' => $entity->getId())),
+            'method' => 'PUT'));
+	
+	    foreach($formArray as $field) {
+	        $formBuilder->add($field['name'], $field['type'],$field['array']);
+	    }        
+	
+	    $form = $formBuilder->getForm();
+		
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'entity'    => $entity,
+            'form' => $form->createView(),
         );
     }
 
-    /**
-    * Creates a form to edit a User entity.
-    *
-    * @param User $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Team $entity)
-    {
-        $form = $this->createForm(new TeamType($entity->getTournament()->getId(),$entity->getTournament(), $this->getUser()->getTelephone()), $entity, array(
-            'action' => $this->generateUrl('player_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
     /**
      * Edits an existing User entity.
      *
@@ -642,34 +643,20 @@ class TeamController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AppBundle:Team')->find($id);
-		
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-		    'SELECT p
-		    FROM AppBundle:Player p
-		    WHERE p.team = :id'
-		)->setParameter('id', $id);
-		$players = $query->getResult();
+		$request= $request->request->all();
+		$form = $request['form'];
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Team entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
+        if ($form['name']) {
+        	$entity->setName($form['name']);
+       		$em->persist($entity);
             $em->flush();
-
             
 			return $this->redirect($this->generateUrl('team_show', array('id' => $this->getUser()->getTeam()->getId())));
         }
 
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'edit_form'   => $editForm->createView()
         );
     }
 	

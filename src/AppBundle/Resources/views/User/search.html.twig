@@ -5,8 +5,12 @@
 		{% form_theme form 'bootstrap_3_layout.html.twig' %}
 		{{ form_start(form) }}
 	    	
-    	<br><br><br><br>
     	<div class="col-md-2">
+		    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/csgo') %}
+		    	<img width="100%" src="{{ asset('bundles/app/images/bancsgo.png') }}" />
+		    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/lol') %}
+		    	<img width="100%" src="{{ asset('bundles/app/images/banlol.png') }}" />
+		    {%endif%}
     	</div>
     	
     	<div class="col-md-8" id="search_form">
@@ -50,13 +54,6 @@
     	</div>
     	
 	</div>
-	<br>
-    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/csgo') %}
-    	<img class="img-thumbnail" width="15%" src="{{ asset('bundles/app/images/csgo.png') }}" />
-    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/lol') %}
-    	<img class="img-thumbnail" width="15%" src="{{ asset('bundles/app/images/lol.png') }}" />
-    {%endif%}
-	
 
     <h1>Liste de Joueurs pour le tournoi 
     {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/csgo') %}

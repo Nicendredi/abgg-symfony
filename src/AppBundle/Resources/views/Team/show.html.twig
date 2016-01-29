@@ -1,37 +1,57 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <br><br><br><br>
-		<div class="row">
-		    <div class="col-xs-3">
-    			<h1>Mon équipe</h1>
-    	    </div>
-		    <div class="col-xs-6">
-    	    </div>
-		    <div class="col-xs-3">
-		  		{%if team.image%}
-		  			<center>
-		  				<img width="50%" src="{{ asset('uploads/images/'~team.image.name) }}" />
-					    <br>
-					    <a class="btn btn-default" href="{{ path('image_edit',  {'id': team.image.id}) }}">
-					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-					    </a>
-					    <a class="btn btn-default" href="{{ path('image_delete',  {'id': team.image.id}) }}">
-					    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					    </a>
-		  			</center>
-		  			<br>
-		  		{%else%}
-			    <center>
-				    <a class="btn btn-default" href="{{ path('image_new',  {'origin': 'team'}) }}">
-				    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-				        	Ajouter Image de profil
+	<div class="row">
+	    <div class="col-xs-3">
+	  		{%if team.image%}
+	  			<center>
+	  				<img width="50%" src="{{ asset('uploads/images/'~team.image.name) }}" />
+				    <br>
+				    <a class="btn btn-default" href="{{ path('image_edit',  {'id': team.image.id}) }}">
+				    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 				    </a>
-			    </center>	
-			    <br>
-		  		{%endif%}	  	
-    	    </div>
-    	</div>
+				    <a class="btn btn-default" href="{{ path('image_delete',  {'id': team.image.id}) }}">
+				    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				    </a>
+	  			</center>
+	  			<br>
+	  		{%else%}
+		    <center>
+			    <a class="btn btn-default" href="{{ path('image_new',  {'origin': 'team'}) }}">
+			    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+			        	Ajouter Image Team
+			    </a>
+		    </center>	
+		    <br>
+	  		{%endif%}	  	
+	    </div>
+	    <div class="col-xs-3">
+			<h1>Mon équipe</h1>
+			<h2>{{team.name}} 
+		    {%if app.user.team.validation == null%}
+			    <a class="btn btn-default" href="{{ path('team_edit', {'id':app.user.team.id} ) }}">
+			        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+			    </a>
+			{%endif%}
+			</h2>
+	    </div>
+	    <div class="col-xs-3">
+	    </div>
+	    <div class="col-xs-1">
+	    	<h2>Capitaine d'équipe
+			<a class="btn btn-link" href="{{ path('user_show', {'id':team.captain.id} ) }}">
+        		{{ team.captain.username }}
+        	</a>
+        	</h2>
+	    </div>
+	    <div class="col-xs-2">
+        	{%if team.captain.image%}
+        		<img height="100px" width="100px" src="{{ asset('uploads/images/'~team.captain.image.name) }}" />
+        	{%endif%}
+	    </div>
+	</div>
+	<br>
+	<hr>
 	<br>
 	
 	{%if validation == true and app.user.capitain!=null%}
@@ -61,50 +81,28 @@
 	{%endif%}
 
 	<br>
-
-    <table class="table table-hover">
-        <tbody>
-            <tr>
-                <th>Nom de l'équipe</th>
-                <td>
-                	{{ team.name }}
-                </td>
-                <td>
-                	{%if team.image%}
-                		<img height="100px" width="100px" src="{{ asset('uploads/images/'~team.image.name) }}" />
-                	{%endif%}
-                </td>
-                <td></td>
-                {%if team.captain.tournament.systName == 'lol'%}
-                	<td></td>
-                {%endif%}
-                {%if players%}
-                	<td></td>
-                {%endif%}
-				<td></td>
-				<td></td>
-            </tr>
-            <tr>
-                <th>Capitaine d'équipe</th>
-                <td>
-					<a class="btn btn-link" href="{{ path('user_show', {'id':team.captain.id} ) }}">
-                		{{ team.captain.username }}
-                	</a>
-                </td>
-                <td>
-                	{%if team.captain.image%}
-                		<img height="100px" width="100px" src="{{ asset('uploads/images/'~team.captain.image.name) }}" />
-                	{%endif%}
-                </td>
-                <td>
-	                <img width="12%" src="{{ asset('bundles/app/images/'~team.captain.tournament.systName~'/'~team.captain.experience.ranking.name~'.png') }}" />
-	                {{ team.captain.experience.ranking.name }}
-                </td>
+	<div class="row">
+	    <div class="col-xs-1">
+	    </div>
+	    <div class="col-xs-2" >
+        	{%if team.captain.image%}
+        		<img height="100px"  width="100px" src="{{ asset('uploads/images/'~team.captain.image.name) }}" />
+        	{%endif%}
+	    </div>
+	    <div class="col-xs-8" id="player-show">
+		    <div class="col-xs-3">
+				<a class="btn btn-link" href="{{ path('user_show', {'id':team.captain.id} ) }}">
+	        		{{ team.captain.username }}
+	        	</a>
+		    </div>
+		    <div class="col-xs-4">
+		    	<img width="50px" src="{{ asset('bundles/app/images/'~team.captain.tournament.systName~'/'~team.captain.experience.ranking.name~'.png') }}" />
+                	{{ team.captain.experience.ranking.name }}
                 {%if team.captain.tournament.systName == 'lol' and  team.captain.experience.ranking.name!='Pas classé'%}
-                	<td>{{ team.captain.experience.underRanking.name }}</td>
-                {%elseif team.captain.experience.underRanking == null %}
-                	<td></td>
+                	{{ team.captain.experience.underRanking.name }}
                 {%endif%}
+		    </div>
+		    <div class="col-xs-3">
                 {%if team.captain.role%}
                 	<td>
 	                	{{ team.captain.role.name }}
@@ -115,195 +113,181 @@
 	                	{%endif%}
 	                </td>
                 {%endif%}
-	            {%if app.user == team.captain  and team.validation == null%}
-	            	<td>
-	                	<a class="btn btn-default"  href="{{ path('team_delete', {'id':team.id} ) }}">
-	                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-	                	</a>  
-	            	</td>
-	            {%else%}
-	            	<td></td>
+		    </div>
+		    <div class="col-xs-2">
+		    	 {%if app.user == team.captain  and team.validation == null%}
+                	<a class="btn btn-default"  href="{{ path('team_delete', {'id':team.id} ) }}">
+                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                	</a>  
 	            {%endif%}
-            </tr>
-            {%for player in players%}
-				<tr>
-					{%if player.user.manager%}
-						<th>Manager</th>
-					{%else%}
-						<th>Joueur</th>
-					{%endif%}
-					<td>
+		    </div>
+	    </div>
+	    <div class="col-xs-1">
+	    </div>
+	</div>
+	<br>
+    	{%for player in players%}
+			<div class="row">
+			    <div class="col-xs-1">
+			    </div>
+			    <div class="col-xs-2" >
+                	{%if player.user.image%}
+                		<img height="100px" width="100px" src="{{ asset('uploads/images/'~player.user.image.name) }}" />
+                	{%endif%}
+			    </div>
+			    <div class="col-xs-8" id="player-show">
+				    <div class="col-xs-3">
 						<a class="btn btn-link" href="{{ path('user_show', {'id':player.user.id} ) }}">
 							{{player.user.username}}
 						</a>
-					</td>
-					<td>
-	                	{%if player.user.image%}
-	                		<img height="100px" width="100px" src="{{ asset('uploads/images/'~player.user.image.name) }}" />
-	                	{%endif%}
-	                </td>
-					{%if player.user.manager%}
-						<td>MANAGER</td>
-						{%if team.captain.tournament.systName == 'lol'%}
-							<td></td>
-						{%elseif team.captain.tournament.systName == 'csgo'%}
-							<td></td>
-						{%endif%}
-					{%else%}
-                		<td>
-	                		<img width="12%" src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
+				    </div>
+				    <div class="col-xs-4">
+				    	{%if player.user.manager%}
+							Manager
+						{%else%}
+	                		<img width="50px" src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
 	                		{{player.user.experience.ranking.name }}
-                		</td>
-		                {%if team.captain.tournament.systName == 'lol' 
-		                and  player.user.experience.ranking.name!='Pas classé'%}
-		                	<td>{{ player.user.experience.underRanking.name }}</td>
-		                {%elseif player.user.experience.underRanking == null %}
-		                	<td></td>
-		                {%endif%}
-                	{%endif%}
-                	{%if player.role%}
-						<td>{{player.role.name}}</td>
-					{%endif%}
-		            {%if ((app.user == player.user)  and (team.validation == null))%}
-		            	<td>
+			                {%if team.captain.tournament.systName == 'lol' 
+			                and  player.user.experience.ranking.name!='Pas classé'%}
+			                	{{ player.user.experience.underRanking.name }}
+			                {%endif%}
+	                	{%endif%}
+				    </div>
+				    <div class="col-xs-3">
+		                {%if player.role%}
+							{{player.role.name}}
+						{%endif%}
+				    </div>
+				    <div class="col-xs-2">
+				    	{%if ((app.user == player.user)  and (team.validation == null))%}
 		                	<a class="btn btn-default"  href="{{ path('quit_team', {'playerId':player.id} ) }}">
 		                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 		                	</a>
-		            	</td>
-		            {%elseif ((app.user.capitain == true)  and (team.validation == null))%}
-		            	<td>
+			            {%elseif ((app.user.capitain == true)  and (team.validation == null))%}
 		                	<a class="btn btn-default"  href="{{ path('quit_team', {'playerId':player.id} ) }}">
 		                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 		                	</a>
-		            	</td>
-		            {%else%}
-		            	<td></td>
-		            {%endif%}
-				</tr>
-			{%endfor%}
-        </tbody>
-    </table>
-    <br>
-    {%if team.validation == null%}
-	    <a class="btn btn-default" href="{{ path('team_edit', {'id':app.user.team.id} ) }}">
-	        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-	        Modifier
-	    </a>
-	{%endif%}
-	<br><br><br>
-	
-	{%if team.validation == null %}
-		{%if  (countCandidatsService.getAllSearchingCandidats(app.user.team.id))!= null %}
-		    <h2>Candidatures déposées par les joueurs
-		    	<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span>
-		    </h2>
-		    
-	    	<table class="table table-hover">
-		        <tbody>
-		            <tr>
-		                <th>Pseudo joueur</th>
-		                <th>Logo joueur</th>
-		                <th>Classement</th>
-		                {%if app.user.tournament.systName == 'lol'%}
-		                	<th>Sous-classement</th>
-		                {%endif%}
-		                <th>Poste désiré</th>
-		                <th>Message</th>
-		                <th>Réponse</th>
-		            </tr>
-				    {%for candidats in (countCandidatsService.getAllSearchingCandidats(app.user.team.id)) %}
-				    <tr>
-				    	<td>{{candidats.user.username}}</td>
-		                <td>
-		                	{%if candidats.user.image%}
-		                		<img height="50px" width="50px" src="{{ asset('uploads/images/'~candidats.user.image.name) }}" />
-		                	{%endif%}
-		                </td>
-				    	{%if candidats.user.manager %}
-					    	{%if app.user.tournament.systName == 'lol'%}
-					    		<td></td>
-					    		<td></td>
-					    	{%elseif app.user.tournament.systName == 'csgo'%}
-				    			<td></td>
-					    		<td>Manager</td>
-					    	{%endif%}
-				    	{%else%}
-					    	<td>{{candidats.user.experience.ranking.name}}</td>
-			                {%if app.user.tournament.systName == 'lol' 
-			                and candidats.user.manager == null 
-			                and candidats.user.experience.ranking.name != 'Pas classé'%}
-					    		<td>{{candidats.user.experience.underRanking.name}}</td>
-			                {%else%}
-			                	<td></td>
-		                	{%endif%}
-		                {%endif%}
-				    	{%if app.user.tournament.systName == 'lol' %}
-				    		<td>{{candidats.role}}</td>
-		                {%endif%}
-		                <td>
-		                	{%if candidats.text%}
-		                		{{candidats.text}}
-		                	{%endif%}
-		                </td>
-		                {%if app.user.capitain%}
-			                <td>
-			                	<a class="btn btn-default"  href="{{ path('validate_application_team', {'candidats':candidats.id} ) }}">
-			                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			                	</a>
-			                	<a class="btn btn-default"  href="{{ path('delete_application', {'candidats':candidats.id} ) }}">
-			                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-			                	</a>
-			                </td>
 			            {%else%}
-			            	<td>
-			            		Seul le capitain d'équipe peut accepter ou rejetter une cadidature
-			            	</td>
+			            	<td></td>
 			            {%endif%}
-				    </tr>
-				    {%endfor%}
-				</tbody>
-			</table>
-		{%endif%}
-	
-		<br><br><br>
-	    
-	    {%if (countCandidatsService.getAllApplicationFromTeam(app.user.team.id)) != null%}
-		    <h2>Recrutement par le chef d'équipe en attente de réponse
-		    	<span class="badge">{{ countCandidatsService.getApplicationFromTeam(app.user.team.id) }}</span>
-		    </h2>
-		    
-		    <table class="table table-hover">
-		        <tbody>
-		            <tr>
-		                <th>Pseudo joueur</th>
-		                <th>Logo joueur</th>
-		                <th>Classement</th>
-		                {%if app.user.tournament.systName == 'lol'%}
-		                	<th>Sous-classement</th>
-		                {%endif%}
-		                <th>Poste désiré</th>
-		                <th>Message</th>
-		                <th>Réponse</th>
-		            </tr>
-				    {%for candidats in (countCandidatsService.getAllApplicationFromTeam(app.user.team.id)) %}
-				    <tr>
-				    	{%if candidats.user == null%}
-				    		<td>{{candidats.email}}</td>
-				    		<td> </td>
-				    		<td> </td>
-				    		<td> </td>
-				    		<td> </td>
-				    	{%else%}
-				    		<td>{{candidats.user.username}}</td>
-			                <td>
+				    </div>
+			    </div>
+			    <div class="col-xs-1">
+			    </div>
+			</div>
+			<br>
+		{%endfor%}
+	<br>
+	<br>
+	<br><br><br>
+	{%if team.validation == null %}
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="nav nav-tabs">
+				{%if  (countCandidatsService.getAllSearchingCandidats(app.user.team.id))!= null %}
+				  <li class="active"><a data-toggle="tab" href="#candjoueurs">
+				  	Candidatures déposées par les joueurs
+			    	<span class="badge">{{ countCandidatsService.getSearchingCandidats(app.user.team.id) }}</span></a>
+			      </li>
+			    {%endif%}
+			    {%if (countCandidatsService.getAllApplicationFromTeam(app.user.team.id)) != null%}
+				  <li
+				  {%if  (countCandidatsService.getAllSearchingCandidats(app.user.team.id))== null %}
+				   class="active"
+				  {%endif%}
+				  ><a data-toggle="tab" href="#candteam">
+					  Recrutement par le chef d'équipe en attente de réponse
+			    	  <span class="badge">{{ countCandidatsService.getApplicationFromTeam(app.user.team.id) }}</span>
+				  </a>
+				  </li>
+				{%endif%}
+			</ul>
+		</div>
+		<div class="tab-content">
+			{%if (countCandidatsService.getAllSearchingCandidats(app.user.team.id))!= null %}
+				<div id="candjoueurs" class="tab-pane fade in active">
+					{%for candidats in (countCandidatsService.getAllSearchingCandidats(app.user.team.id)) %}
+						<div class="row">
+						    <div class="col-xs-1">
+						    </div>
+						    <div class="col-xs-2" >
 			                	{%if candidats.user.image%}
-			                		<img height="50px" width="50px" src="{{ asset('uploads/images/'~candidats.user.image.name) }}" />
+			                		<img height="100px" width="100px" src="{{ asset('uploads/images/'~candidats.user.image.name) }}" />
 			                	{%endif%}
-			                </td>
+						    </div>
+						    <div class="col-xs-8" id="player-show">
+							    <div class="col-xs-3">
+									<a class="btn btn-link" href="{{ path('user_show', {'id':candidats.user.id} ) }}">
+						        		{{candidats.user.username}}
+						        	</a>
+							    </div>
+							    <div class="col-xs-3">
+							    	{%if candidats.user.manager %}
+								    	Manager
+							    	{%else%}
+								    	<td>{{candidats.user.experience.ranking.name}}</td>
+						                {%if app.user.tournament.systName == 'lol' 
+						                and candidats.user.manager == null 
+						                and candidats.user.experience.ranking.name != 'Pas classé'%}
+								    		<td>{{candidats.user.experience.underRanking.name}}</td>
+						                {%else%}
+						                	<td></td>
+					                	{%endif%}
+					                {%endif%}
+							    </div>
+							    <div class="col-xs-2">
+							    	{%if app.user.tournament.systName == 'lol' %}
+							    		{{candidats.role}}
+					                {%endif%}
+							    </div>
+							    <div class="col-xs-2">
+								    {%if candidats.text%}
+				                		{{candidats.text}}
+				                	{%endif%}
+							    </div>
+							    <div class="col-xs-2">
+					                {%if app.user.capitain%}
+					                	<a class="btn btn-default"  href="{{ path('validate_application_team', {'candidats':candidats.id} ) }}">
+					                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					                	</a>
+					                	<a class="btn btn-default"  href="{{ path('delete_application', {'candidats':candidats.id} ) }}">
+					                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					                	</a>
+						            {%endif%}
+							    </div>
+						    </div>
+						    <div class="col-xs-1">
+						    </div>
+						</div>
+						<br>
+					{%endfor%}
+				</div>
+			{%endif%}
+			{%if (countCandidatsService.getAllApplicationFromTeam(app.user.team.id)) != null%}
+				<div class="tab-pane fade
+				  {%if  (countCandidatsService.getAllSearchingCandidats(app.user.team.id))== null %}
+				 	in active
+				  {%endif%}
+				 " id="candteam">
+			    {%for candidats in (countCandidatsService.getAllApplicationFromTeam(app.user.team.id)) %}
+			    <div class="row">
+				    <div class="col-xs-1">
+				    </div>
+				    <div class="col-xs-2" >
+	                	{%if candidats.user.image%}
+	                		<img height="100px" width="100px" src="{{ asset('uploads/images/'~candidats.user.image.name) }}" />
+	                	{%endif%}
+				    </div>
+				    <div class="col-xs-8" id="player-show">
+					    <div class="col-xs-3">
+							<a class="btn btn-link" href="{{ path('user_show', {'id':candidats.user.id} ) }}">
+				        		{{candidats.user.username}}
+				        	</a>
+					    </div>
+					    <div class="col-xs-3">
 					    	{%if candidats.user.manager %}
-					    		<td></td>
-					    		<td></td>
-					    	{%elseif candidats.user%}
+						    	Manager
+					    	{%else%}
 						    	<td>{{candidats.user.experience.ranking.name}}</td>
 				                {%if app.user.tournament.systName == 'lol' 
 				                and candidats.user.manager == null 
@@ -312,40 +296,38 @@
 				                {%else%}
 				                	<td></td>
 			                	{%endif%}
-					    	{%else%}
-				                <td></td>
 			                {%endif%}
+					    </div>
+					    <div class="col-xs-2">
 					    	{%if app.user.tournament.systName == 'lol' %}
-					    		<td>{{candidats.role}}</td>
+					    		{{candidats.role}}
 			                {%endif%}
-				    	{%endif%}
-				    	<td>
-				    		{%if candidats.text%}
-				    			{{candidats.text}}
-				    		{%endif%}
-		                	{%if app.user.capitain%}
-			                	<a class="btn btn-default"  href="{{ path('edit_text_application', {'id':candidats.id} ) }}">
-			                		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-			                	</a>  
+					    </div>
+					    <div class="col-xs-2">
+						    {%if candidats.text%}
+		                		{{candidats.text}}
 		                	{%endif%}
-		                </td>
-		                {%if app.user.capitain%}
-			                <td>
-			                	<a class="btn btn-default"  href="{{ path('delete_application_recrutement', {'id':candidats.id} ) }}">
+					    </div>
+					    <div class="col-xs-2">
+			                {%if app.user.capitain%}
+			                	<a class="btn btn-default"  href="{{ path('validate_application_team', {'candidats':candidats.id} ) }}">
+			                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			                	</a>
+			                	<a class="btn btn-default"  href="{{ path('delete_application', {'candidats':candidats.id} ) }}">
 			                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 			                	</a>
-			                </td>
-			            {%else%}
-			            	<td>
-			            		Seul le capitain d'équipe peut accepter ou rejetter une cadidature
-			            	</td>
-			            {%endif%}
-				    </tr>
-				    {%endfor%}
-				</tbody>
-			</table>
-	    {%endif%}
-	    
+				            {%endif%}
+					    </div>
+				    </div>
+				    <div class="col-xs-1">
+				    </div>
+				</div>
+				<br>
+				{%endfor%}
+				</div>
+			{%endif%}
+		</div>
+	</div>
 	{%else%}
 		
 	{%endif%}

@@ -352,13 +352,20 @@ class DefaultController extends Controller
 			
 			if($tournament=='lol')
 			{
-				$responsable = 'liard.au@gmail.com';
+				//$responsable = 'liard.au@gmail.com';
+				$responsable='alanataylor@hotmail.fr';
+			}
+			elseif($tournament=='csgo')
+			{
+				//$responsable = 'sch.laurine@gmail.com';
+				$responsable='alanarosetaylor@gmail.com';
 			}
 			else 
 			{
-				$responsable = 'sch.laurine@gmail.com';
+				$responsable[0]='alanataylor@hotmail.fr';
+				$responsable[1]='alanarosetaylor@gmail.com';
 			}
-			
+
         	$em = $this->getDoctrine()->getManager();
 			$mailer = $this->container->get('app.registration_email_processor');
 			$sendMail = $mailer -> sendMail($responsable,$email,$object,$mail);
