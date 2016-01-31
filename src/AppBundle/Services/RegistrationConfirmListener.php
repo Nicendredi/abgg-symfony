@@ -10,12 +10,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use AppBundle\Services\BgfesEvents;
 use AppBundle\Services\RegistrationCompleteEvent;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 
 class RegistrationConfirmListener implements EventSubscriberInterface
 {
     private $router;
-
+	
     public function __construct(UrlGeneratorInterface $router)
     {
         $this->router = $router;
@@ -30,12 +31,11 @@ class RegistrationConfirmListener implements EventSubscriberInterface
 
     public function onRegistrationSuccess(FormEvent $event)
     {
+        //$event = new RegistrationCompleteEvent($event->getForm()->getViewData());
 
-        $event = new RegistrationCompleteEvent($this->getUser());
-
-        $this->get('event_dispatcher')
-            ->dispatch(BgfesEvents::onRegistrationComplete, $event)
-            ;
+        //$this->get('event_dispatcher')
+        //    ->dispatch(BgfesEvents::onRegistrationComplete, $event)
+        //    ;
 
         $url = $this->router->generate('game_choose');
 

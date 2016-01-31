@@ -90,7 +90,7 @@ class ImageController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Enregistrer Image'));
 
         return $form;
     }

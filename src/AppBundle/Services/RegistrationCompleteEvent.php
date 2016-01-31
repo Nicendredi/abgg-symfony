@@ -7,7 +7,6 @@ use AppBundle\Entity\User;
 
 class RegistrationCompleteEvent extends Event
 {
-
 	protected $user;
 
 	public function __construct(User $user){

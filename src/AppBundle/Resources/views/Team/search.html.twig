@@ -75,8 +75,12 @@
 		      	{%if entity.captain.tournament.systName == 'lol' %}
 		      		- {{entity.captain.role.name}}
 		      	{%endif%}
-		      	<br>
-		      	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~entity.captain.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
+			  	<br>
+					 {%if entity.captain.tournament.systName=='lol'%}
+					 	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~entity.captain.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
+					 {%elseif entity.captain.tournament.systName=='csgo'%}
+					 	<img height="50px" width="100px"  src="{{ asset('bundles/app/images/'~entity.captain.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
+					 {%endif%}
 		      	{{entity.captain.experience.ranking.name}}
 		      	{%if entity.captain.tournament.systName == 'lol' and entity.captain.experience.ranking.name != 'Pas classé'%}
 		      		{{entity.captain.experience.underRanking.name}}
@@ -97,7 +101,11 @@
 				      	<br>
 				      	{%if player.user.manager%}
 				      	{%else%}
-	                		<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
+						 {%if player.user.tournament.systName=='lol'%}
+						 	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
+						 {%elseif player.user.tournament.systName=='csgo'%}
+						 	<img height="50px" width="100px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
+						 {%endif%}
 					      	{{player.user.experience.ranking.name}}
 					      	{%if entity.captain.tournament.systName == 'lol' and player.user.experience.ranking.name != 'Pas classé'%}
 					      		{{player.user.experience.underRanking.name}}

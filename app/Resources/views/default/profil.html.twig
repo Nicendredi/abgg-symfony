@@ -1,11 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <br><br><br><br><br><br><br>
     
     <div class="container-fluid">
 		<div class="row">
-			<div class="col-md-8">
 				<div class="col-md-4">
 			  		{%if user.image%}
 			  			<center>
@@ -26,8 +24,6 @@
 						    </a>
 					    </center>	
 			  		{%endif%}
-			  	</div>
-				<div class="col-md-1">
 			  	</div>
 				<div class="col-md-4">
 					{% if experience %}
@@ -115,8 +111,18 @@
 				  <li><a data-toggle="tab" href="#ingame">In Game</a></li>
 				  <li><a data-toggle="tab" href="#equipe">Equipe</a></li>
 				  {%if app.user.team == null%}
-					  <li><a data-toggle="tab" href="#propositions">Proposition de poste</a></li>
-					  <li><a data-toggle="tab" href="#candidatures">Candidatures déposées</a></li>
+					  <li>
+						  <a data-toggle="tab" href="#propositions">
+						  	Proposition de poste 
+						  	<span class="badge">{{ countCandidatsService.getCandidatureFromTeam(app.user.id) }}</span>
+						  </a>
+					  </li>
+					  <li>
+						  <a data-toggle="tab" href="#candidatures">
+						  	Candidatures déposées
+						  	<span class="badge">{{ countCandidatsService.getCandidatureFromUser(app.user.id) }}</span>
+						  </a>
+					  </li>
 				  {%endif%}
 				</ul>
 			</div>

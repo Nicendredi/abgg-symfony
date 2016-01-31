@@ -76,4 +76,17 @@ class CountCandidats
 		$users = count($query->getResult());
 		return $users;
 	}
+	
+	public function getCandidatureFromUser($user)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Application p
+		    WHERE p.user = :id
+		    AND p.origin = \'player\'
+		    and p.blocked is null'
+		)->setParameter('id', $user);
+		$users = count($query->getResult());
+		return $users;
+	}
 }

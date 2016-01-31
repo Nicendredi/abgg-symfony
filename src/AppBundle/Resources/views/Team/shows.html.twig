@@ -1,119 +1,121 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <br><br><br><br>
+	<div class="row">
+	    <div class="col-xs-3">
+	  		{%if team.image%}
+	  			<center>
+	  				<img width="50%" src="{{ asset('uploads/images/'~team.image.name) }}" />
+	  			</center>
+	  			<br>
+	  		{%endif%}	  	
+	    </div>
+	    <div class="col-xs-3">
+			<h1>{{team.name}}</h1>
+	    </div>
+	    <div class="col-xs-3">
+	    </div>
+	    <div class="col-xs-1">
+	    	<h2>Capitaine d'équipe
+			<a class="btn btn-link" href="{{ path('user_show', {'id':team.captain.id} ) }}">
+        		{{ team.captain.username }}
+        	</a>
+        	</h2>
+	    </div>
+	    <div class="col-xs-2">
+        	{%if team.captain.image%}
+        		<img height="100px" width="100px" src="{{ asset('uploads/images/'~team.captain.image.name) }}" />
+        	{%endif%}
+	    </div>
+	</div>
+	<br>
+	<hr>
+	<br>
+	
 		<div class="row">
+	    <div class="col-xs-1">
+	    </div>
+	    <div class="col-xs-2" >
+        	{%if team.captain.image%}
+        		<img height="100px"  width="100px" src="{{ asset('uploads/images/'~team.captain.image.name) }}" />
+        	{%endif%}
+	    </div>
+	    <div class="col-xs-8" id="player-show">
 		    <div class="col-xs-3">
-    			<h1>Equipe {{team.name}}</h1>
-    	    </div>
-		    <div class="col-xs-6">
-    	    </div>
-		    <div class="col-xs-3">
-		  		{%if team.image%}
-		  			<center>
-		  				<img width="50%" src="{{ asset('uploads/images/'~team.image.name) }}" />
-					    <br>
-		  			</center>
-		  		{%else%}
-			    <br>
-		  		{%endif%}	  	
-    	    </div>
-    	</div>
-    
-	<br>
-	<br>
-
-    <table class="table table-hover">
-        <tbody>
-            <tr>
-                <th>Nom de l'équipe</th>
-                <td>{{ team.name }}</td>
-                <td>
-                	{%if team.image%}
-                		<img height="100px" width="100px" src="{{ asset('uploads/images/'~team.image.name) }}" />
-                	{%endif%}
-                </td>
-                <td></td>
-                {%if team.captain.tournament.systName == 'lol'%}
-                	<td></td>
-                {%endif%}
-                {%if team.player%}
-                	<td></td>
-                {%endif%}
-				<td></td>
-				<td></td>
-            </tr>
-            <tr>
-                <th>Capitaine d'équipe</th>
-                <td>
-	                <a class="btn btn-link" href="{{ path('user_show', {'id':team.captain.id} ) }}">
-	                	{{ team.captain.username }}
-	                </a>
-                </td>
-                <td>
-                	{%if team.captain.image%}
-                		<img height="100px" width="100px" src="{{ asset('uploads/images/'~team.captain.image.name) }}" />
-                	{%endif%}
-                </td>
-                <td>
-	                <img width="12%" src="{{ asset('bundles/app/images/'~team.captain.tournament.systName~'/'~team.captain.experience.ranking.name~'.png') }}" />
-	                {{ team.captain.experience.ranking.name }}
-                </td>
+				<a class="btn btn-link" href="{{ path('user_show', {'id':team.captain.id} ) }}">
+	        		{{ team.captain.username }}
+	        	</a>
+		    </div>
+		    <div class="col-xs-4">
+				 {%if team.captain.tournament.systName=='lol'%}
+				 	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~team.captain.tournament.systName~'/'~team.captain.experience.ranking.name~'.png') }}" />
+				 {%elseif team.captain.tournament.systName=='csgo'%}
+				 	<img height="50px" width="100px"  src="{{ asset('bundles/app/images/'~team.captain.tournament.systName~'/'~team.captain.experience.ranking.name~'.png') }}" />
+				 {%endif%}
+                	{{ team.captain.experience.ranking.name }}
                 {%if team.captain.tournament.systName == 'lol' and  team.captain.experience.ranking.name!='Pas classé'%}
-                	<td>{{ team.captain.experience.underRanking.name }}</td>
-                {%elseif team.captain.experience.underRanking == null %}
-                	<td></td>
+                	{{ team.captain.experience.underRanking.name }}
                 {%endif%}
+		    </div>
+		    <div class="col-xs-3">
                 {%if team.captain.role%}
                 	<td>
 	                	{{ team.captain.role.name }}
 	                </td>
-	            {%endif%}
-            </tr>
-            {%for player in players%}
-				<tr>
-					{%if player.user.manager%}
-						<th>Manager</th>
-					{%else%}
-						<th>Joueur</th>
-					{%endif%}
-					<td>
+                {%endif%}
+		    </div>
+		    <div class="col-xs-2">
+		    </div>
+	    </div>
+	    <div class="col-xs-1">
+	    </div>
+	</div>
+	<br>
+    	{%for player in players%}
+			<div class="row">
+			    <div class="col-xs-1">
+			    </div>
+			    <div class="col-xs-2" >
+                	{%if player.user.image%}
+                		<img height="100px" width="100px" src="{{ asset('uploads/images/'~player.user.image.name) }}" />
+                	{%endif%}
+			    </div>
+			    <div class="col-xs-8" id="player-show">
+				    <div class="col-xs-3">
 						<a class="btn btn-link" href="{{ path('user_show', {'id':player.user.id} ) }}">
 							{{player.user.username}}
 						</a>
-					</td>
-					<td>
-	                	{%if player.user.image%}
-	                		<img height="100px" width="100px" src="{{ asset('uploads/images/'~player.user.image.name) }}" />
-	                	{%endif%}
-	                </td>
-					{%if player.user.manager%}
-						<td>MANAGER</td>
-						{%if team.captain.tournament.systName == 'lol'%}
-							<td></td>
-						{%elseif team.captain.tournament.systName == 'csgo'%}
-							<td></td>
-						{%endif%}
-					{%else%}
-                		<td>
-	                		<img width="12%" src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
+				    </div>
+				    <div class="col-xs-4">
+				    	{%if player.user.manager%}
+							Manager
+						{%else%}
+							 {%if player.user.tournament.systName=='lol'%}
+							 	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
+							 {%elseif player.user.tournament.systName=='csgo'%}
+							 	<img height="50px" width="100px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
+							 {%endif%}
 	                		{{player.user.experience.ranking.name }}
-                		</td>
-		                {%if team.captain.tournament.systName == 'lol' 
-		                and  player.user.experience.ranking.name!='Pas classé'%}
-		                	<td>{{ player.user.experience.underRanking.name }}</td>
-		                {%elseif player.user.experience.underRanking == null %}
-		                	<td></td>
-		                {%endif%}
-                	{%endif%}
-                	{%if player.role%}
-						<td>{{player.role.name}}</td>
-					{%endif%}
-				</tr>
-			{%endfor%}
-        </tbody>
-    </table>
-    <br>
-	<br><br><br>
+			                {%if team.captain.tournament.systName == 'lol' 
+			                and  player.user.experience.ranking.name!='Pas classé'%}
+			                	{{ player.user.experience.underRanking.name }}
+			                {%endif%}
+	                	{%endif%}
+				    </div>
+				    <div class="col-xs-3">
+		                {%if player.role%}
+							{{player.role.name}}
+						{%endif%}
+				    </div>
+				    <div class="col-xs-2">
+				    </div>
+			    </div>
+			    <div class="col-xs-1">
+			    </div>
+			</div>
+			<br>
+		{%endfor%}
+	<br>
+	
 	
 {% endblock %}

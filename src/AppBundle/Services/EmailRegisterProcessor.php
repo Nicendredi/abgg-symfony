@@ -59,7 +59,7 @@ class EmailRegisterProcessor
 		$this->mailer->send($message);	
 	}
 
-	private function sendRegistration(User $user)
+	public function sendRegistration(User $user)
 	{
 		$message = \Swift_Message::newInstance()
 		->setSubject("Registration complete")
@@ -71,7 +71,6 @@ class EmailRegisterProcessor
 	
 	public function sendMail($responsable,$email,$object,$mail)
 	{
-		var_dump($responsable,$email,$object,$mail);
 		$message = \Swift_Message::newInstance()
 		->setSubject($object)
 		->setFrom($email)

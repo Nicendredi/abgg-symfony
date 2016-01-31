@@ -20,7 +20,7 @@ class EmailRegistrationConfirmListener
 
     public function onRegistrationComplete(RegistrationCompleteEvent $event)
     {
-        $this->processor->sendEmailRegistration(1, $event->getUser());
+        $this->processor->sendRegistration( $event->getUser());
     }
 
 

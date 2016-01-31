@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use AppBundle\Form\ImageType;
 
 class RegistrationType extends AbstractType
 {
@@ -34,6 +35,8 @@ class RegistrationType extends AbstractType
 				'label'=> 'Cochez si vous êtes Manager d\'une équipe',
 				'required' =>false
 				))
+			//->add('image', new ImageType(), array(
+			//	'required'=>false))
         ;
     }
 
