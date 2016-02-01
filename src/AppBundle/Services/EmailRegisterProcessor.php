@@ -65,7 +65,8 @@ class EmailRegisterProcessor
 		->setSubject("Registration complete")
 		->setFrom("contact@asso-b2g.com")
 		->setTo($user->getEmail())
-		->setBody("Test test, this is a Test !");
+		->setContentType("text/html")
+		->setBody($this->renderView('@AppBundle/mail/registerComplete.html.twig'));
 		$this->mailer->send($message);
 	}
 	

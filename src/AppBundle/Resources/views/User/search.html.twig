@@ -1,6 +1,9 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+    {%if  is_granted("IS_AUTHENTICATED_REMEMBERED") 
+    and app.user.tournament 
+    and app.user.experience%}
 	<div class="row">
 		{% form_theme form 'bootstrap_3_layout.html.twig' %}
 		{{ form_start(form) }}
@@ -206,7 +209,51 @@
         {% endfor %}
         </tbody>
     </table>
-    
-    <br><br><br><br><br><br>
+    </div>
+    {%elseif  is_granted("IS_AUTHENTICATED_REMEMBERED")  and app.user.tournament and app.user.experience ==null%}
+	
+	    <div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4">
+				</div>
+				<div class="col-md-4">
+					<center>
+						<h2>ATTENTION</h2>
+						<p> Votre inscription n'est pas finalisée </p>
+						<a href="{{ path('experience_new_user') }}">
+					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					        Saisir Ranking/Roles
+					    </a>
+					</center>
+				</div>
+				<div class="col-md-4">
+				</div>
+			</div>
+		</div>	
+		
+	{%elseif  is_granted("IS_AUTHENTICATED_REMEMBERED") 
+	and app.user.tournament==null
+	and app.user.experience==null%}
+	
+	    <div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4">
+				</div>
+				<div class="col-md-4">
+					<center>
+						<h2>ATTENTION</h2>
+						<p> Votre inscription n'est pas finalisée </p>
+						<a class="btn btn-default" href="{{ path('game_choose') }}">
+					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					    	Poursuivre inscription
+					    </a>
+					</center>
+				</div>
+				<div class="col-md-4">
+				</div>
+			</div>
+		</div>	
+					
+	{%endif%}
 
     {% endblock %}
