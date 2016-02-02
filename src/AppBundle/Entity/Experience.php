@@ -26,21 +26,6 @@ class Experience
     private $id;
 
     /**
-     * @var ranking
-     *
-     * @ORM\ManyToOne(targetEntity="Ranking", inversedBy="experience")
-     */
-    private $ranking;
-
-    /**
-     * @var underRanking
-     *
-     * @ORM\ManyToOne(targetEntity="UnderRanking", inversedBy="experience")
- 	 * @ORM\JoinColumn(name="underRanking_id", referencedColumnName="id", nullable=true)
-     */
-    private $underRanking;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255, nullable=true)
@@ -72,52 +57,6 @@ class Experience
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set ranking
-     *
-     * @param \AppBundle\Entity\Ranking $ranking
-     * @return Experience
-     */
-    public function setRanking(\AppBundle\Entity\Ranking $ranking = null)
-    {
-        $this->ranking = $ranking;
-
-        return $this;
-    }
-
-    /**
-     * Get ranking
-     *
-     * @return \AppBundle\Entity\Ranking
-     */
-    public function getRanking()
-    {
-        return $this->ranking;
-    }
-
-    /**
-     * Set underRanking
-     *
-     * @param \AppBundle\Entity\UnderRanking $underRanking
-     * @return Experience
-     */
-    public function setUnderRanking(\AppBundle\Entity\UnderRanking $underRanking = null)
-    {
-        $this->underRanking = $underRanking;
-
-        return $this;
-    }
-
-    /**
-     * Get underRanking
-     *
-     * @return \AppBundle\Entity\UnderRanking
-     */
-    public function getUnderRanking()
-    {
-        return $this->underRanking;
     }
 
     /**

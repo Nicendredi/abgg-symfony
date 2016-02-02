@@ -47,15 +47,6 @@
 	        	</a>
 		    </div>
 		    <div class="col-xs-4">
-				 {%if team.captain.tournament.systName=='lol'%}
-				 	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~team.captain.tournament.systName~'/'~team.captain.experience.ranking.name~'.png') }}" />
-				 {%elseif team.captain.tournament.systName=='csgo'%}
-				 	<img height="50px" width="100px"  src="{{ asset('bundles/app/images/'~team.captain.tournament.systName~'/'~team.captain.experience.ranking.name~'.png') }}" />
-				 {%endif%}
-                	{{ team.captain.experience.ranking.name }}
-                {%if team.captain.tournament.systName == 'lol' and  team.captain.experience.ranking.name!='Pas classé'%}
-                	{{ team.captain.experience.underRanking.name }}
-                {%endif%}
 		    </div>
 		    <div class="col-xs-3">
                 {%if team.captain.role%}
@@ -89,17 +80,6 @@
 				    <div class="col-xs-4">
 				    	{%if player.user.manager%}
 							Manager
-						{%else%}
-							 {%if player.user.tournament.systName=='lol'%}
-							 	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
-							 {%elseif player.user.tournament.systName=='csgo'%}
-							 	<img height="50px" width="100px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
-							 {%endif%}
-	                		{{player.user.experience.ranking.name }}
-			                {%if team.captain.tournament.systName == 'lol' 
-			                and  player.user.experience.ranking.name!='Pas classé'%}
-			                	{{ player.user.experience.underRanking.name }}
-			                {%endif%}
 	                	{%endif%}
 				    </div>
 				    <div class="col-xs-3">

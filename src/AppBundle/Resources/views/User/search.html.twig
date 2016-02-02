@@ -1,9 +1,51 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    {%if  is_granted("IS_AUTHENTICATED_REMEMBERED") 
-    and app.user.tournament 
-    and app.user.experience%}
+
+    {%if  is_granted("IS_AUTHENTICATED_REMEMBERED")  and app.user.tournament and app.user.experience ==null%}
+	
+	    <div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4">
+				</div>
+				<div class="col-md-4">
+					<center>
+						<h2>ATTENTION</h2>
+						<p> Votre inscription n'est pas finalisée </p>
+						<a href="{{ path('experience_new_user') }}">
+					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					        Saisir Données InGame
+					    </a>
+					</center>
+				</div>
+				<div class="col-md-4">
+				</div>
+			</div>
+		</div>	
+		
+	{%elseif  is_granted("IS_AUTHENTICATED_REMEMBERED") 
+	and app.user.tournament==null
+	and app.user.experience==null%}
+	
+	    <div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4">
+				</div>
+				<div class="col-md-4">
+					<center>
+						<h2>ATTENTION</h2>
+						<p> Votre inscription n'est pas finalisée </p>
+						<a class="btn btn-default" href="{{ path('game_choose') }}">
+					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					    	Poursuivre inscription
+					    </a>
+					</center>
+				</div>
+				<div class="col-md-4">
+				</div>
+			</div>
+		</div>	
+    {%else%}
 	<div class="row">
 		{% form_theme form 'bootstrap_3_layout.html.twig' %}
 		{{ form_start(form) }}
@@ -18,22 +60,18 @@
     	
     	<div class="col-md-8" id="search_form">
 	    	<div class="col-md-3">
-		    	{{ form_label(form.ranking) }}
-		    	{{ form_errors(form.ranking) }}
-		    	{{ form_widget(form.ranking) }}
-	    	</div>
-		    	
-		    <div class="col-md-3">
 		    	{{ form_label(form.manager) }}
 		    	{{ form_errors(form.manager) }}
 		    	{{ form_widget(form.manager) }}
+	    	</div>
 		    	
-		        {%if game =='lol'%}
+		    {%if game =='lol'%}
+			    <div class="col-md-3">
 			    	{{ form_label(form.main) }}
 			    	{{ form_errors(form.main) }}
 			    	{{ form_widget(form.main) }}
-			    {%endif%}
-	    	</div>
+		    	</div>
+			{%endif%}
 	    	
 	    	<div class="col-md-3">
 		    	{{ form_label(form.players) }}
@@ -71,9 +109,7 @@
                 <th>Username</th>
                 <th>Logo joueur</th>
                 <th>Team</th>
-                <th>Ranking</th>
 	            {%if game =='lol'%}
-	                <th>UnderRanking</th>
 	                <th>Top</th>
 	                <th>Mid</th>
 	                <th>Bot</th>
@@ -112,19 +148,6 @@
                 {%endif%}
 		        {%if game =='lol'%}
 	                {%if entity.experience%}
-		                {%if entity.experience.ranking%}
-			                <td>
-						  		<img width="15%" src="{{ asset('bundles/app/images/'~entity.tournament.systName~'/'~entity.experience.ranking.name~'.png') }}" />
-						  		{{ entity.experience.ranking.name }}
-						  	</td>
-			            {%else%}
-			            	<td></td>
-			            {%endif%}
-		                {%if entity.experience.underRanking%}
-			                <td>{{ entity.experience.underRanking.name }}</td>
-			            {%else%}
-			            	<td></td>
-			            {%endif%}
 		                {%if entity.experience.postes%}
 			                <td>{{ entity.experience.postes.top }}</td>
 			                <td>{{ entity.experience.postes.mid }}</td>
@@ -147,15 +170,6 @@
 		            	<td></td>
 		            	<td></td>
 		            {%endif%}
-		        {%else%}
-	                {%if entity.experience and entity.experience.ranking%}
-		                <td>
-		                	<img width="10%" src="{{ asset('bundles/app/images/'~entity.tournament.systName~'/'~entity.experience.ranking.name~'.png') }}" />
-		                	{{ entity.experience.ranking.name }}
-		                </td>
-		            {%else%}
-		            	<td></td>
-			        {%endif%}
 		        {%endif%}
                 {%if entity.manager%}
 	            	<td>MANAGER</td>
@@ -210,49 +224,6 @@
         </tbody>
     </table>
     </div>
-    {%elseif  is_granted("IS_AUTHENTICATED_REMEMBERED")  and app.user.tournament and app.user.experience ==null%}
-	
-	    <div class="container-fluid">
-			<div class="row">
-				<div class="col-md-4">
-				</div>
-				<div class="col-md-4">
-					<center>
-						<h2>ATTENTION</h2>
-						<p> Votre inscription n'est pas finalisée </p>
-						<a href="{{ path('experience_new_user') }}">
-					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-					        Saisir Ranking/Roles
-					    </a>
-					</center>
-				</div>
-				<div class="col-md-4">
-				</div>
-			</div>
-		</div>	
-		
-	{%elseif  is_granted("IS_AUTHENTICATED_REMEMBERED") 
-	and app.user.tournament==null
-	and app.user.experience==null%}
-	
-	    <div class="container-fluid">
-			<div class="row">
-				<div class="col-md-4">
-				</div>
-				<div class="col-md-4">
-					<center>
-						<h2>ATTENTION</h2>
-						<p> Votre inscription n'est pas finalisée </p>
-						<a class="btn btn-default" href="{{ path('game_choose') }}">
-					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-					    	Poursuivre inscription
-					    </a>
-					</center>
-				</div>
-				<div class="col-md-4">
-				</div>
-			</div>
-		</div>	
 					
 	{%endif%}
 

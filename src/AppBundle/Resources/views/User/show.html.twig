@@ -45,17 +45,6 @@
 				  {%endif%}
 			  	</div>
 				<div class="col-md-3">
-		  			{%if game%}
-					  {%if experience%}
-					  	{% if ranking %}
-					  		<img src="{{ asset('bundles/app/images/'~game.systName~'/'~ranking.name~'.png') }}" />
-							<br>
-					  	{%endif%}
-					  {%endif%}
-					{%else%}
-						<br>
-						<br>
-				  	{%endif%}
 			  	</div>
 			</div>
 			<div class="col-md-4">
@@ -111,18 +100,6 @@
 							                <th>Pseudo In-Game</th>
 							                <td>{{ experience.username }}</td>
 							            <tr>
-							            {%if ranking%}
-							            </tr>
-							                <th>Classement</th>
-							                <td>{{ ranking.name }}</td>
-							            </tr>
-							            {%endif%}
-							            {% if underRanking %}
-								            <tr>
-								                <th>Sous-Classement</th>
-								                <td>{{ underRanking.name }}</td>
-								            </tr>
-							            {%endif%}
 							            {% if experience.steam %}
 								            <tr>
 								                <th>Pseudo Steam</th>

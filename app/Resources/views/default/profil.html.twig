@@ -60,23 +60,13 @@
 					<div class="col-md-3">
 			  			{%if game%}
 						  {%if experience%}
-						  	{% if ranking %}
-						  		<img src="{{ asset('bundles/app/images/'~game.systName~'/'~ranking.name~'.png') }}" />
-								<br>
-							    <center>
-								    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': experience.id }) }}">
-								    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-								        Modifier
-								    </a>
-							    </center>
-						  	{%endif%}
 						  {%endif%}
 						{%else%}
 							<br>
 						    <center>
 							    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
 							    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-							        Saisir Ranking/Roles
+							        Saisir Données InGame
 							    </a>
 						    </center>
 							<br>
@@ -168,18 +158,6 @@
 							                <th>Pseudo In-Game</th>
 							                <td>{{ experience.username }}</td>
 							            <tr>
-							            {%if ranking%}
-							            </tr>
-							                <th>Classement</th>
-							                <td>{{ ranking.name }}</td>
-							            </tr>
-							            {%endif%}
-							            {% if underRanking %}
-								            <tr>
-								                <th>Sous-Classement</th>
-								                <td>{{ underRanking.name }}</td>
-								            </tr>
-							            {%endif%}
 							            {% if experience.steam %}
 								            <tr>
 								                <th>Pseudo Steam</th>
@@ -238,7 +216,7 @@
 								<br>
 							    <a class="btn btn-default" href="{{ path('experience_edit', { 'id': app.user.experience.id }) }}">
 							    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-							        Modifier Ranking
+							        Modifier Données InGame
 							    </a>
 								<br>
 							{%endif%}
@@ -246,7 +224,7 @@
 								<br>
 							    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
 							    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-							        Saisir Ranking/Roles
+							        Saisir Données InGame
 							    </a>
 								<br>
 						{%endif%}
@@ -419,7 +397,7 @@
 						<p> Votre inscription n'est pas finalisée </p>
 						<a href="{{ path('experience_new_user') }}">
 					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-					        Saisir Ranking/Roles
+					        Saisir Données InGame
 					    </a>
 					</center>
 				</div>

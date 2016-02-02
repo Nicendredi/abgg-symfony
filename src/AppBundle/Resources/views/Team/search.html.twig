@@ -1,9 +1,50 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
-    and app.user.tournament 
-    and app.user.experience%}
+    {%if  is_granted("IS_AUTHENTICATED_REMEMBERED")  and app.user.tournament and app.user.experience ==null%}
+	
+	    <div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4">
+				</div>
+				<div class="col-md-4">
+					<center>
+						<h2>ATTENTION</h2>
+						<p> Votre inscription n'est pas finalisée </p>
+						<a href="{{ path('experience_new_user') }}">
+					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					        Saisir Données InGame
+					    </a>
+					</center>
+				</div>
+				<div class="col-md-4">
+				</div>
+			</div>
+		</div>	
+		
+	{%elseif  is_granted("IS_AUTHENTICATED_REMEMBERED") 
+	and app.user.tournament==null
+	and app.user.experience==null%}
+	
+	    <div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4">
+				</div>
+				<div class="col-md-4">
+					<center>
+						<h2>ATTENTION</h2>
+						<p> Votre inscription n'est pas finalisée </p>
+						<a class="btn btn-default" href="{{ path('game_choose') }}">
+					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					    	Poursuivre inscription
+					    </a>
+					</center>
+				</div>
+				<div class="col-md-4">
+				</div>
+			</div>
+		</div>	
+    {%else%}
 		<div class="row">
 			{% form_theme form 'bootstrap_3_layout.html.twig' %}
 			{{ form_start(form) }}
@@ -78,16 +119,6 @@
 			      	{%if entity.captain.tournament.systName == 'lol' %}
 			      		- {{entity.captain.role.name}}
 			      	{%endif%}
-				  	<br>
-						 {%if entity.captain.tournament.systName=='lol'%}
-						 	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~entity.captain.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
-						 {%elseif entity.captain.tournament.systName=='csgo'%}
-						 	<img height="50px" width="100px"  src="{{ asset('bundles/app/images/'~entity.captain.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
-						 {%endif%}
-			      	{{entity.captain.experience.ranking.name}}
-			      	{%if entity.captain.tournament.systName == 'lol' and entity.captain.experience.ranking.name != 'Pas classé'%}
-			      		{{entity.captain.experience.underRanking.name}}
-			      	{%endif%}
 			      </td>
 			      {%if entity.player%}
 			      	{%for player in entity.player%}
@@ -102,18 +133,6 @@
 					      		- {{player.role.name}}
 					      	{%endif%}
 					      	<br>
-					      	{%if player.user.manager%}
-					      	{%else%}
-							 {%if player.user.tournament.systName=='lol'%}
-							 	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
-							 {%elseif player.user.tournament.systName=='csgo'%}
-							 	<img height="50px" width="100px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
-							 {%endif%}
-						      	{{player.user.experience.ranking.name}}
-						      	{%if entity.captain.tournament.systName == 'lol' and player.user.experience.ranking.name != 'Pas classé'%}
-						      		{{player.user.experience.underRanking.name}}
-						      	{%endif%}
-						    {%endif%}
 			      		</td>
 			      	{%endfor%}
 			      	{%for i in (entity.player|length)..5%}
@@ -179,50 +198,6 @@
 			  </tbody>
 			</table>
 		{%endif%}
-		</div>
-	{%elseif  is_granted("IS_AUTHENTICATED_REMEMBERED")  and app.user.tournament and app.user.experience ==null%}
-	
-	    <div class="container-fluid">
-			<div class="row">
-				<div class="col-md-4">
-				</div>
-				<div class="col-md-4">
-					<center>
-						<h2>ATTENTION</h2>
-						<p> Votre inscription n'est pas finalisée </p>
-						<a href="{{ path('experience_new_user') }}">
-					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-					        Saisir Ranking/Roles
-					    </a>
-					</center>
-				</div>
-				<div class="col-md-4">
-				</div>
-			</div>
 		</div>	
-		
-	{%elseif  is_granted("IS_AUTHENTICATED_REMEMBERED") 
-	and app.user.tournament==null
-	and app.user.experience==null%}
-	
-	    <div class="container-fluid">
-			<div class="row">
-				<div class="col-md-4">
-				</div>
-				<div class="col-md-4">
-					<center>
-						<h2>ATTENTION</h2>
-						<p> Votre inscription n'est pas finalisée </p>
-						<a class="btn btn-default" href="{{ path('game_choose') }}">
-					    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-					    	Poursuivre inscription
-					    </a>
-					</center>
-				</div>
-				<div class="col-md-4">
-				</div>
-			</div>
-		</div>	
-					
 	{%endif%}
 {% endblock %}

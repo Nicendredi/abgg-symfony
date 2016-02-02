@@ -23,28 +23,17 @@ class SearchFormService
 	{
     	$formArray = array(
         0 => array(
-            'name' => 'ranking',
-            'type' =>'choice',
-            'array' => $array = array(
-            	'label'    => 'Par Niveau',
-			    'choices'  => array('desc' => '+ au - élevé', 'asc' => '- au + élevé'),
-			    'required' => false,
-			    'expanded' => true,
-			    'multiple' => false
-				)
-            ),
-        1 => array(
             'name' => 'manager', 
             'type' =>'choice',
             'array' => $array = array(
-            	'label'    => 'Par Niveau',
+            	'label'    => 'Chercher Managers',
 			    'choices'  => array('man' => 'Manager'),
 			    'required' => false,
 			    'expanded' => true,
 			    'multiple' => true
 			    )
             ),
-        2 => array(
+        1 => array(
             'name' => 'main', 
             'type' =>'choice',
             'array' => $array =  array(
@@ -60,7 +49,7 @@ class SearchFormService
 			    'expanded' => true,
 			    'multiple' => true
             )),
-        3 => array(
+        2 => array(
             'name' => 'pseudo', 
             'type' =>'text',
             'array' => $array = array(
@@ -68,11 +57,11 @@ class SearchFormService
 			    'required' => false,
 			    )
             ),
-        4 => array(
+        3 => array(
             'name' => 'players', 
             'type' =>'choice',
             'array' => $array =  array(
-            	'label'    => 'Par Role',
+            	'label'    => 'Dans une équipe',
 			    'choices'  => array(
 				    'inscrit' => 'Inscrits dans une équipe',
 				    'noninscrit' => 'Non Inscrit dans une équipe',
@@ -82,7 +71,7 @@ class SearchFormService
 			    'multiple' => true
             	)
             ),
-        5 => array(
+        4 => array(
             'name' => 'save', 
             'type' =>'submit',
             'array' => $array = array(
@@ -97,17 +86,6 @@ class SearchFormService
 	{
     	$formArray = array(
         0 => array(
-            'name' => 'ranking',
-            'type' =>'choice',
-            'array' => $array = array(
-            	'label'    => 'Par Niveau',
-			    'choices'  => array('desc' => '+ au - élevé', 'asc' => '- au + élevé'),
-			    'required' => false,
-			    'expanded' => true,
-			    'multiple' => false,
-				)
-            ),
-        1 => array(
             'name' => 'manager', 
             'type' =>'choice',
             'array' => $array = array(
@@ -118,7 +96,7 @@ class SearchFormService
 			    'multiple' => true
 			    )
             ),
-        2 => array(
+        1 => array(
             'name' => 'pseudo', 
             'type' =>'text',
             'array' => $array = array(
@@ -126,7 +104,7 @@ class SearchFormService
 			    'required' => false,
 			    )
             ),
-        3 => array(
+        2 => array(
             'name' => 'players', 
             'type' =>'choice',
             'array' => $array =  array(
@@ -140,7 +118,7 @@ class SearchFormService
 			    'multiple' => true
             	)
 			),
-        4 => array(
+        3 => array(
             'name' => 'save', 
             'type' =>'submit',
             'array' => $array = array(

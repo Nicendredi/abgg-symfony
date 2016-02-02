@@ -22,7 +22,6 @@ class TraductionDataSearchService
 	public function getTraductionData($basearray,$game)
 	{
 		$array = $basearray->getData();
-		$ranking = $array['ranking'];
 		$manager = $array['manager'];
 		$pseudo = $array['pseudo'];
 		$players = $array['players'];
@@ -33,52 +32,6 @@ class TraductionDataSearchService
 		else 
 		{
 			$main='';
-		}
-
-		if ($ranking)
-		{
-			if($game=='lol')
-			{
-				switch($ranking)
-				{
-					case (count($ranking)==2):
-						$form='error';
-						return $form;
-				        break;
-					case (in_array("asc", $ranking)):
-						$ranking=' ORDER BY e.ranking ASC ,e.underRanking ASC';
-				        break;
-					case (in_array("desc", $ranking)):
-						$ranking=' ORDER BY e.ranking DESC ,e.underRanking DESC';
-				        break;
-					default:
-						$ranking='';
-				        break;
-				}
-			}
-			else
-			{
-				switch($ranking)
-				{
-					case ((count($ranking))==2):
-						$form='error';
-						return $form;
-				        break;
-					case ("asc"):
-						$ranking=' ORDER BY e.ranking ASC';
-				        break;
-					case ("desc"):
-						$ranking=' ORDER BY e.ranking DESC';
-				        break;
-					default:
-						$ranking='';
-				        break;
-				}
-			}
-		}
-		else 
-		{
-			$ranking='';
 		}
 
 		if($manager)
@@ -108,38 +61,38 @@ class TraductionDataSearchService
 				$i=0;
 				if(in_array("top", $main))
 				{
-					$phrase[$i]='po.top=1';
+					$phrase[$i]=' po.top ASC ';
 					$i++;
 				}
 				if(in_array("mid", $main))
 				{
-					$phrase[$i]='po.mid=1';
+					$phrase[$i]=' po.mid ASC ';
 					$i++;
 				}
 				if(in_array("bot", $main))
 				{
-					$phrase[$i]='po.bot=1';
+					$phrase[$i]=' po.bot ASC ';
 					$i++;
 				}
 				if(in_array("sup", $main))
 				{
-					$phrase[$i]='po.sup=1';
+					$phrase[$i]=' po.sup ASC ';
 					$i++;
 				}
 				if(in_array("jungle", $main))
 				{
-					$phrase[$i]='po.jungle=1';
+					$phrase[$i]=' po.jungle ASC ';
 					$i++;
 				}
 				foreach($phrase as $key=>$role)
 				{
 					if ($key==0)
 					{
-						$mainRole=' and '.$role;
+						$mainRole=' ORDER BY '.$role;
 					}
 					else 
 					{
-						$mainRole=$main.' and '.$role;
+						$mainRole=$mainRole.' , '.$role;
 					}
 				}
 			}
@@ -177,7 +130,7 @@ class TraductionDataSearchService
 		{
 			switch($players)
 			{
-				case ((count($ranking))==2):
+				case ((count($players))==2):
 					$joueurs='';
 			        break;
 				case (in_array("inscrit", $players)):
@@ -210,7 +163,7 @@ class TraductionDataSearchService
 		    with p.experience=e.id 
 		    inner join AppBundle:Game g
 		    with p.tournament=g.id '.$innerJoin.' 
-		    where g.systName=\''.$game.'\' '.$mainRole.$joueurs.$ranking
+		    where g.systName=\''.$game.'\' '.$mainRole.$joueurs
 		);
 		$users = $query->getResult();
 		

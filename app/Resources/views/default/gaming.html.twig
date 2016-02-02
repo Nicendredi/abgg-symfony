@@ -60,21 +60,6 @@
 							<a class="btn btn-link" href="{{ path('user_show', {'id':entity.captain.id} ) }}">
 								{{entity.captain}} 
 							</a>
-							{%if entity.captain.experience%}
-								{%if entity.captain.experience.ranking%}
-										 <br>
-										 {%if entity.captain.tournament.systName=='lol'%}
-										 	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~entity.captain.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
-										 {%elseif entity.captain.tournament.systName=='csgo'%}
-										 	<img height="50px" width="100px"  src="{{ asset('bundles/app/images/'~entity.captain.tournament.systName~'/'~entity.captain.experience.ranking.name~'.png') }}" />
-										 {%endif%}
-										 <br>
-									 {{entity.captain.experience.ranking.name}}
-									 {%if entity.captain.experience.underRanking%}
-									 	{{entity.captain.experience.underRanking.name}}
-									 {%endif%}
-								{%endif%}
-							{%endif%}
 							{%if entity.captain.tournament.systName == 'lol'%}
 								- {{entity.captain.role.name}}
 							{%endif%}
@@ -87,21 +72,6 @@
 								<a class="btn btn-link" href="{{ path('user_show', {'id':player.user.id} ) }}">
 									{{player.user.experience.username}}
 								</a>
-								{%if player.user.experience%}
-									{%if player.user.experience.ranking%}
-										 <br>
-										 {%if player.user.tournament.systName=='lol'%}
-										 	<img height="50px" width="50px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
-										 {%elseif player.user.tournament.systName=='csgo'%}
-										 	<img height="50px" width="100px"  src="{{ asset('bundles/app/images/'~player.user.tournament.systName~'/'~player.user.experience.ranking.name~'.png') }}" />
-										 {%endif%}
-										 <br>
-										 {{player.user.experience.ranking.name}}
-										 {%if player.user.experience.underRanking%}
-										 	{{player.user.experience.underRanking.name}}
-										 {%endif%}
-									{%endif%}
-								{%endif%}
 								{%if entity.captain.tournament.systName == 'lol' and player.user.manager ==null%}
 									 <br> {{player.role.name}}
 								{%elseif player.user.manager !=null%}

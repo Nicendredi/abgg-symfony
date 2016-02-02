@@ -296,15 +296,6 @@ class UserController extends Controller
 		$checkData = $this -> container -> get('checkDataServices');
 		
 		$experience = $checkData -> checkData($user, 'getExperience', 'Experience');
-		if ($experience != null)
-		{
-			$ranking = $checkData -> checkData($experience, 'getRanking', 'Ranking');
-			$underRanking = $checkData -> checkData($experience, 'getUnderRanking', 'UnderRanking');
-		}
-		else {
-			$ranking = 0;
-			$underRanking = 0;
-		}
 		$game = $checkData -> checkData($user, 'getTournament', 'Game');
 		$role = $checkData -> checkData($user, 'getRole', 'Role');
 		$team = $checkData -> checkData($user, 'getTeam', 'Team');
@@ -340,8 +331,6 @@ class UserController extends Controller
         return array(
             'user'         => $user,
             'experience'   => $experience,
-            'ranking'      => $ranking,
-            'underRanking' => $underRanking,
             'game'         => $game,
             'role'         => $role,
             'team'         => $team,
@@ -421,7 +410,7 @@ class UserController extends Controller
         if ($editForm->isValid()) {
             $user = $this->getUser();
 			
-			if((($user->getExperience()->getRanking())!=null)&&($user->getManager()!=null))
+			if($user->getManager()!=null)
 			{
 				$firstExperience = $user->getExperience();
 				$em->remove($firstExperience);
@@ -431,7 +420,7 @@ class UserController extends Controller
 	        	$this->get('fos_user.user_manager')->updateUser($user, false);
             	$em->persist($experience);
 			}
-			elseif((($user->getExperience()->getRanking())==null)&&($user->getManager()==null))
+			elseif($user->getManager()==null)
 			{
 				
 	        	$this->get('fos_user.user_manager')->updateUser($user, false);
@@ -726,28 +715,7 @@ class UserController extends Controller
 			);
 			$experiences = $query->getResult();
 			$experience=$experiences[0];
-		
-			if($experiences[0]->getRanking())
-			{
-		        $query = $em->createQuery(
-				    'SELECT p
-				    FROM AppBundle:Ranking p
-				    where p.id= '.$experiences[0]->getRanking()->getId()
-				);
-				$rankings = $query->getResult();
-				$ranking=$rankings[0];
-			}else{$ranking=null;}
 			
-			if($experiences[0]->getUnderRanking())
-			{
-		        $query = $em->createQuery(
-				    'SELECT p
-				    FROM AppBundle:UnderRanking p
-				    where p.id= '.$experiences[0]->getUnderRanking()->getId()
-				);
-				$underRankings = $query->getResult();
-				$underRanking=$underRankings[0];
-			}else{$underRanking=null;}
 		}else{$experience=null;}
 		
 		if($users[0]->getTeam())
@@ -776,8 +744,6 @@ class UserController extends Controller
             'user'         => $user,
             'game'         => $game,
             'experience'   => $experience,
-            'ranking'      => $ranking,
-            'underRanking' => $underRanking,
             'team'         => $team,
             'role'         => $role,
         );
