@@ -358,7 +358,7 @@ class User extends BaseUser
      * Set manager
      *
      * @param boolean $manager
-     * @return Experience
+     * @return User
      */
     public function setManager($manager)
     {

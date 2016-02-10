@@ -13,6 +13,7 @@ use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Player;
 use AppBundle\Entity\Application;
+use AppBundle\Entity\Validation;
 use AppBundle\Form\TeamType;
 use AppBundle\Form\PlayerType;
 use AppBundle\Form\CaptainType;
@@ -822,14 +823,19 @@ class TeamController extends Controller
     {
     	
         $em = $this->getDoctrine()->getManager();
-		$entity = $this->getDoctrine()->getRepository('AppBundle:Team')->find($team);
-		$entity->setValidation(new \DateTime('now'));
+		$team = $this->getDoctrine()->getRepository('AppBundle:Team')->find($team);
+		$entity=new Validation();
+		$entity->setDate(new \DateTime('now'));
+		$entity->setTeam($team);
+		$team->setValidation($entity);
+		
+		$em->persist($team);
 		$em->persist($entity);
 		
 		$query = $em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Application p
-		    where p.team= '.$team
+		    where p.team= '.$team->getId()
 		);
 		$applications = $query->getResult();
 		

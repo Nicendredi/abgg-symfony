@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use AppBundle\Entity\Application;
 use AppBundle\Entity\Player;
+use AppBundle\Entity\Validation;
+use AppBundle\Entity\Team;
 
 class ApplicationListener
 {
@@ -53,7 +55,37 @@ class ApplicationListener
 		{
 			$this->blockApplication($entity);
 		}
+		elseif ($entity instanceof Validation) 
+		{
+			$this->setWaitingList($entity);
+		
+		}
     }
+	
+	public function setWaitingList(Validation $validation)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT t
+		    FROM AppBundle:Team t
+		    INNER JOIN AppBundle:Validation v
+		    WITH t.validation=v.id
+		    WHERE v.payed is not null
+		    and t.tournament = '.$validation->getTeam()->getTournament()->getId()
+		);
+		$payedTeams = $query->getResult();
+		
+		if(count($payedTeams)<1)
+		{
+			$validation->setPayed(1);
+			$this->em->persist($validation);
+			$this->em->flush();
+		}
+		else{
+			$validation->setPayed(0);
+			$this->em->persist($validation);
+			$this->em->flush();
+		}
+	}
 
     public function postUpdate(LifecycleEventArgs $args)
     {

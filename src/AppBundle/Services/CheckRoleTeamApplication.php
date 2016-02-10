@@ -285,4 +285,18 @@ class CheckRoleTeamApplication
 		}
 		
 	}
+	
+	public function recruitCSGOTeam()
+	{
+		
+		    $formBuilder = $this->container->get('form.factory')->createBuilder()
+				->add('text','text', array(
+					'label'=>'Laisser un commentaire au joueur',
+		            'required' => false))
+	            ->add('save', 'submit', array('label' => 'Recruter'));
+			
+			$form = $formBuilder->getForm();
+				
+			return ($form->createView());
+	}
 }

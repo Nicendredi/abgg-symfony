@@ -54,6 +54,14 @@ class Team
      **/
     private $application;
 
+
+    /**
+     * @var Validation
+     *
+     * @ORM\OneToOne(targetEntity="Validation")
+     */
+    private $validation;
+
  	/**
 	 * @var tournament
 	 * 
@@ -61,13 +69,6 @@ class Team
      * @ORM\ManytoOne(targetEntity="Game", inversedBy="team")
      **/
     private $tournament;
-	
-    /**
-     * @var validation
-     *
-     * @ORM\Column(name="validation", type="datetime", nullable=true)
-     */
-    private $validation;
 
     /**
      * @var Image $image
@@ -172,29 +173,6 @@ class Team
       return $this->name;
     }
 	
-    /**
-     * Set validation
-     *
-     * @param datetime $validation
-     * @return Team
-     */
-    public function setValidation($validation)
-    {
-        $this->validation = $validation;
-
-        return $this;
-    }
-
-    /**
-     * Get validation
-     *
-     * @return string
-     */
-    public function getValidation()
-    {
-        return $this->validation;
-    }
-	
  
     /**
      * @param Player $player
@@ -242,26 +220,26 @@ class Team
     }
 	
     /**
-     * Set game
+     * Set validation
      *
-     * @param \AppBundle\Entity\Game $game
+     * @param Validation $validation
      * @return Team
      */
-    public function setGame(\AppBundle\Entity\Game $game)
+    public function setValidation($validation)
     {
-        $this->game = $game;
+        $this->validation = $validation;
 
         return $this;
     }
 
     /**
-     * Get game
+     * Get validation
      *
-     * @return \AppBundle\Entity\Game
+     * @return Validation
      */
-    public function getGame()
+    public function getValidation()
     {
-        return $this->game;
+        return $this->validation;
     }
 
     /**

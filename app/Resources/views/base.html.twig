@@ -20,9 +20,6 @@
 	{% endstylesheets %}
   {% block stylesheets %}<link href="{{ asset('bundles/app/css/style.css') }}" rel="stylesheet" type="text/css" />
   {% endblock %}
-	{% javascripts  'bundles/app/js/*' %}
-		<script src="{{ asset_url }}" /></script>
-	{% endjavascripts  %}
 </head>
 
 <body>
@@ -38,7 +35,6 @@
 		          </button>
 		          <a class="navbar-brand" href="{{ path('homepage') }}">BGF:ES</a>
 		        </div>
-		        <!-- Collect the nav links, forms, and other content for toggling -->
 		        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		          <ul class="nav navbar-nav">
 		            <li class="dropdown">
@@ -186,7 +182,8 @@
 					          	{%else%}
 					          	{%endif%}
 					          </a></li>
-						          {%if app.user.tournament%}
+						          {%if app.user.tournament
+	            					and app.user.team.validation==null%}
 						          	<li><a href="{{ path('search_player', { 'game': app.user.tournament.systName }) }}">
 							      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 							      		Rechercher joueurs 
@@ -217,7 +214,7 @@
 			      					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 			      					Rechercher équipes
 					    			<abbr title="Nombres d'équipes non validées">
-			      						<span class="badge">{{ searchUsersService.getSearchingTeams(app.user.tournament.id) }}</span>
+			      						<span class="badge">{{ searchUsersService.getSearchingTeamSystName(app.user.tournament.systName) }}</span>
 			      				  	</abbr>
 			      				  </a></li>
 		      				  	{% endif %}

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Entity\Team;
 use AppBundle\Entity\TeamRepository;
 use AppBundle\Entity\Game;
+use AppBundle\Entity\Validation;
 use AppBundle\Services\EmailRegisterProcessor;
 
 class DefaultController extends Controller

@@ -88,7 +88,6 @@
 	    	<div class="col-md-12">
 					{{ form_end(form) }}
 	    	</div>
-		    </div>
 	    </div>
 		
     	<div class="col-md-1">
@@ -119,7 +118,8 @@
                 <th>Manager</th>
 	            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
 	            and game==app.user.tournament.systName
-	            and app.user.capitain%}
+	            and app.user.capitain
+	            and app.user.team.validation==null%}
 					<th>Recruter</th>
 				{%endif%}
             </tr>
@@ -178,7 +178,8 @@
 	            {%endif%}
 	            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
 	            and entity.tournament==app.user.tournament
-	            and app.user.capitain%}
+	            and app.user.capitain
+	            and app.user.team.validation==null%}
 	            	{%if ((app.user.tournament.systName == 'csgo')
 				      	 and (app.user.experience !=null)
 				      	 and (app.user.capitain != null)
