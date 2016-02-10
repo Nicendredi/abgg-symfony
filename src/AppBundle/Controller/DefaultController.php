@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -353,18 +354,16 @@ class DefaultController extends Controller
 			
 			if($tournament=='lol')
 			{
-				//$responsable = 'liard.au@gmail.com';
-				$responsable='alanataylor@hotmail.fr';
+				$responsable = 'liard.au@gmail.com';
 			}
 			elseif($tournament=='csgo')
 			{
-				//$responsable = 'sch.laurine@gmail.com';
-				$responsable='alanarosetaylor@gmail.com';
+				$responsable = 'sch.laurine@gmail.com';
 			}
 			else 
 			{
-				$responsable[0]='alanataylor@hotmail.fr';
-				$responsable[1]='alanarosetaylor@gmail.com';
+				$responsable[0]='liard.au@gmail.com';
+				$responsable[1]='sch.laurine@gmail.com';
 			}
 
         	$em = $this->getDoctrine()->getManager();
@@ -377,4 +376,52 @@ class DefaultController extends Controller
       return $this->render('AppBundle:FAQ:mailAdmin.html.twig', array(
             'form'     => $form->createView(),));
     }
+
+    /**
+     * @Route("/auth_parentale", name="auth_parentale")
+     */
+	public function authParentaleAction()
+	{
+		$fichier = "BGFES Authorisation Parentale.pdf";
+	    $chemin = "bundles/app/documents/"; // emplacement de votre fichier .pdf
+	         
+	    $response = new Response();
+	    $response->setContent(file_get_contents($chemin.$fichier));
+	    $response->headers->set('Content-Type', 'application/force-download'); // modification du content-type pour forcer le téléchargement (sinon le navigateur internet essaie d'afficher le document)
+	    $response->headers->set('Content-disposition', 'filename='. $fichier);
+	         
+	    return $response;
+	}
+
+    /**
+     * @Route("/droit_image", name="droit_image")
+     */
+	public function droitImageAction()
+	{
+		$fichier = "BGFES Autorisation utilisation image.pdf";
+	    $chemin = "bundles/app/documents/"; // emplacement de votre fichier .pdf
+	         
+	    $response = new Response();
+	    $response->setContent(file_get_contents($chemin.$fichier));
+	    $response->headers->set('Content-Type', 'application/force-download'); // modification du content-type pour forcer le téléchargement (sinon le navigateur internet essaie d'afficher le document)
+	    $response->headers->set('Content-disposition', 'filename='. $fichier);
+	         
+	    return $response;
+	}
+
+    /**
+     * @Route("/droit_image_mineur", name="droit_image_mineur")
+     */
+	public function droitImageMineurAction()
+	{
+		$fichier = "BGFES Autorisation droit image mineurs.pdf";
+	    $chemin = "bundles/app/documents/"; // emplacement de votre fichier .pdf
+	         
+	    $response = new Response();
+	    $response->setContent(file_get_contents($chemin.$fichier));
+	    $response->headers->set('Content-Type', 'application/force-download'); // modification du content-type pour forcer le téléchargement (sinon le navigateur internet essaie d'afficher le document)
+	    $response->headers->set('Content-disposition', 'filename='. $fichier);
+	         
+	    return $response;
+	}
 }

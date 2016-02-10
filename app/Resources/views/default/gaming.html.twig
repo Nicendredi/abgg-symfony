@@ -105,7 +105,8 @@
 					</tr>
 				{%for entity in entities%}
 					{%if entity.validation%}
-						{%if entity.validation.payed is null%}
+						{%if entity.validation.payed is null
+						or entity.validation.payed==0%}
 							<tr>
 								<td>
 									{%if entity.image%}

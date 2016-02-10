@@ -74,7 +74,7 @@ class ApplicationListener
 		);
 		$payedTeams = $query->getResult();
 		
-		if(count($payedTeams)<1)
+		if(count($payedTeams)<=16)
 		{
 			$validation->setPayed(1);
 			$this->em->persist($validation);
