@@ -146,7 +146,7 @@
 				      {% if (app.user.team is null) and (app.user.manager == null) %}
 				      	{%if (entity.tournament.systName=='csgo')%}
 				      		{%if (checkRoleService.checkApplication(entity.id,app.user.id,'player')==false)%}
-				      			<td><a class="btn btn-default" href="{{ path('team_application', {'id':entity.id}) }}">Postuler</a></td>
+				      			<td>{{form(checkRoleService.recruitCSGOTeam(entity.id,app.user.id,'player'))}}</td>
 				      		{%else%}
 				      			<td><p>En attente d'une réponse</p></td>
 				      		{%endif%}
@@ -192,6 +192,11 @@
 				      	<td></td>
 				      {%endif%}
 				      	<td></td>
+				  {%elseif is_granted("IS_AUTHENTICATED_REMEMBERED") 
+			      and (entity.validation != null) 
+			      and (entity.tournament==app.user.tournament)
+			      and (app.user.capitain == null)%}
+				  	  <td></td> 
 				  {%endif%}
 			    </tr>
 			    {% endfor %}

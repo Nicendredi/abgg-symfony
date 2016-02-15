@@ -179,7 +179,7 @@ class UserController extends Controller
 		$data= $request->request->all();
 		$forms = $data['form'];
 
-		if($forms['role'])
+		if(array_key_exists('role',$forms))
 		{
 			$forms =$data['form'];
 			$teamId = $forms['teamId'];
@@ -221,6 +221,42 @@ class UserController extends Controller
 				$entity->setText($text);
 		        $em->persist($entity);
 			}
+		    $em->flush();
+			
+	    	$requestURL = $this->getRequest()->getRequestUri();
+			$exploded = explode("/",$requestURL);
+			
+			return $this->redirect($this->generateUrl('search_player', array('game'=> $exploded[6] )));
+		}
+		elseif(array_key_exists('text', $forms))
+		{
+			$forms =$data['form'];
+			$teamId = $forms['teamId'];
+			$userId = $forms['userId'];
+			$text = $forms['text'];
+			
+	        $em = $this->getDoctrine()->getManager();
+	        $query = $em->createQuery(
+			    'SELECT t
+			    FROM AppBundle:Team t
+			    WHERE t.id = :id'
+			)->setParameter('id', $teamId);
+			$team = $query->getResult();
+			
+	        $em = $this->getDoctrine()->getManager();
+	        $query = $em->createQuery(
+			    'SELECT t
+			    FROM AppBundle:User t
+			    WHERE t.id = :id'
+			)->setParameter('id', $userId);
+			$user = $query->getResult();
+			
+			$entity = new Application();
+			$entity->setUser($user[0]);
+			$entity->setTeam($team[0]);
+			$entity->setOrigin('team');
+			$entity->setText($text);
+	        $em->persist($entity);
 		    $em->flush();
 			
 	    	$requestURL = $this->getRequest()->getRequestUri();

@@ -186,7 +186,7 @@
 				      	 and (entity.team==null))%}
 				      	 {%if (checkRoleService.checkApplication(app.user.team.id,entity.id,'team')==false)%}
 			      			<td>
-			      				<a class="btn btn-default" href="{{ path('user_recruit', {'teamId':app.user.team.id,'userId':entity.id, 'origin':'team'}) }}">Recruter</a>
+			      				{{form(checkRoleService.recruitCSGOTeam(app.user.team.id,entity.id,'team'))}}
 			      			</td>
 			      		{%else%}
 			      			<td><p>En attente d'une réponse</p></td>

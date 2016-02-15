@@ -286,17 +286,19 @@ class CheckRoleTeamApplication
 		
 	}
 	
-	public function recruitCSGOTeam()
+	public function recruitCSGOTeam($teamId, $userId, $origin=null)
 	{
+	    $formBuilder = $this->container->get('form.factory')->createBuilder()
+			->add('text','text', array(
+				'label'=>'Laisser un commentaire',
+	            'required' => false))
+			->add('teamId','hidden', array('data'=> $teamId))
+			->add('userId','hidden', array('data'=> $userId))
+			->add('origin','hidden', array('data'=> $origin))
+            ->add('save', 'submit', array('label' => 'Envoyer'));
 		
-		    $formBuilder = $this->container->get('form.factory')->createBuilder()
-				->add('text','text', array(
-					'label'=>'Laisser un commentaire au joueur',
-		            'required' => false))
-	            ->add('save', 'submit', array('label' => 'Recruter'));
+		$form = $formBuilder->getForm();
 			
-			$form = $formBuilder->getForm();
-				
-			return ($form->createView());
+		return ($form->createView());
 	}
 }

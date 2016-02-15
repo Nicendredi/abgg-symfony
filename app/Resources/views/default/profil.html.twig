@@ -5,37 +5,36 @@
     and app.user.experience%}
 	    <div class="container-fluid">
 			<div class="row">
-					<div class="col-md-4">
-				  		{%if user.image%}
-				  			<center>
-				  				<img width="50%" src="{{ asset('uploads/images/'~user.image.name) }}" />
-							    <br>
-							    <a class="btn btn-default" href="{{ path('image_edit',  {'id': user.image.id}) }}">
-							    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-							    </a>
-							    <a class="btn btn-default" href="{{ path('image_delete',  {'id': user.image.id}) }}">
-							    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-							    </a>
-				  			</center>
-				  		{%else%}
-						    <center>
-							    <a class="btn btn-default" href="{{ path('image_new',  {'origin': 'player'}) }}">
-							    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-							        	Ajouter Image de profil
-							    </a>
-						    </center>	
-				  		{%endif%}
-				  	</div>
-					<div class="col-md-4">
-						{% if experience %}
-					  	  {% form_theme delete_form 'bootstrap_3_layout.html.twig' %}
-					  	  <center>{{form(delete_form)}}</center>
-					  		<div class="row">
-						  		<div class="col-xs-12">
-					  				<center><h2>Pseudo : {{ experience.username }}</h2></center>
-					  			</div>
+				<div class="col-md-4">
+			  		{%if user.image%}
+			  			<center>
+			  				<img width="50%" src="{{ asset('uploads/images/'~user.image.name) }}" />
+						    <br>
+						    <a class="btn btn-default" href="{{ path('image_edit',  {'id': user.image.id}) }}">
+						    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+						    </a>
+						    <a class="btn btn-default" href="{{ path('image_delete',  {'id': user.image.id}) }}">
+						    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						    </a>
+			  			</center>
+			  		{%else%}
+					    <center>
+						    <a class="btn btn-default" href="{{ path('image_new',  {'origin': 'player'}) }}">
+						    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						        	Ajouter Image de profil
+						    </a>
+					    </center>	
+			  		{%endif%}
+			  	</div>
+				<div class="col-md-4">
+					{% if experience %}
+				  	  {% form_theme delete_form 'bootstrap_3_layout.html.twig' %}
+				  	  <center>{{form(delete_form)}}</center>
+				  		<div class="row">
+					  		<div class="col-xs-12">
+				  				<center><h2>Pseudo : {{ experience.username }}</h2></center>
+				  			</div>
 						  	{%if app.user.team and app.user.tournament%}
-								</div>
 							  	<div class="row">
 							  		{%if app.user.role%}
 								  		<div class="col-xs-6">
@@ -51,28 +50,24 @@
 								  	{%endif%}
 							  	</div>
 						  {%endif%}
-					  {%else%}
-						  <br>
-						  <br>
-						  	<center><h1>{{ app.user.username }}</h1></center>
-					  {%endif%}
-				  	</div>
-					<div class="col-md-3">
-			  			{%if game%}
-						  {%if experience%}
-						  {%endif%}
-						{%else%}
-							<br>
-						    <center>
-							    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
-							    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-							        Saisir Données InGame
-							    </a>
-						    </center>
-							<br>
-					  	{%endif%}
-				  	</div>
-				</div>
+					  </div>
+				  {%else%}
+					  <br>
+					  <br>
+					  	<center><h1>{{ app.user.username }}</h1></center>
+				  {%endif%}
+		  			{%if game%}
+					{%else%}
+						<br>
+					    <center>
+						    <a class="btn btn-default" href="{{ path('experience_new_user') }}">
+						    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						        Saisir Données InGame
+						    </a>
+					    </center>
+						<br>
+				  	{%endif%}
+			  	</div>
 				<div class="col-md-4">
 					{% if game %}
 					    <img width="100%" src="{{ asset('bundles/app/images/'~game.systName~'.png') }}" />

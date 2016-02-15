@@ -21,4 +21,13 @@ class UserRepository extends EntityRepository
 
         return $query;
     }
+	
+	public function getTeamId ($teamId)
+    {
+		$query = $this->createQueryBuilder('p')
+		    ->where('p.team = :id')
+		    ->setParameter('id', $teamId);
+
+        return $query;
+    }
 }

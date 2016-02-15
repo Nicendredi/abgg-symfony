@@ -17,6 +17,7 @@ use AppBundle\Entity\Validation;
 use AppBundle\Form\TeamType;
 use AppBundle\Form\PlayerType;
 use AppBundle\Form\CaptainType;
+use AppBundle\Form\CapitainType;
 use AppBundle\Form\TextType;
 use AppBundle\Services\CheckDataServices;
 use AppBundle\Validator\Constraints\HasDifferentPlayers;
@@ -218,38 +219,76 @@ class TeamController extends Controller
             	'appTeam'  => $userAppTeams,
 			));
 		}
-		
-		$teamId = $forms['teamId'];
-		$form = $forms['role'];
-		
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-		    'SELECT t
-		    FROM AppBundle:Team t
-		    WHERE t.id = :id'
-		)->setParameter('id', $teamId);
-		$team = $query->getResult();
-		
-		foreach($form as $role)
+		elseif(array_key_exists('role',$forms))
 		{
+			$teamId = $forms['teamId'];
+			$form = $forms['role'];
+			
 	        $em = $this->getDoctrine()->getManager();
 	        $query = $em->createQuery(
-			    'SELECT r
-			    FROM AppBundle:Role r
-			    WHERE r.id = :id'
-			)->setParameter('id', intval($role));
-			$roleArray = $query->getResult();
+			    'SELECT t
+			    FROM AppBundle:Team t
+			    WHERE t.id = :id'
+			)->setParameter('id', $teamId);
+			$team = $query->getResult();
+			
+			foreach($form as $role)
+			{
+		        $em = $this->getDoctrine()->getManager();
+		        $query = $em->createQuery(
+				    'SELECT r
+				    FROM AppBundle:Role r
+				    WHERE r.id = :id'
+				)->setParameter('id', intval($role));
+				$roleArray = $query->getResult();
+				
+				$entity = new Application();
+				$entity->setUser($this->getUser());
+				$entity->setTeam($team[0]);
+				$entity->setRole($roleArray[0]);
+				$entity->setOrigin('player');
+		        $em->persist($entity);
+			}
+		    $em->flush();
+			
+			return $this->redirect($this->generateUrl('search_team', array('game'=> $this->getUser()->getTournament()->getSystName() )));
+		}
+		elseif(array_key_exists('text', $forms))
+		{
+			$forms =$data['form'];
+			$teamId = $forms['teamId'];
+			$userId = $forms['userId'];
+			$text = $forms['text'];
+			
+	        $em = $this->getDoctrine()->getManager();
+	        $query = $em->createQuery(
+			    'SELECT t
+			    FROM AppBundle:Team t
+			    WHERE t.id = :id'
+			)->setParameter('id', $teamId);
+			$team = $query->getResult();
+			
+	        $em = $this->getDoctrine()->getManager();
+	        $query = $em->createQuery(
+			    'SELECT t
+			    FROM AppBundle:User t
+			    WHERE t.id = :id'
+			)->setParameter('id', $userId);
+			$user = $query->getResult();
 			
 			$entity = new Application();
-			$entity->setUser($this->getUser());
+			$entity->setUser($user[0]);
 			$entity->setTeam($team[0]);
-			$entity->setRole($roleArray[0]);
 			$entity->setOrigin('player');
+			$entity->setText($text);
 	        $em->persist($entity);
+		    $em->flush();
+			
+	    	$requestURL = $this->getRequest()->getRequestUri();
+			$exploded = explode("/",$requestURL);
+			
+			return $this->redirect($this->generateUrl('search_team', array('game'=> $this->getUser()->getTournament()->getSystName() )));
 		}
-	    $em->flush();
-		
-		return $this->redirect($this->generateUrl('search_team', array('game'=> $this->getUser()->getTournament()->getSystName() )));
      }
 	
 	
@@ -892,6 +931,10 @@ class TeamController extends Controller
 		if($player[0]->getRole())
 		{
 			 $roleId = $player[0]->getRole()->getId();
+			 $role = ' and p.role='.$roleId;
+		}
+		else {
+			$role='';
 		}
 		
 		$query = $em->createQuery(
@@ -940,7 +983,7 @@ class TeamController extends Controller
 		    'SELECT p
 		    FROM AppBundle:Application p
 		    where p.team= '.$teamId.
-		    ' and p.role='.$roleId.$phraseFilter
+		    $role.$phraseFilter
 		);
 		$blockedAppTeam = $query->getResult();
 		
@@ -1177,4 +1220,130 @@ class TeamController extends Controller
             'players'      => $players,
         );
     }
+	
+    /**
+     * @Route("/team/edit/capitain/{id}", name="team_edit_capitain")
+     * @Method("GET")
+     * @Template("AppBundle:Team:editCapitain.html.twig")
+     */
+    public function editCapitainAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppBundle:Team')->find($id);
+
+        $editForm = $this->createEditCapitainForm($entity);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+        );
+	}
+	
+
+    /**
+    * Creates a form to edit a User entity.
+    *
+    * @param User $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditCapitainForm(Team $entity)
+    {
+        $form = $this->createForm(new CapitainType($entity->getId()), $entity, array(
+            'action' => $this->generateUrl('update_capitain', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
+    }
+	
+    /**
+     * @Route("/team/update/capitain/{id}", name="update_capitain")
+     * @Method("PUT")
+     */
+    public function putCapitainAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppBundle:Team')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+
+        $editForm = $this->createEditCapitainForm($entity);
+        $editForm->handleRequest($request);
+		
+        if ($editForm->isValid()) {
+        	$data = $editForm->getData();
+			
+			$captain = $entity->getCaptain();
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Player p
+			    where p.user= '.$captain->getId()
+			);
+			$players = $query->getResult();
+
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:User p
+			    where p.team= '.$entity->getId().' 
+			    and p.player is null '
+			);
+			$ancientsCaptain = $query->getResult();
+			
+			if($captain!=$ancientsCaptain[0])
+			{
+				$captain->setPlayer(null);
+				$captain->setCapitain($entity);
+				
+				$ancientCaptain = $ancientsCaptain[0];
+				$ancientCaptain->setCapitain(null);
+				
+				$player = new Player;
+				$player->setUser($ancientCaptain);
+				$player->setTeam($entity);	
+				
+				if ($ancientCaptain->getRole() != null)
+				{
+					$player->setRole($ancientCaptain->getRole());
+				}
+				$ancientCaptain->setPlayer($player);
+				
+				$em->persist($ancientCaptain);
+				$em->persist($player);
+				$em->persist($captain);
+				$em->persist($entity);
+				if($players!=null)
+				{
+					$em->remove($players[0]);
+				}
+	            $em->flush();
+			}			
+			return $this->redirect($this->generateUrl('team_show', array('id' => $this->getUser()->getTeam()->getId())));
+        }
+	}
+
+    /**
+     * @Route("/team/edit/capitain/delete/{id}", name="edit_capitain_before_delete")
+     * @Method("GET")
+     * @Template("AppBundle:Team:deleteTeamChangeCapitain.html.twig")
+     */
+    public function editCapitainDeleteTeamAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppBundle:Team')->find($id);
+
+        $editForm = $this->createEditCapitainForm($entity);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+        );
+	}
 }
