@@ -11,7 +11,7 @@ services:
     app.form.registration:
         class: AppBundle\Form\RegistrationType
         tags:
-            - { name: form.type, alias: appbundle_registration }
+            - { name: form.type, alias: app_user_registration }
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
         tags:
@@ -71,9 +71,20 @@ services:
         arguments: [ @doctrine.orm.entity_manager, @app.registration_email_processor]
 
 
-    application_listener: #update order status if item status are same
+    application_listener: 
         class: AppBundle\Listener\ApplicationListener
         arguments: [ @service_container ] # We use container directly in order to avoid a CircularReferenceException
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }
+            
+    admin.user:
+        class: AppBundle\Admin\UserAdmin
+        arguments: [~, AppBundle\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: User }
+    admin.team:
+        class: AppBundle\Admin\TeamAdmin
+        arguments: [~, AppBundle\Entity\Team, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Team }

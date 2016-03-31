@@ -11,6 +11,7 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\Role;
 use AppBundle\Entity\Experience;
 use AppBundle\Entity\Player;
+use AppBundle\Entity\Image;
 use AppBundle\Entity\Application;
 use AppBundle\Form\RegistrationType;
 use AppBundle\Form\SearchType;
@@ -56,13 +57,15 @@ class UserController extends Controller
     {
     	$requestURL = $this->getRequest()->getRequestUri();
 		$exploded = explode("/",$requestURL);
+		
+		$length =count($exploded);
 
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Game p
 		    WHERE p.systName = :name'
-		)->setParameter('name', $exploded[6]);
+		)->setParameter('name', $exploded[$length-1]);
 		$gaming = $query->getResult();
 		$gameId = $gaming[0]->getId();
 		$games = $gaming[0]->getSystName();

@@ -12,6 +12,36 @@ class CountCandidats
 	  $this->em = $em;
 	}
 	
+	public function getPayedTeams($game=null)
+	{
+		if($game!=null)
+		{
+	        $query = $this->em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Team p
+			    inner join AppBundle:Validation v
+			    with v.team=p.id
+			    inner join AppBundle:Game g
+				with g.id=p.tournament
+			    WHERE v.payed=1
+			    and g.systName=\''.$game.'\''
+			);
+		}
+		else {
+			
+	        $query = $this->em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Team p
+			    inner join AppBundle:Validation v
+			    with v.team=p.id
+			    WHERE v.payed=1'
+			    );
+		}
+		$teams = count($query->getResult());
+		return $teams;
+	}
+	
+	
 	public function getSearchingCandidats($teamId)
 	{
         $query = $this->em->createQuery(

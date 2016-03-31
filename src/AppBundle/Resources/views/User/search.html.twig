@@ -51,9 +51,13 @@
 		{{ form_start(form) }}
 	    	
     	<div class="col-md-2">
-		    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/csgo') %}
+		    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') 
+		    or (app.request.requestUri == '/abgg-symfony/web/csgo')
+		    or (app.request.requestUri == '/csgo') %}
 		    	<img width="100%" src="{{ asset('bundles/app/images/bancsgo.png') }}" />
-		    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/lol') %}
+		    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') 
+		    or (app.request.requestUri == '/abgg-symfony/web/lol')
+		    or (app.request.requestUri == '/lol') %}
 		    	<img width="100%" src="{{ asset('bundles/app/images/banlol.png') }}" />
 		    {%endif%}
     	</div>
@@ -95,12 +99,18 @@
     	
 	</div>
 
-    <h1>Liste de Joueurs pour le tournoi 
-    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/csgo') %}
-    	Counter Strike : Global Offensive
-    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/player/search/lol') %}
-    	League of Legends
-    {%endif%}</h1>
+    <h1>
+    	Liste de Joueurs pour le tournoi 
+	    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') 
+	    or (app.request.requestUri == '/abgg-symfony/web/csgo')
+	    or (app.request.requestUri == '/csgo') %}
+	    	Counter Strike : Global Offensive
+	    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') 
+	    or (app.request.requestUri == '/abgg-symfony/web/lol')
+	    or (app.request.requestUri == '/lol') %}
+	    	League of Legends
+	    {%endif%}
+	</h1>
 
     <table class="table table-hover">
         <thead>
@@ -119,7 +129,8 @@
 	            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
 	            and game==app.user.tournament.systName
 	            and app.user.capitain
-	            and app.user.team.validation==null%}
+	            and app.user.team.validation==null
+		        and (countCandidatsService.getPayedTeams(game.systName)<16)%}
 					<th>Recruter</th>
 				{%endif%}
             </tr>
@@ -179,7 +190,8 @@
 	            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
 	            and entity.tournament==app.user.tournament
 	            and app.user.capitain
-	            and app.user.team.validation==null%}
+	            and app.user.team.validation==null
+		        and (countCandidatsService.getPayedTeams(game.systName)<16)%}
 	            	{%if ((app.user.tournament.systName == 'csgo')
 				      	 and (app.user.experience !=null)
 				      	 and (app.user.capitain != null)

@@ -9,40 +9,69 @@
 	<div class="row text-center">		        
         <div class="row text-center">
 		  	<div class="col-md-4  col-sm-4">
-		        <h3>Vous inscrire </h3>
+		        <h3>Inscrivez-vous</h3>
 	          <div id="steps">
-	          	<a  href="{{ path('fos_user_registration_register') }}">
-		          <div id="steps-head">
-			          <span id="circle-red">#</span>
-		          </div>
-			    </a>
+	          	  {%if (countCandidatsService.getPayedTeams()<24)%}
+		          	<a href="{{ path('fos_user_registration_register') }}">
+			          <div id="steps-head">
+				          <span id="circle-red">1</span>
+			          </div>
+				    </a>
+	         	 {%else%}
+	         	  <li>
+	         	  	<a disabled>
+			          <div id="steps-head">
+				          <span id="circle-red">1</span>
+			          </div>
+	         	 	</a>
+	         	  </li>
+	         	 {%endif%}
 		            <div id="steps-body">
-		        		<p>Vous pouvez vous inscrire aux différents tournois e-sport du Bordeaux Geek Festival.</p>
+		        		<p>
+							Inscrivez vous en tant que joueur ou manager sur la plateforme afin de participer au tournoi League of Legends ou Counter Strike : Global-Offensive du Bordeaux Geek Festival 2016.
+						</p>
 			    	</div>
 			    </div>
 		    </div>
 	      
 	        <div class="col-md-4  col-sm-4">
-		        <h3>Créer ou rejoindre une équipe</h3>
+		        <h3>CONSTITUEZ VOTRE EQUIPE</h3>
 	          <div id="steps">
-	          	<a  href="{{ path('fos_user_registration_register') }}">
-		          <div id="steps-head">
-			          <span id="circle-red">#</span>
-		          </div>
-			    </a>
+	          	  {%if (countCandidatsService.getPayedTeams()<24)%}
+		          	<a  href="{{ path('fos_user_registration_register') }}">
+			          <div id="steps-head">
+				          <span id="circle-red">2</span>
+			          </div>
+				    </a>
+	         	 {%else%}
+	         	  <li>
+	         	  	<a disabled>
+			          <div id="steps-head">
+				          <span id="circle-red">2</span>
+			          </div>
+	         	 	</a>
+	         	  </li>
+	         	 {%endif%}
 		            <div id="steps-body">
-		        		<p>Une fois inscrits, vous pourrez consulter, recruter, postuler les diverses équipes inscrites aux différents tournois.</p>
+		        		<p>
+		        			Une fois inscrit, vous pourrez créer votre équipe, recruter des joueurs ou postuler pour intégrer une équipe qui recherche des joueurs.
+		        			Tous les joueurs de l'équipe doivent être inscrits sur la plateforme avec leur propre compte.
+		        		</p>
 			    	</div>
 			    </div>
 	        </div>
 	        <div class="col-md-4  col-sm-4">
-		        <h3>Rechercher</h3>
+		        <h3>
+		        	VALIDEZ VOTRE EQUIPE
+		        </h3>
 	          <div id="steps">
 		          <div id="steps-head">
-			          <span id="circle-red">#</span>
+			          <span id="circle-red">3</span>
 		          </div>
 		            <div id="steps-body">
-		        		<p>Recherchez les joueurs/les équipes cherchant à s'inscrire aux competitions lors du Bordeaux Geek Festival 2016</p>
+		        		<p>
+		        			Vos 5 joueurs sont prêts ? Validez votre équipe et vous aurez accès au paiement. Seules les équipes complètes et ayant acheté leur slot seront inscrites.
+		        		</p>
 			    	</div>
 			    </div>
 	        </div>
@@ -67,8 +96,8 @@
 		  	<div class="col-xs-4">
 		  	</div>
 		  	<div class="col-xs-4">
-		  	<center><h3>Précisions</h3>
-		  	<p> Toutes les données entrées afin de participer au concours ne seront pas concervées ou 
+		  	<center><h3>Precisions</h3>
+		  	<p> Toutes les données entrées afin de participer au concours ne seront pas conservées ou 
 		  	utilisées à des fins commerciales.</p></center>
 		  	<br>
 		  	</div>
@@ -83,7 +112,7 @@
 			          <span id="circle-red">1</span>
 		          </div>
 	            <div id="steps-body">
-				  	<p>Entrer ses informations personnelles telles que le nom, prénom du joueur, mail etc...</p>
+				  	<p>Entrez vos informations personnelles telles que le nom, prénom du joueur, mail etc...</p>
 				  	<p><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Managers, n'oubliez pas 
 				  	de cocher la case Manager lors de l'étape numero 1 de l'inscription </p>
 	          	</div>
@@ -135,7 +164,7 @@
   
     <section id="contact-sec">
 	    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11306.704725687694!2d-0.5760899033524391!3d44.88923845535566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd5529ae2518e599%3A0xfbf9c37b548aee04!2sParc+des+Expositions+de+Bordeaux!5e0!3m2!1sfr!2sfr!4v1451757159416" width="100%" height="450" frameborder="0" style="border:1" allowfullscreen></iframe>
-	    <div class="add"><i>Addresse: </i> Parc des Expositions de Bordeaux </div>
+	    <div class="add"><i>Adresse: </i> Parc des Expositions - Hall1 - Porte B - 14,15,16 mai 2016 - <a href="http://geek-festival.fr/infos-pratiques/">Infos pratiques </a></div>
     </section>
    <br><br>
 {% endblock %}

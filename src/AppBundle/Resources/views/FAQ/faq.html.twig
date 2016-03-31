@@ -11,65 +11,34 @@
 			</center>
 			<br>
 			<br>
-		</div>
-		<div class="col-md-1">
-		 
-		</div>
-		<div class="col-md-10">
-			<div class="carousel slide" id="carousel-110258">
-				<ol class="carousel-indicators">
-					<li class="active" data-slide-to="0" data-target="#carousel-110258">
-					</li>
-					<li data-slide-to="1" data-target="#carousel-110258">
-					</li>
-					<li data-slide-to="2" data-target="#carousel-110258">
-					</li>
-					<li data-slide-to="3" data-target="#carousel-110258">
-					</li>
-				</ol>
-				<div class="carousel-inner">
-					<div class="item active">
-						<img id="carousel" alt="Carousel Bootstrap First" src="{{ asset('bundles/app/images/photos/1.png') }}" />
-					</div>
-					<div class="item">
-						<img id="carousel" alt="Carousel Bootstrap Second" src="{{ asset('bundles/app/images/photos/2.png') }}" />
-					</div>
-					<div class="item">
-						<img id="carousel" alt="Carousel Bootstrap Third" src="{{ asset('bundles/app/images/photos/3.png') }}" />
-					</div>
-					<div class="item">
-						<img id="carousel" alt="Carousel Bootstrap Fourth" src="{{ asset('bundles/app/images/photos/4.png') }}" />
-					</div>
-				</div> <a class="left carousel-control" href="#carousel-110258" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-110258" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
-			</div>
 			<br>
 			<hr>
 			<center><h2>Documentation du tournoi</h2></center>
 			<hr>
 			<br>
-			<div class="row">
-				<div class="col-md-4">
-					<h4>Joueur Mineur </h4>
-					<br>
-					<a class="btn btn-default" href="{{ path('auth_parentale') }}">
-						<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Authorisation Parentale
-					</a>
-					<a class="btn btn-default" href="{{ path('droit_image_mineur') }}">
-						<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Droit à l'image mineurs
-					</a>
-				</div>
-				<div class="col-md-4">
-					<h4>Joueur Majeur</h4>
-					<br>
-					<a class="btn btn-default" href="{{ path('droit_image') }}">
-						<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Droit à l'image
-					</a>
-				</div>
-				<div class="col-md-4">
-				</div>
+			<div class="col-md-4">
+				<h4>Joueur Mineur </h4>
+				<br>
+				<a class="btn btn-default" href="{{ path('auth_parentale') }}">
+					<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Authorisation Parentale
+				</a>
+				<a class="btn btn-default" href="{{ path('droit_image_mineur') }}">
+					<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Droit à l'image mineurs
+				</a>
 			</div>
-			<br>
-			<br>
+			<div class="col-md-4">
+				<h4>Joueur Majeur</h4>
+				<br>
+				<a class="btn btn-default" href="{{ path('droit_image') }}">
+					<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Droit à l'image
+				</a>
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+		<br>
+		<br>
+		<div class="col-md-4">
 			<hr>
 			<center><h2>Inscription aux tournois </h2></center>
 			<hr>
@@ -91,7 +60,7 @@
 					</div>
 					<div id="panel-element-2" class="panel-collapse collapse">
 						<div class="panel-body">
-							Non, le tarif est le même pour tous. (voir Mandora pour tarif exposant) 
+							Non, le tarif est le même pour tous. 
 						</div>
 					</div>
 				</div>
@@ -139,7 +108,7 @@
 					</div>
 					<div id="panel-element-6" class="panel-collapse collapse">
 						<div class="panel-body">
-							Si jamais votre équipe est inscrite sur la liste d'attente, vous pouvez être appelé pour jouer jusqu'à 24h avant le jour du tournoi.
+							Si vous êtes en liste d'attente, soit votre équipe n'a pas encore acheté son slot (votre chef d'équipe doit effectuer le paiement), soit il n'y a plus de place.
 						</div>
 					</div>
 				</div>
@@ -151,12 +120,13 @@
 					</div>
 					<div id="panel-element-7" class="panel-collapse collapse">
 						<div class="panel-body">
-							Oui, sous réserve de remplir la décharge pour mineur.
+							Vous devez avoir 16 ans ou plus pour participer à l'un des tournois. SI vous êtes mineur, il faudra que vous fournissiez une autorisation parentale.
 						</div>
 					</div>
 				</div>
 			</div>
-			<br>
+		</div>
+		<div class="col-md-4">
 			<hr>
 			<center><h2>Déroulement des tournois </h2></center>
 			<hr>
@@ -197,7 +167,8 @@
 					</div>
 				</div>
 			</div>
-			<br>
+		</div>
+		<div class="col-md-4">
 			<hr>
 			<center><h2>Autres questions</h2></center>
 			<hr>
@@ -236,6 +207,38 @@
 							Voir lien hôtels à côté 
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="col-md-1">
+			</div>
+			<div class="col-md-10">
+				<div class="carousel slide" id="carousel-110258">
+					<ol class="carousel-indicators">
+						<li class="active" data-slide-to="0" data-target="#carousel-110258">
+						</li>
+						<li data-slide-to="1" data-target="#carousel-110258">
+						</li>
+						<li data-slide-to="2" data-target="#carousel-110258">
+						</li>
+						<li data-slide-to="3" data-target="#carousel-110258">
+						</li>
+					</ol>
+					<div class="carousel-inner">
+						<div class="item active">
+							<img id="carousel" alt="Carousel Bootstrap First" src="{{ asset('bundles/app/images/photos/1.png') }}" />
+						</div>
+						<div class="item">
+							<img id="carousel" alt="Carousel Bootstrap Second" src="{{ asset('bundles/app/images/photos/2.png') }}" />
+						</div>
+						<div class="item">
+							<img id="carousel" alt="Carousel Bootstrap Third" src="{{ asset('bundles/app/images/photos/3.png') }}" />
+						</div>
+						<div class="item">
+							<img id="carousel" alt="Carousel Bootstrap Fourth" src="{{ asset('bundles/app/images/photos/4.png') }}" />
+						</div>
+					</div> <a class="left carousel-control" href="#carousel-110258" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-110258" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
 				</div>
 			</div>
 		</div>

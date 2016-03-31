@@ -13,7 +13,7 @@
 						    <a class="btn btn-default" href="{{ path('image_edit',  {'id': user.image.id}) }}">
 						    	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 						    </a>
-						    <a class="btn btn-default" href="{{ path('image_delete',  {'id': user.image.id}) }}">
+						    <a class="btn btn-default" href="{{ path('image_delete',  {'id': user.image.id,'originId':user.id,'origin':'user'}) }}">
 						    	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 						    </a>
 			  			</center>
@@ -96,7 +96,7 @@
 					  <li class="active"><a data-toggle="tab" href="#perso">Infos</a></li>
 					  <li><a data-toggle="tab" href="#ingame">In Game</a></li>
 					  <li><a data-toggle="tab" href="#equipe">Equipe</a></li>
-					  {%if app.user.team == null%}
+					  {%if app.user.team == null and (countCandidatsService.getPayedTeams(user.tournament.systName)<16)%}
 						  <li>
 							  <a data-toggle="tab" href="#propositions">
 							  	Proposition de poste 

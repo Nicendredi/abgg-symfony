@@ -133,8 +133,7 @@ class ImageController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'entity'      => $entity
         );
     }
 
@@ -156,12 +155,10 @@ class ImageController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'edit_form'   => $editForm->createView()
         );
     }
 
@@ -175,7 +172,7 @@ class ImageController extends Controller
     private function createEditForm(Image $entity)
     {
         $form = $this->createForm(new ImageType(), $entity, array(
-            'action' => $this->generateUrl('image_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl('image_update', array('id' => $entity->id)),
             'method' => 'PUT',
         ));
 
@@ -200,46 +197,95 @@ class ImageController extends Controller
             throw $this->createNotFoundException('Unable to find Image entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $em->flush();
+			
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $entity->getFile();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+			
+            $imageDir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/images';
+            $file->move($imageDir, $fileName);
 
-            return $this->redirect($this->generateUrl('image_edit', array('id' => $id)));
+            // Update the 'brochure' property to store the PDF file name
+            // instead of its contents
+            $entity->setFile($fileName);
+			$entity->setName($fileName);
+			
+            $em->persist($entity);
+            $em->flush();
+		
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:User p
+			    where p.image= '.$entity->id
+			);
+			$users = $query->getResult();
+		
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Team p
+			    where p.image= '.$entity->id
+			);
+			$teams = $query->getResult();
+			
+			if(empty($users)==false)
+			{
+				$user=$this->getUser();
+				$user->setImage($entity);
+	        	$this->get('fos_user.user_manager')->updateUser($user, false);
+            	$em->flush();
+				
+				return $this->redirect($this->generateUrl('profil'));
+			}
+			elseif(empty($teams)==false)
+			{
+				$team=$this->getUser()->getTeam();
+				$team->setImage($entity);
+	            $em->persist($team);
+            	$em->flush();
+				
+				return $this->redirect($this->generateUrl('team_show', array('id' => $team->getId())));
+			}
         }
 
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'edit_form'   => $editForm->createView()
         );
     }
+	
     /**
      * Deletes a Image entity.
      *
-     * @Route("/{id}", name="image_delete")
-     * @Method("DELETE")
+     * @Route("/del/{id}/{originId}/{origin}", name="image_delete")
+     * @Method("GET")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id, $originId, $origin)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AppBundle:Image')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Image entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AppBundle:Image')->find($id);
+		
+		if($origin=='user')
+		{
+			$from = $em->getRepository('AppBundle:User')->find($originId);
+		}
+		elseif($origin=='team')
+		{
+			$from = $em->getRepository('AppBundle:Team')->find($originId);
+		}
+		
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Image entity.');
         }
+		
+		$from->setImage(null);
+        $em->remove($entity);
+        $em->flush();
 
-        return $this->redirect($this->generateUrl('image'));
+        return $this->redirect($this->generateUrl('profil'));
     }
 
     /**

@@ -42,7 +42,7 @@ class Team
 	 * @var \Doctrine\Common\Collections\Collection|Player[]
 	 * 
      *
-     * @ORM\OnetoMany(targetEntity="Player", mappedBy="team",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Player", mappedBy="team",cascade={"persist", "remove"})
      **/
     private $player;
 
@@ -50,7 +50,7 @@ class Team
 	 * @var \Doctrine\Common\Collections\Collection|Application[]
 	 * 
      *
-     * @ORM\OnetoMany(targetEntity="Application", mappedBy="team",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Application", mappedBy="team",cascade={"persist", "remove"})
      **/
     private $application;
 
@@ -66,7 +66,7 @@ class Team
 	 * @var tournament
 	 * 
      *
-     * @ORM\ManytoOne(targetEntity="Game", inversedBy="team")
+     * @ORM\ManyToOne(targetEntity="Game", inversedBy="team")
      **/
     private $tournament;
 

@@ -159,6 +159,24 @@ class DefaultController extends Controller
     }
 
     /**
+    * @Route("/blog", name="blog")
+    */
+    public function blogAction(Request $request)
+    {
+      return $this->redirect($this->generateUrl('post_new'));
+    }
+
+    /**
+    * @Route("/admin", name="admin")
+    */
+    public function adminAction(Request $request)
+    {
+      return $this->render('default/admin.html.twig', array(
+          'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
+      ));
+    }
+
+    /**
      * @Route("/profil", name="profil")
      */
     public function profilAction(Request $request)

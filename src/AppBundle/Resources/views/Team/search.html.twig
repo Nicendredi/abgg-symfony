@@ -50,9 +50,13 @@
 			{{ form_start(form) }}
 		    	
 	    	<div class="col-md-2">
-			    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/team/search/csgo') %}
+			    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') 
+			    or (app.request.requestUri == '/abgg-symfony/web/csgo')
+			    or (app.request.requestUri == '/csgo') %}
 			    	<img width="100%" src="{{ asset('bundles/app/images/bancsgo.png') }}" />
-			    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/team/search/lol') %}
+			    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') 
+			    or (app.request.requestUri == '/abgg-symfony/web/lol')
+			    or (app.request.requestUri == '/lol') %}
 			    	<img width="100%" src="{{ asset('bundles/app/images/banlol.png') }}" />
 			    {%endif%}
 	    	</div>
@@ -71,13 +75,17 @@
 		</div>
 			    
 		{%if entities == null%}
-			<br><center><h1>Aucune équipe n'a étée créée actuellement</h1></center>
+			<br><center><h1>Aucune équipe n'a encore été créée</h1></center>
 			<center><img width="25%"  src="{{ asset('bundles/app/images/forever-alone.jpg') }}" /></center>
 		{%else%}
 		<h1>Liste des équipes pour le tournoi 
-		    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/team/search/csgo') %}
+		    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') 
+		    or (app.request.requestUri == '/abgg-symfony/web/csgo')
+		    or (app.request.requestUri == '/csgo') %}
 		    	Counter Strike : Global Offensive
-		    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/team/search/lol') %}
+		    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') 
+		    or (app.request.requestUri == '/abgg-symfony/web/lol')
+		    or (app.request.requestUri == '/lol') %}
 		    	League of Legends
 		    {%endif%}</h1>
 			<table  class="table table-hover">
@@ -93,7 +101,12 @@
 					<th>Joueur 7</th>
 		            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
 		            and app.user.capitain==null
-		            and (app.request.requestUri==('/abgg-symfony/web/app_dev.php/team/search/lol'~app.user.tournament.systName))%}
+		            and (countCandidatsService.getPayedTeams()<24)
+		            and (app.request.requestUri==(
+		            	('/abgg-symfony/web/app_dev.php/team/search/'~app.user.tournament.systName)
+		            	or ('/abgg-symfony/web/team/search/'~app.user.tournament.systName)
+		            	or ('/team/search/'~app.user.tournament.systName)
+		            ))%}
 						<th>Postuler</th>
 					{%endif%}
 			    </tr>
@@ -142,7 +155,8 @@
 			      {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
 			      and (entity.validation == null) 
 			      and (entity.tournament==app.user.tournament)
-			      and (app.user.capitain == null)%}
+			      and (app.user.capitain == null)
+			      and (countCandidatsService.getPayedTeams(entity.tournament.systName)<16)%}
 				      {% if (app.user.team is null) and (app.user.manager == null) %}
 				      	{%if (entity.tournament.systName=='csgo')%}
 				      		{%if (checkRoleService.checkApplication(entity.id,app.user.id,'player')==false)%}

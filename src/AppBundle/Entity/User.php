@@ -122,14 +122,14 @@ class User extends BaseUser
 	 * @var \Doctrine\Common\Collections\Collection|Application[]
 	 * 
      *
-     * @ORM\OnetoMany(targetEntity="Application", mappedBy="user",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Application", mappedBy="user",cascade={"persist"})
      **/
     private $application;
 
     /**
      * @var Image $image
      *
-     * @ORM\ManyToOne(targetEntity="Image", inversedBy="image", cascade={"persist", "merge", "remove"})
+     * @ORM\ManyToOne(targetEntity="Image", inversedBy="image", cascade={"persist", "merge"})
      * @ORM\JoinColumns({
      *  @ORM\JoinColumn(name="image_id", referencedColumnName="id")
      * })

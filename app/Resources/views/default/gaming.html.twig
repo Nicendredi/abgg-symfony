@@ -11,9 +11,13 @@
     	</div>
     	<div class="col-md-10">
 		    <h1>Equipes Validées [tournoi 
-		    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') %}
+		    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') 
+		    or (app.request.requestUri == '/abgg-symfony/web/csgo')
+		    or (app.request.requestUri == '/csgo') %}
 		    	Counter Strike : Global Offensive]
-		    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') %}
+		    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') 
+		    or (app.request.requestUri == '/abgg-symfony/web/lol')
+		    or (app.request.requestUri == '/lol') %}
 		    	League of Legends]
 		    {%endif%}
 		    </h1>
