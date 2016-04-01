@@ -360,11 +360,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/auth_parentale", name="auth_parentale")
+     * @Route("/bgfes_authorisation_parentale", name="bgfes_authorisation_parentale")
      */
-	public function authParentaleAction()
+	public function bgfesAuthorisationParentaleAction()
 	{
-		$fichier = "BGFES Authorisation Parentale.pdf";
+		$fichier = "bgfes_authorisation_parentale.pdf";
 	    $chemin = "bundles/app/documents/"; // emplacement de votre fichier .pdf
 	         
 	    $response = new Response();
@@ -376,11 +376,11 @@ class DefaultController extends Controller
 	}
 
     /**
-     * @Route("/droit_image", name="droit_image")
+     * @Route("/bgfes_csgo", name="bgfes_csgo")
      */
-	public function droitImageAction()
+	public function bgfesCsgoAction()
 	{
-		$fichier = "BGFES Autorisation utilisation image.pdf";
+		$fichier = "bgfes_csgo.pdf";
 	    $chemin = "bundles/app/documents/"; // emplacement de votre fichier .pdf
 	         
 	    $response = new Response();
@@ -392,11 +392,27 @@ class DefaultController extends Controller
 	}
 
     /**
-     * @Route("/droit_image_mineur", name="droit_image_mineur")
+     * @Route("/bgfes_lol", name="bgfes_lol")
      */
-	public function droitImageMineurAction()
+	public function bgfesLolAction()
 	{
-		$fichier = "BGFES Autorisation droit image mineurs.pdf";
+		$fichier = "bgfes_lol.pdf";
+	    $chemin = "bundles/app/documents/"; // emplacement de votre fichier .pdf
+	         
+	    $response = new Response();
+	    $response->setContent(file_get_contents($chemin.$fichier));
+	    $response->headers->set('Content-Type', 'application/force-download'); // modification du content-type pour forcer le téléchargement (sinon le navigateur internet essaie d'afficher le document)
+	    $response->headers->set('Content-disposition', 'filename='. $fichier);
+	         
+	    return $response;
+	}
+
+    /**
+     * @Route("/bgfes_reglement_general", name="bgfes_reglement_general")
+     */
+	public function bgfesReglementGeneralAction()
+	{
+		$fichier = "bgfes_reglement_general.pdf";
 	    $chemin = "bundles/app/documents/"; // emplacement de votre fichier .pdf
 	         
 	    $response = new Response();

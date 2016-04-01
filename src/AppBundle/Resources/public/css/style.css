@@ -452,3 +452,26 @@ abbr
 {
 	text-decoration:none;
 }
+
+.table>tbody>tr:hover, 
+.table>tbody>tr>td:hover, 
+.table>tbody>tr>td:hover, 
+.table>tfoot>tr:hover, 
+.table>tfoot>tr>td:hover, 
+.table>tfoot>tr>td:hover, 
+.table>thead>tr:hover, 
+.table>thead>tr>td:hover, 
+.table>thead>tr>td:hover
+{
+	background-color:#2c3e50;
+}
+
+
+
+
+
+
+
+
+
+

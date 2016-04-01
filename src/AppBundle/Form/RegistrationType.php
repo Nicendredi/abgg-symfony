@@ -29,7 +29,7 @@ class RegistrationType extends AbstractType
 				'label'=> 'Date de Naissance',
 			    'input'  => 'datetime',
 			    'widget' => 'choice',
-			    'years' => range(1900,2015)
+			    'years' => range(1900,1999)
 			))
 			->add('manager','checkbox',array(
 				'label'=> 'Cochez si vous êtes Manager d\'une équipe',

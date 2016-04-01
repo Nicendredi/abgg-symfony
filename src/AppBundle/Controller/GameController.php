@@ -40,7 +40,6 @@ class GameController extends Controller
      */
     public function chooseAction()
     {
-        dump($this->container->get('session')->getId());
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('AppBundle:Game')->findAll();
         return array(

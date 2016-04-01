@@ -14,8 +14,10 @@
 					{{ form_rest(form) }}
 					{{ form_widget(form.application.vars.prototype) }}
 					<hr >
+					{#
 					<input class="btn btn-default"  id="invitPlayerBtn" type="button" value="Inviter un joueur">
 					<hr />
+					#}
 					<input class="btn btn-default"  type="submit" value="Créer">
 					{{ form_end(form) }}
 
@@ -30,10 +32,10 @@
 							var newFormLi = $('' +
 								'<div id="'+ i++ +'"> ' +
 								'<hr>' +
-								'<button type="button" id="delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' +
+								'<a type="button" id="delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' +
 								' </div>').append(newForm);
 							container.append(newFormLi);
-							$('button').click(function() {
+							$('a').click(function() {
 								$(this).parent().remove();
 							});
 						});

@@ -117,11 +117,11 @@
 					    <table class="table table-hover">
 					        <tbody>
 					            <tr>
-					                <th>Firstname</th>
+					                <th>Nom</th>
 					                <td>{{ user.firstName }}</td>
 					            </tr>
 					            <tr>
-					                <th>Lastname</th>
+					                <th>Prénom</th>
 					                <td>{{ user.lastName }}</td>
 					            </tr>
 					            <tr>
@@ -355,7 +355,9 @@
 							{%for application in applications%}
 								<tr>
 									<td>{{application.team.name}}</td>
-									{%if app.user.tournament.systName =='lol'%}
+									{%if app.user.tournament.systName =='lol'
+									and application.role 
+									and application.role.name%}
 										<td>{{application.role.name}}</td>
 									{%endif%}
 									<td>

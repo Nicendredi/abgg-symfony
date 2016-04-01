@@ -130,7 +130,7 @@
 	            and game==app.user.tournament.systName
 	            and app.user.capitain
 	            and app.user.team.validation==null
-		        and (countCandidatsService.getPayedTeams(game.systName)<16)%}
+		        and (countCandidatsService.getPayedTeams(game)<16)%}
 					<th>Recruter</th>
 				{%endif%}
             </tr>
@@ -191,7 +191,7 @@
 	            and entity.tournament==app.user.tournament
 	            and app.user.capitain
 	            and app.user.team.validation==null
-		        and (countCandidatsService.getPayedTeams(game.systName)<16)%}
+		        and (countCandidatsService.getPayedTeams(game)<16)%}
 	            	{%if ((app.user.tournament.systName == 'csgo')
 				      	 and (app.user.experience !=null)
 				      	 and (app.user.capitain != null)

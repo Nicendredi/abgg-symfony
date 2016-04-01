@@ -364,7 +364,7 @@ class TeamController extends Controller
 			{
 				$url='csgo';
             }
-            return $this->redirect($this->generateUrl($url));
+            return $this->redirect('search_player',array('game'=>$url));
         }
         elseif ((($data->getName())!=null) 
         && ($data->getCaptain()->getRole()) != null ){
@@ -422,7 +422,7 @@ class TeamController extends Controller
 			{
 				$url='csgo';
 			}
-            return $this->redirect($this->generateUrl($url));
+            return $this->redirect($this->generateUrl('search_player',array('game'=>$url)));
 		}
         return array(
             'entity' => $entity,
