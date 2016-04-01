@@ -7,7 +7,7 @@ parameters:
     database_port: 3306
     database_name: bgfesport
     database_user: bgfesport
-    database_password: U7rtVjcQfPjzYLQK
+    database_password: null #please set the correct password
     secret: ThisTokenIsNotSoSecretChangeIt
     
     mailer_transport:  smtp    
