@@ -18,5 +18,5 @@ parameters:
     mailer_port :     587
     mailer_auth_mode: login
 
-    # A secret key that's used to generate certain security-related tokens
-    secret:            ThisTokenIsNotSoSecretChangeIt
+
+    mailchim_api_key: ThisIsNotTheAPIkey

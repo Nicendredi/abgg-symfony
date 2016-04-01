@@ -4,9 +4,64 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cebc5310abf374c9b1b9c0bd6495f1ef",
-    "content-hash": "93de5ee0c0de09ceae7e992237779cfd",
+    "hash": "125bc89a3aef6c17f345d004895cdf1a",
+    "content-hash": "b5916077e402aa7230c0806f99b3cd70",
     "packages": [
+        {
+            "name": "ahmedsamy/hype-mailchimp-bundle",
+            "version": "v1.2",
+            "target-dir": "Hype/MailchimpBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AhmedSamy/HypeMailchimpBundle.git",
+                "reference": "25c3c91cd929c58d557888934bf9bf920444a5f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AhmedSamy/HypeMailchimpBundle/zipball/25c3c91cd929c58d557888934bf9bf920444a5f8",
+                "reference": "25c3c91cd929c58d557888934bf9bf920444a5f8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "kriswallsmith/buzz": ">=0.7",
+                "php": ">=5.3.2",
+                "symfony/framework-bundle": "2.*"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Hype\\MailchimpBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ahmed Samy",
+                    "email": "ahmed.samy.cs@gmail.com",
+                    "homepage": "http://www.ahmed-samy.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Mailchimp V2.0 API Object Oriented wrapper",
+            "homepage": "https://github.com/AhmedSamy/hype-mailchimp-api-2.0",
+            "keywords": [
+                "api",
+                "curl",
+                "http client",
+                "mailchimp",
+                "newsletter"
+            ],
+            "time": "2015-02-23 17:20:20"
+        },
         {
             "name": "cocur/slugify",
             "version": "v1.4.1",
@@ -1352,6 +1407,54 @@
                 "minification"
             ],
             "time": "2015-11-12 13:51:40"
+        },
+        {
+            "name": "kriswallsmith/buzz",
+            "version": "v0.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kriswallsmith/Buzz.git",
+                "reference": "d4041666c3ffb379af02a92dabe81c904b35fab8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/d4041666c3ffb379af02a92dabe81c904b35fab8",
+                "reference": "d4041666c3ffb379af02a92dabe81c904b35fab8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "suggest": {
+                "ext-curl": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Buzz": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kris Wallsmith",
+                    "email": "kris.wallsmith@gmail.com",
+                    "homepage": "http://kriswallsmith.net/"
+                }
+            ],
+            "description": "Lightweight HTTP client",
+            "homepage": "https://github.com/kriswallsmith/Buzz",
+            "keywords": [
+                "curl",
+                "http client"
+            ],
+            "time": "2015-06-25 17:26:56"
         },
         {
             "name": "monolog/monolog",
