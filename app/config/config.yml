@@ -98,3 +98,11 @@ sonata_block:
 sonata_admin:
     security:
         handler: sonata.admin.security.handler.role
+        
+
+
+hype_mailchimp:
+    api_key: %mailchim_api_key%
+    default_list: Joueurs
+    ssl: true #optional configuring curl connection
+    
