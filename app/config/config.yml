@@ -100,9 +100,5 @@ sonata_admin:
         handler: sonata.admin.security.handler.role
         
 
-
-hype_mailchimp:
-    api_key: %mailchim_api_key%
-    default_list: Joueurs
-    ssl: true #optional configuring curl connection
-    
+zfr_mail_chimp:
+  api_key: %mailchimp_api_key%
