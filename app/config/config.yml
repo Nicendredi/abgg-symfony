@@ -87,7 +87,7 @@ fos_user:
     registration:
         form:
             type: AppBundle\Form\RegistrationType
-            
+
 sonata_block:
     default_contexts: [cms]
     blocks:
@@ -98,7 +98,7 @@ sonata_block:
 sonata_admin:
     security:
         handler: sonata.admin.security.handler.role
-        
+
 
 zfr_mail_chimp:
   api_key: %mailchimp_api_key%

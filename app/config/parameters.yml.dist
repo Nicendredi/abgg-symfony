@@ -19,4 +19,4 @@ parameters:
     mailer_auth_mode: login
 
 
-    mailchim_api_key: ThisIsNotTheAPIkey
+    mailchimp_api_key: ThisIsNotTheAPIkey
